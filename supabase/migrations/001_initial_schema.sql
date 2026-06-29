@@ -1,5 +1,5 @@
 -- profiles (Module 1)
-create table profiles (
+create table if not exists profiles (
   id uuid references auth.users primary key,
   phone_number text unique not null,
   name text,
@@ -14,7 +14,7 @@ create table profiles (
 -- CRITICAL: id is client-generated. Never generate server-side.
 -- CRITICAL: insert-only. No update or delete policies.
 -- CRITICAL: amount is numeric, never float.
-create table transactions (
+create table if not exists transactions (
   id uuid primary key, -- client-generated via crypto.randomUUID()
   profile_id uuid references profiles(id) not null,
   type text check (type in ('income', 'expense')) not null,
@@ -27,7 +27,7 @@ create table transactions (
 );
 
 -- reviews (Module 3)
-create table reviews (
+create table if not exists reviews (
   id uuid primary key default gen_random_uuid(),
   reviewed_profile_id uuid references profiles(id) not null,
   reviewer_profile_id uuid references profiles(id),
@@ -38,7 +38,7 @@ create table reviews (
 );
 
 -- listings (Module 3)
-create table listings (
+create table if not exists listings (
   id uuid primary key default gen_random_uuid(),
   profile_id uuid references profiles(id) not null,
   slug text unique not null,
@@ -51,7 +51,7 @@ create table listings (
 );
 
 -- savings_groups (Module 4)
-create table savings_groups (
+create table if not exists savings_groups (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   created_by_profile_id uuid references profiles(id),
@@ -62,7 +62,7 @@ create table savings_groups (
 );
 
 -- group_members (Module 4)
-create table group_members (
+create table if not exists group_members (
   id uuid primary key default gen_random_uuid(),
   group_id uuid references savings_groups(id) on delete cascade,
   profile_id uuid references profiles(id) on delete cascade,
@@ -72,7 +72,7 @@ create table group_members (
 
 -- contributions (Module 4)
 -- Same offline-sync pattern as transactions — client-generated IDs
-create table contributions (
+create table if not exists contributions (
   id uuid primary key, -- client-generated
   group_id uuid references savings_groups(id) not null,
   profile_id uuid references profiles(id) not null,
