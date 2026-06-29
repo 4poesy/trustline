@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { searchListings } from '@/lib/supabase/listings'
 import { DirectoryClient } from './DirectoryClient'
 
 export const metadata: Metadata = {
@@ -13,13 +13,7 @@ export const metadata: Metadata = {
 }
 
 export default async function DirectoryPage() {
-  const supabase = await createClient()
-
-  // Fetch public listings from Supabase
-  const { data: listings } = await supabase
-    .from('listings')
-    .select('*, profiles(name, phone_number, business_type)')
-    .eq('is_public', true)
+  const { data: listings } = await searchListings({ page: 1, limit: 100 })
 
   return (
     <DirectoryClient initialListings={listings || []} />

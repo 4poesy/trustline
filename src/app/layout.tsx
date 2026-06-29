@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { OfflineBanner } from "@/modules/auth/components/OfflineBanner";
+import { PwaProvider } from "./PwaProvider";
 
 export const metadata: Metadata = {
   title: "Trustline",
@@ -32,8 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <OfflineBanner />
-        {children}
+        <PwaProvider>
+          <OfflineBanner />
+          {children}
+        </PwaProvider>
       </body>
     </html>
   );

@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { getCreditScore } from '@/lib/supabase/creditScore'
+import { supabase } from '@/lib/supabase/client'
 import { db } from '@/modules/cashflow/db/cashflow-db'
 import type { Profile } from '@/lib/supabase/types'
 import styles from './page.module.css'
@@ -14,8 +15,9 @@ interface Props {
 
 export function DashboardClient({ profile }: Props) {
   const router = useRouter()
-  const supabase = createClient()
   const [monthlyIncome, setMonthlyIncome] = useState(0)
+  const [trustScore, setTrustScore] = useState('--')
+  const [creditBand, setCreditBand] = useState('Building')
 
   useEffect(() => {
     const fetchMonthlyIncome = async () => {
@@ -39,37 +41,20 @@ export function DashboardClient({ profile }: Props) {
     fetchMonthlyIncome()
   }, [profile.id])
 
-  const [trustScore, setTrustScore] = useState('--')
-
   useEffect(() => {
     const fetchTrustScore = async () => {
       try {
-        const { data: metrics } = await supabase
-          .from('trust_metrics')
-          .select('reputation_score')
-          .eq('profile_id', profile.id)
-          .single()
-        
-        if (metrics) {
-          setTrustScore(Number(metrics.reputation_score).toFixed(1))
-        } else {
-          // If no trust metrics yet, query reviews directly to show real reputation
-          const { data: reviews } = await supabase
-            .from('reviews')
-            .select('rating')
-            .eq('reviewed_profile_id', profile.id)
-            
-          if (reviews && reviews.length > 0) {
-            const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-            setTrustScore(avg.toFixed(1))
-          }
+        const { data } = await getCreditScore(profile.id)
+        if (data) {
+          setTrustScore(String(data.score))
+          setCreditBand(data.band)
         }
       } catch (e) {
         console.error('Error fetching trust score:', e)
       }
     }
     fetchTrustScore()
-  }, [profile.id, supabase])
+  }, [profile.id])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -143,7 +128,7 @@ export function DashboardClient({ profile }: Props) {
               </svg>
             </div>
             <div className={styles.statContent}>
-              <span className={styles.statValue}>{trustScore}</span>
+              <span className={styles.statValue}>{trustScore} ({creditBand})</span>
               <span className={styles.statLabel}>Trust score &rarr;</span>
             </div>
           </Link>

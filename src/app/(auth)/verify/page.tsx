@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { verifyOTP, sendOTP } from '@/lib/supabase/auth'
+import { getProfile } from '@/lib/supabase/profiles'
 import { OtpInput } from '@/modules/auth/components/OtpInput'
 import styles from './page.module.css'
 
@@ -13,7 +14,6 @@ export default function VerifyPage() {
   const [resendTimer, setResendTimer] = useState(30)
   const [canResend, setCanResend] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
   useEffect(() => {
     const storedPhone = sessionStorage.getItem('trustline_auth_phone')
@@ -44,11 +44,7 @@ export default function VerifyPage() {
     setLoading(true)
 
     try {
-      const { data, error: verifyError } = await supabase.auth.verifyOtp({
-        phone,
-        token: otp,
-        type: 'sms',
-      })
+      const { data, error: verifyError } = await verifyOTP(phone, otp)
 
       if (verifyError) {
         setError(verifyError.message)
@@ -56,13 +52,9 @@ export default function VerifyPage() {
         return
       }
 
-      if (data.user) {
+      if (data?.user) {
         // Check if profile exists
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('id')
-          .eq('id', data.user.id)
-          .single()
+        const { data: profile } = await getProfile(data.user.id)
 
         sessionStorage.removeItem('trustline_auth_phone')
 
@@ -76,7 +68,7 @@ export default function VerifyPage() {
       setError('Verification failed. Please try again.')
       setLoading(false)
     }
-  }, [phone, supabase, router])
+  }, [phone, router])
 
   const handleResend = async () => {
     if (!canResend || !phone) return
@@ -84,7 +76,7 @@ export default function VerifyPage() {
     setResendTimer(30)
     setError('')
 
-    const { error: resendError } = await supabase.auth.signInWithOtp({ phone })
+    const { error: resendError } = await sendOTP(phone)
     if (resendError) {
       setError(resendError.message)
     }

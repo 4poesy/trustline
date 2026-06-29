@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { sendOTP } from '@/lib/supabase/auth'
 import { CountryCodeSelect } from '@/modules/auth/components/CountryCodeSelect'
 import styles from './page.module.css'
 
@@ -12,9 +12,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
-  const supabase = createClient()
-
-  const fullPhone = `${countryCode}${phoneNumber.replace(/^0+/, '')}`
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,9 +25,7 @@ export default function LoginPage() {
 
     setLoading(true)
     try {
-      const { error: otpError } = await supabase.auth.signInWithOtp({
-        phone: `${countryCode}${cleaned}`,
-      })
+      const { error: otpError } = await sendOTP(`${countryCode}${cleaned}`)
 
       if (otpError) {
         setError(otpError.message)
