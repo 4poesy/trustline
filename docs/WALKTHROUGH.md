@@ -31,6 +31,12 @@ We have successfully completed all 4 core modules of the Trustline mobile PWA, e
 - **Esusu Groups**: Configured creations at `/savings/create`, joining via invite codes, and roster status grids.
 - **Offline Contributions**: Applied the same offline contributions logging logic in [savings-db.ts](file:///c:/Users/Akinola%20Olujobi/Desktop/Trustline/src/modules/savings/db/savings-db.ts) and sync mechanisms.
 
+### Steps 5 - 9: Offline Sync, Realtime, Service Worker, and Backend-Frontend Wiring
+- **Offline Sync (IndexedDB)**: Created a Promise-based IndexedDB wrapper `trustline-offline` using `idb` inside [db.ts](file:///c:/Users/Akinola%20Olujobi/Desktop/Trustline/src/lib/offline/db.ts) to store offline transactions and contributions. Built [syncManager.ts](file:///c:/Users/Akinola%20Olujobi/Desktop/Trustline/src/lib/offline/syncManager.ts) attaching connection and visibility change triggers, queuing service worker background sync tag `trustline-data-sync`, and dispatching UI sync success notification events.
+- **PWA Service Worker**: Created [sw.js](file:///c:/Users/Akinola%20Olujobi/Desktop/Trustline/public/sw.js) with Cache-First strategies for App shells and images, Network-First strategies with IndexedDB fallbacks for Supabase APIs, and background sync data triggers.
+- **Realtime Channel Subscriptions**: Created [realtime.ts](file:///c:/Users/Akinola%20Olujobi/Desktop/Trustline/src/lib/supabase/realtime.ts) to establish Postgres INSERT listeners for esusu group payments and user reviews (which automatically logs in-app notifications on reviews).
+- **Environment & Wiring**: Configured [.env.local.example](file:///c:/Users/Akinola%20Olujobi/Desktop/Trustline/.env.local.example). Rewired existing frontend modules (Login, Verify, Cashflow hooks, Directory search, Directory SSR profile, and Dashboard stats) to call the unified Supabase wrappers instead of raw queries.
+
 ---
 
 ## Verification & Testing
