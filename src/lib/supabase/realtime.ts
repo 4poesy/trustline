@@ -7,12 +7,13 @@ export function subscribeToGroupPayments(groupId: string, callback: (payload: an
   const channel = supabase
     .channel(`group-${groupId}`)
     .on(
-      'postgres_changes',
+      'postgres_changes' as any,
       {
         event: 'INSERT',
+        schema: 'public',
         table: 'contributions',
         filter: `group_id=eq.${groupId}`,
-      },
+      } as any,
       callback
     )
     .subscribe()
@@ -28,13 +29,14 @@ export function subscribeToReviews(profileId: string, callback: (payload: any) =
   const channel = supabase
     .channel(`reviews-${profileId}`)
     .on(
-      'postgres_changes',
+      'postgres_changes' as any,
       {
         event: 'INSERT',
+        schema: 'public',
         table: 'reviews',
         filter: `reviewed_profile_id=eq.${profileId}`,
-      },
-      async (payload) => {
+      } as any,
+      async (payload: any) => {
         callback(payload)
 
         // Write in-app notification to table
