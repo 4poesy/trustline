@@ -1,0 +1,207 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  padding-bottom: var(--space-12);
+}
+
+.header {
+  background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-500) 100%);
+  color: white;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.greeting {
+  font-size: var(--font-size-sm);
+  opacity: 0.85;
+  margin-bottom: var(--space-1);
+}
+
+.userName {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.avatarButton {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: background-color var(--transition-fast);
+}
+
+.avatarButton:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.avatarInitial {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: white;
+}
+
+.roleBadge {
+  display: inline-block;
+  margin-top: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.main {
+  padding: var(--space-4);
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  margin-top: calc(-1 * var(--space-4));
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.statCard {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.statIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statIconSecondary {
+  background-color: var(--color-secondary-50);
+  color: var(--color-secondary-500);
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statValue {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.statLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--space-4);
+}
+
+.actionCards {
+  margin-bottom: var(--space-6);
+}
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.actionCard:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.actionIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.actionIconCashflow {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+}
+
+.actionIconDirectory {
+  background-color: #EDE9FE;
+  color: #7C3AED;
+}
+
+.actionIconSavings {
+  background-color: var(--color-secondary-50);
+  color: var(--color-secondary-500);
+}
+
+.actionContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.actionTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-900);
+  margin-bottom: 2px;
+}
+
+.actionDescription {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  line-height: var(--line-height-normal);
+}
+
+.comingSoon {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-400);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-full);
+}
+
+.locationBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  border: 1px solid var(--color-neutral-200);
+}

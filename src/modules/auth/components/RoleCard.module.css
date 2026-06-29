@@ -1,0 +1,87 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  padding: var(--space-4);
+  border: 2px solid var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: left;
+  min-height: 72px;
+}
+
+.card:hover {
+  border-color: var(--color-primary-300);
+  background-color: var(--color-primary-50);
+}
+
+.card:active {
+  transform: scale(0.98);
+}
+
+.cardSelected {
+  border-color: var(--color-primary-500);
+  background-color: var(--color-primary-50);
+  box-shadow: 0 0 0 3px var(--color-primary-50);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+  flex-shrink: 0;
+}
+
+.cardSelected .iconWrapper {
+  background-color: var(--color-primary-500);
+  color: white;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-900);
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+}
+
+.radio {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--color-neutral-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.radioSelected {
+  border-color: var(--color-primary-500);
+  background-color: var(--color-primary-500);
+  color: white;
+}
+
+.radioSelected svg {
+  width: 14px;
+  height: 14px;
+}
