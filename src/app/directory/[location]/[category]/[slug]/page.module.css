@@ -1,0 +1,281 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  padding-bottom: var(--space-16);
+}
+
+/* Nav styles */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(251, 249, 244, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-neutral-200);
+  padding: var(--space-3) 0;
+}
+
+.navInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+}
+
+.logoText {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-500);
+}
+
+.main {
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Profile Header Card */
+.profileHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-4);
+}
+
+.avatarLarge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+  font-weight: var(--font-weight-bold);
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.categoryBadge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.businessName {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.location {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+
+.bio {
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-700);
+  line-height: var(--line-height-relaxed);
+  max-width: 480px;
+}
+
+/* Rating Overview */
+.overviewCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6);
+}
+
+.overviewLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  font-weight: var(--font-weight-medium);
+}
+
+.avgRating {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.starFilled {
+  color: var(--color-secondary-300);
+  font-size: 1.5rem;
+}
+
+.starEmpty {
+  color: var(--color-neutral-200);
+  font-size: 1.5rem;
+}
+
+.reviewCount {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+
+/* Leave a Review section */
+.reviewFormSection {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-900);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ratingSelector {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.starBtn {
+  font-size: 2rem;
+  color: var(--color-neutral-200);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.starBtnActive {
+  color: var(--color-secondary-300);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Reviews List */
+.reviewsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.noReviews {
+  text-align: center;
+  color: var(--color-neutral-500);
+  padding: var(--space-8) 0;
+  font-size: var(--font-size-base);
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.reviewCard {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviewerName {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-800);
+}
+
+.reviewStars {
+  display: flex;
+  gap: 2px;
+}
+
+.reviewStars .starFilled {
+  font-size: var(--font-size-base);
+}
+
+.reviewStars .starEmpty {
+  font-size: var(--font-size-base);
+}
+
+.reviewComment {
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-700);
+  line-height: var(--line-height-normal);
+}
+
+.reviewFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-2);
+}
+
+.reviewDate {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+.verifiedBadge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-500);
+  background-color: var(--color-primary-50);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+}
+
+@media (min-width: 640px) {
+  .profileHeader {
+    flex-direction: row;
+    text-align: left;
+    padding: var(--space-6);
+  }
+
+  .profileMeta {
+    align-items: flex-start;
+  }
+}

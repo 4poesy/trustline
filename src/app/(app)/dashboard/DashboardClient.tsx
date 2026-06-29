@@ -137,7 +137,7 @@ export function DashboardClient({ profile }: Props) {
             </svg>
           </Link>
 
-          <div className={`card ${styles.actionCard}`} id="directory-action-card">
+          <Link href="/directory" className={`card ${styles.actionCard}`} id="directory-action-card">
             <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -148,8 +148,10 @@ export function DashboardClient({ profile }: Props) {
               <h3 className={styles.actionTitle}>Your public profile</h3>
               <p className={styles.actionDescription}>Get found by customers and build your reputation with reviews</p>
             </div>
-            <span className={styles.comingSoon}>Coming soon</span>
-          </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20" className={styles.chevron}>
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </Link>
 
           <div className={`card ${styles.actionCard}`} id="savings-action-card">
             <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
