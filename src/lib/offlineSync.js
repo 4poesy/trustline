@@ -1,5 +1,5 @@
 import Dexie from 'dexie'
-import { supabase } from './supabase'
+import { supabase } from './supabase/client'
 
 // Initialize a shared offline store for custom synchronization tracking
 export const offlineDb = new Dexie('TrustlineOfflineCache')
