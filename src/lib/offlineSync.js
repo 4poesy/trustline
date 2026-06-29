@@ -3,8 +3,10 @@ import { supabase } from './supabase'
 
 // Initialize a shared offline store for custom synchronization tracking
 export const offlineDb = new Dexie('TrustlineOfflineCache')
-offlineDb.version(1).stores({
-  syncQueue: 'id, table, action, payload, timestamp'
+offlineDb.version(2).stores({
+  syncQueue: 'id, table, action, payload, timestamp',
+  transactions: 'id, profile_id, type, amount, category, entry_date, synced_at',
+  contributions: 'id, group_id, profile_id, amount, cycle_number, synced_at'
 })
 
 /**
