@@ -39,6 +39,38 @@ export function DashboardClient({ profile }: Props) {
     fetchMonthlyIncome()
   }, [profile.id])
 
+  const [trustScore, setTrustScore] = useState('--')
+
+  useEffect(() => {
+    const fetchTrustScore = async () => {
+      try {
+        const { data: metrics } = await supabase
+          .from('trust_metrics')
+          .select('reputation_score')
+          .eq('profile_id', profile.id)
+          .single()
+        
+        if (metrics) {
+          setTrustScore(Number(metrics.reputation_score).toFixed(1))
+        } else {
+          // If no trust metrics yet, query reviews directly to show real reputation
+          const { data: reviews } = await supabase
+            .from('reviews')
+            .select('rating')
+            .eq('reviewed_profile_id', profile.id)
+            
+          if (reviews && reviews.length > 0) {
+            const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+            setTrustScore(avg.toFixed(1))
+          }
+        }
+      } catch (e) {
+        console.error('Error fetching trust score:', e)
+      }
+    }
+    fetchTrustScore()
+  }, [profile.id, supabase])
+
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     router.replace('/login')
@@ -104,17 +136,17 @@ export function DashboardClient({ profile }: Props) {
             </div>
           </div>
 
-          <div className={`card ${styles.statCard}`}>
+          <Link href="/credit-profile" className={`card ${styles.statCard} ${styles.statCardLink}`}>
             <div className={`${styles.statIcon} ${styles.statIconSecondary}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
             </div>
             <div className={styles.statContent}>
-              <span className={styles.statValue}>--</span>
-              <span className={styles.statLabel}>Trust score</span>
+              <span className={styles.statValue}>{trustScore}</span>
+              <span className={styles.statLabel}>Trust score &rarr;</span>
             </div>
-          </div>
+          </Link>
         </section>
 
         {/* Module action cards - placeholders */}
@@ -153,7 +185,7 @@ export function DashboardClient({ profile }: Props) {
             </svg>
           </Link>
 
-          <div className={`card ${styles.actionCard}`} id="savings-action-card">
+          <Link href="/savings" className={`card ${styles.actionCard}`} id="savings-action-card">
             <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -166,8 +198,10 @@ export function DashboardClient({ profile }: Props) {
               <h3 className={styles.actionTitle}>Savings groups</h3>
               <p className={styles.actionDescription}>Join or create an ajo/esusu group and save together</p>
             </div>
-            <span className={styles.comingSoon}>Coming soon</span>
-          </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20" className={styles.chevron}>
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </Link>
         </section>
 
         {/* Location indicator */}

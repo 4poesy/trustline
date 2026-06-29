@@ -45,6 +45,43 @@ export interface Review {
   created_at: string
 }
 
+export interface SavingsGroup {
+  id: string
+  name: string
+  created_by_profile_id: string
+  contribution_amount: number
+  cycle_frequency: 'weekly' | 'monthly'
+  payout_order: string[] // profile_ids array
+  current_cycle: number
+  invite_code: string
+  created_at: string
+}
+
+export interface GroupMember {
+  id: string
+  group_id: string
+  profile_id: string
+  joined_at: string
+}
+
+export interface Contribution {
+  id: string
+  group_id: string
+  profile_id: string
+  amount: number
+  cycle_number: number
+  created_at: string
+  synced_at?: string | null
+}
+
+export interface TrustMetrics {
+  profile_id: string
+  income_consistency_score: number
+  savings_discipline_score: number
+  reputation_score: number
+  last_calculated_at: string
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -68,8 +105,29 @@ export interface Database {
         Insert: Omit<Review, 'created_at'> & { created_at?: string }
         Update: Partial<Omit<Review, 'id' | 'created_at'>>
       }
+      savings_groups: {
+        Row: SavingsGroup
+        Insert: Omit<SavingsGroup, 'created_at'> & { created_at?: string }
+        Update: Partial<Omit<SavingsGroup, 'id' | 'created_at'>>
+      }
+      group_members: {
+        Row: GroupMember
+        Insert: Omit<GroupMember, 'joined_at'> & { joined_at?: string }
+        Update: Partial<Omit<GroupMember, 'id' | 'joined_at'>>
+      }
+      contributions: {
+        Row: Contribution
+        Insert: Omit<Contribution, 'created_at' | 'synced_at'> & { created_at?: string; synced_at?: string | null }
+        Update: Partial<Omit<Contribution, 'id' | 'created_at'>>
+      }
+      trust_metrics: {
+        Row: TrustMetrics
+        Insert: TrustMetrics
+        Update: Partial<Omit<TrustMetrics, 'profile_id'>>
+      }
     }
   }
 }
+
 
 

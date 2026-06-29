@@ -79,6 +79,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  text-decoration: none;
+}
+
+.statCardLink {
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.statCardLink:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .statIcon {
