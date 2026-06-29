@@ -25,7 +25,7 @@ export async function addTransaction(data: Omit<Transaction, 'id' | 'created_at'
   }
 
   // 1. Write to local IndexedDB
-  await offlineDb.transactions.put(tx)
+  await offlineDb.table('transactions').put(tx)
 
   try {
     // 2. Try online Supabase insert
@@ -45,7 +45,7 @@ export async function addTransaction(data: Omit<Transaction, 'id' | 'created_at'
 
     // 3. Mark as synced on success
     const nowStr = new Date().toISOString()
-    await offlineDb.transactions.update(tx.id, { synced_at: nowStr })
+    await offlineDb.table('transactions').update(tx.id, { synced_at: nowStr })
     return { data: { ...tx, synced_at: nowStr }, error: null }
   } catch (err) {
     console.warn('[TransactionAPI] Saved offline, sync pending:', err)
@@ -76,7 +76,7 @@ export async function getTransactions(profileId: string, filters: { from?: Date;
 
   if (data) {
     for (const record of data) {
-      await offlineDb.transactions.put({
+      await offlineDb.table('transactions').put({
         ...record,
         synced_at: new Date().toISOString(),
       })
@@ -103,7 +103,7 @@ export async function getSummary(profileId: string, period: 'week' | 'month' | '
 
   const startStr = startDate.toISOString().split('T')[0]
 
-  const localTxs = await offlineDb.transactions
+  const localTxs = await offlineDb.table('transactions')
     .where('profile_id')
     .equals(profileId)
     .filter((t) => t.entry_date >= startStr)
@@ -161,11 +161,11 @@ function computeSummary(txs: any[]) {
  * Flush all unsynced local transaction and contribution entries.
  */
 export async function syncOfflineEntries() {
-  const pendingTxs = await offlineDb.transactions
+  const pendingTxs = await offlineDb.table('transactions')
     .filter((t) => t.synced_at === null || t.synced_at === undefined)
     .toArray()
 
-  const pendingContributions = await offlineDb.contributions
+  const pendingContributions = await offlineDb.table('contributions')
     .filter((c) => c.synced_at === null || c.synced_at === undefined)
     .toArray()
 
@@ -188,10 +188,10 @@ export async function syncOfflineEntries() {
     const conIds = pendingContributions.map((c) => c.id)
 
     if (txIds.length > 0) {
-      await offlineDb.transactions.where('id').anyOf(txIds).modify({ synced_at: nowStr })
+      await offlineDb.table('transactions').where('id').anyOf(txIds).modify({ synced_at: nowStr })
     }
     if (conIds.length > 0) {
-      await offlineDb.contributions.where('id').anyOf(conIds).modify({ synced_at: nowStr })
+      await offlineDb.table('contributions').where('id').anyOf(conIds).modify({ synced_at: nowStr })
     }
 
     return {

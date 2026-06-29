@@ -132,7 +132,7 @@ export async function addContribution(data: Omit<Contribution, 'id' | 'created_a
     synced_at: null,
   }
 
-  await offlineDb.contributions.put(con)
+  await offlineDb.table('contributions').put(con)
 
   try {
     const { error } = await supabase
@@ -148,7 +148,7 @@ export async function addContribution(data: Omit<Contribution, 'id' | 'created_a
     if (error) throw error
 
     const nowStr = new Date().toISOString()
-    await offlineDb.contributions.update(con.id, { synced_at: nowStr })
+    await offlineDb.table('contributions').update(con.id, { synced_at: nowStr })
     return { data: { ...con, synced_at: nowStr }, error: null }
   } catch (err) {
     console.warn('[SavingsAPI] Contribution offline cached, sync pending:', err)
@@ -168,7 +168,7 @@ export async function getContributions(groupId: string) {
 
   if (data) {
     for (const record of data) {
-      await offlineDb.contributions.put({
+      await offlineDb.table('contributions').put({
         ...record,
         synced_at: new Date().toISOString(),
       })
