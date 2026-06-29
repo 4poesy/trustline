@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-500) 100%);
+  color: white;
+  padding: var(--space-6) var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--space-6);
+}
+
+.netWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  text-align: center;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.85;
+}
+
+.netValue {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.5px;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconIncome {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #c5e8dd;
+}
+
+.iconExpense {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fbeaea;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cardLabel {
+  font-size: var(--font-size-xs);
+  opacity: 0.8;
+  margin-bottom: 2px;
+}
+
+.cardValueIncome {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  color: white;
+}
+
+.cardValueExpense {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  color: white;
+}

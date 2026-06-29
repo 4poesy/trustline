@@ -1,0 +1,154 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-4);
+  color: var(--color-neutral-500);
+}
+
+.emptyIcon {
+  color: var(--color-neutral-300);
+  margin-bottom: var(--space-4);
+}
+
+.emptyText {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-800);
+  margin-bottom: var(--space-1);
+}
+
+.emptyHint {
+  font-size: var(--font-size-sm);
+  max-width: 280px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.groupHeader {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-neutral-500);
+  font-weight: var(--font-weight-bold);
+  padding-left: var(--space-1);
+}
+
+.groupList {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-neutral-200);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-height: 72px;
+  border-bottom: 1px solid var(--color-neutral-100);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.iconWrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconIncome {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+}
+
+.iconExpense {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mainInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.category {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-900);
+}
+
+.amount {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+}
+
+.income {
+  color: var(--color-primary-500);
+}
+
+.expense {
+  color: var(--color-error);
+}
+
+.subInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.note {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.syncStatus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.syncedIcon {
+  color: var(--color-primary-300);
+}
+
+.unsyncedIcon {
+  color: var(--color-neutral-400);
+}

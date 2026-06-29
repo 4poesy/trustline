@@ -205,3 +205,15 @@
   color: var(--color-neutral-600);
   border: 1px solid var(--color-neutral-200);
 }
+
+.chevron {
+  color: var(--color-neutral-400);
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.actionCard:hover .chevron {
+  transform: translateX(2px);
+  color: var(--color-primary-500);
+}
+

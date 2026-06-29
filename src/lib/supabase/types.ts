@@ -11,6 +11,18 @@ export interface Profile {
 
 export type UserRole = Profile['role']
 
+export interface Transaction {
+  id: string
+  profile_id: string
+  type: 'income' | 'expense'
+  amount: number
+  category: string
+  note?: string
+  entry_date: string
+  created_at: string
+  synced_at?: string | null
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -19,6 +31,12 @@ export interface Database {
         Insert: Omit<Profile, 'created_at' | 'updated_at'>
         Update: Partial<Omit<Profile, 'id' | 'created_at'>>
       }
+      transactions: {
+        Row: Transaction
+        Insert: Omit<Transaction, 'created_at' | 'synced_at'> & { created_at?: string; synced_at?: string | null }
+        Update: Partial<Omit<Transaction, 'id' | 'created_at'>>
+      }
     }
   }
 }
+

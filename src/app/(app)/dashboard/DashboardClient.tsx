@@ -1,7 +1,10 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { db } from '@/modules/cashflow/db/cashflow-db'
 import type { Profile } from '@/lib/supabase/types'
 import styles from './page.module.css'
 
@@ -12,6 +15,29 @@ interface Props {
 export function DashboardClient({ profile }: Props) {
   const router = useRouter()
   const supabase = createClient()
+  const [monthlyIncome, setMonthlyIncome] = useState(0)
+
+  useEffect(() => {
+    const fetchMonthlyIncome = async () => {
+      try {
+        const now = new Date()
+        const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+        
+        const txs = await db.transactions
+          .where('profile_id')
+          .equals(profile.id)
+          .and(t => t.type === 'income' && t.entry_date >= firstDayOfMonth)
+          .toArray()
+          
+        const total = txs.reduce((sum, t) => sum + t.amount, 0)
+        setMonthlyIncome(total)
+      } catch (e) {
+        console.error('Error fetching monthly income for dashboard:', e)
+      }
+    }
+    
+    fetchMonthlyIncome()
+  }, [profile.id])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -71,7 +97,9 @@ export function DashboardClient({ profile }: Props) {
               </svg>
             </div>
             <div className={styles.statContent}>
-              <span className={styles.statValue}>₦0</span>
+              <span className={styles.statValue}>
+                ₦{monthlyIncome.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
+              </span>
               <span className={styles.statLabel}>This month&apos;s income</span>
             </div>
           </div>
@@ -93,7 +121,7 @@ export function DashboardClient({ profile }: Props) {
         <section className={styles.actionCards}>
           <h2 className={styles.sectionTitle}>Quick Actions</h2>
 
-          <div className={`card ${styles.actionCard}`} id="cashflow-action-card">
+          <Link href="/cashflow" className={`card ${styles.actionCard}`} id="cashflow-action-card">
             <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
@@ -104,8 +132,10 @@ export function DashboardClient({ profile }: Props) {
               <h3 className={styles.actionTitle}>Track your cashflow</h3>
               <p className={styles.actionDescription}>Log daily income and expenses to build your financial record</p>
             </div>
-            <span className={styles.comingSoon}>Coming soon</span>
-          </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20" className={styles.chevron}>
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </Link>
 
           <div className={`card ${styles.actionCard}`} id="directory-action-card">
             <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
