@@ -2,18 +2,86 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { 
+  Smartphone, 
+  Sparkles, 
+  ShieldCheck, 
+  TrendingUp, 
+  Wallet, 
+  Users, 
+  Star, 
+  CheckCircle, 
+  ArrowRight, 
+  Lock, 
+  WifiOff, 
+  Heart,
+  Download,
+  Layers,
+  ChevronRight,
+  MapPin,
+  Check
+} from 'lucide-react'
 import styles from './LandingPageClient.module.css'
+
+// Simple Counter Component to animate numbers when in view
+function StatCounter({ value, duration = 2 }: { value: string; duration?: number }) {
+  const [displayValue, setDisplayValue] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ''), 10)
+  const suffix = value.replace(/[0-9]/g, '')
+
+  useEffect(() => {
+    let observer: IntersectionObserver
+    let startTimestamp: number | null = null
+
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp
+      const progress = Math.min((timestamp - startTimestamp) / (duration * 1000), 1)
+      setDisplayValue(Math.floor(progress * numericValue))
+      if (progress < 1) {
+        window.requestAnimationFrame(step)
+      }
+    }
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting) {
+        window.requestAnimationFrame(step)
+        observer.disconnect()
+      }
+    }
+
+    if (ref.current) {
+      observer = new IntersectionObserver(handleIntersect, { threshold: 0.5 })
+      observer.observe(ref.current)
+    }
+
+    return () => {
+      if (observer) observer.disconnect()
+    }
+  }, [numericValue, duration])
+
+  return (
+    <span ref={ref} className={styles.statNum}>
+      {suffix.startsWith('₦') ? `₦${displayValue.toLocaleString()}${suffix.slice(1)}` : `${displayValue.toLocaleString()}${suffix}`}
+    </span>
+  )
+}
 
 export function LandingPageClient() {
   const [activeTab, setActiveTab] = useState<'android' | 'ios' | 'web'>('android')
   const [isSticky, setIsSticky] = useState(false)
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const heroCardRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const { scrollY } = useScroll()
+  const yNav = useTransform(scrollY, [0, 100], [0, 8])
 
   // Scroll handler for navbar background transitions
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 45) {
         setIsSticky(true)
       } else {
         setIsSticky(false)
@@ -54,27 +122,9 @@ export function LandingPageClient() {
         setDeferredPrompt(null)
       }
     } else {
-      // Fallback redirection to Play Store
       window.open('https://play.google.com/store/apps/details?id=app.trustline', '_blank')
     }
   }
-
-  // Scroll reveal intersections
-  useEffect(() => {
-    const revealElements = document.querySelectorAll(`.${styles.reveal}`)
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.revealed)
-          }
-        });
-      },
-      { threshold: 0.15 }
-    )
-    revealElements.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
 
   // 3D card tilt effect
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -85,36 +135,50 @@ export function LandingPageClient() {
     const y = e.clientY - rect.top
     const centerX = rect.width / 2
     const centerY = rect.height / 2
-    const rotateX = -(y - centerY) / 10
-    const rotateY = (x - centerX) / 10
-    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+    const rotateX = -(y - centerY) / 8
+    const rotateY = (x - centerX) / 8
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`
   }
 
   const handleCardMouseLeave = () => {
     const card = heroCardRef.current
     if (!card) return
-    card.style.transform = 'perspective(900px) rotateY(-6deg) rotateX(3deg)'
+    card.style.transform = 'perspective(1000px) rotateY(-8deg) rotateX(4deg) scale3d(1, 1, 1)'
   }
 
   return (
-    <div className={styles.page}>
+    <div ref={containerRef} className={styles.page}>
+      {/* Background Accent Lights */}
+      <div className={styles.radialGlowTeal} />
+      <div className={styles.radialGlowGold} />
+
       {/* Navigation */}
-      <nav className={`${styles.nav} ${isSticky ? styles.navSticky : ''}`}>
+      <motion.nav 
+        style={{ y: yNav }}
+        className={`${styles.nav} ${isSticky ? styles.navSticky : ''}`}
+      >
         <div className={styles.navInner}>
-          <div className={styles.logo}>
+          <Link href="/" className={styles.logo}>
             <div className={styles.logoMark}>T</div>
             <span className={styles.logoText}>Trustline</span>
-          </div>
-          <Link href="/login" className={styles.navCta}>
-            Get the App
           </Link>
+          <div className={styles.navLinksRight}>
+            <Link href="/login" className={styles.navCta}>
+              Get the App
+            </Link>
+          </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Hero Section */}
       <header className={styles.hero}>
         <div className={styles.heroInner}>
-          <div className={`${styles.heroContent} ${styles.reveal}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className={styles.heroContent}
+          >
             <div className={styles.heroEyebrowRow}>
               <span className={styles.heroEyebrowLine} />
               <span className={styles.heroEyebrow}>FOR TRADERS · VENDORS · SERVICE PROVIDERS</span>
@@ -130,18 +194,14 @@ export function LandingPageClient() {
             {/* Frosted glass store buttons */}
             <div className={styles.storeButtonsRow}>
               <a href="https://play.google.com/store/apps/details?id=app.trustline" target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
-                <svg className={styles.storeIcon} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M5 3.22a.75.75 0 0 0-.22.53v16.5a.75.75 0 0 0 .22.53l9.07-9.06-9.07-9.5zm10.13 8.03l3.03-3.03a.5.5 0 0 0 0-.7l-3.03-3.03-3.03 3.03a.5.5 0 0 0 0 .7l3.03 3.03zm-1.78-4.8L5.59 2.5a1 1 0 0 0-1.18 0l9.07 9.07-2.12-2.12zM5.59 21.5l7.76-3.95-2.12-2.12-9.07 9.07a1 1 0 0 0 1.18-.5z" />
-                </svg>
+                <Smartphone className={styles.storeIcon} />
                 <div className={styles.storeTextCol}>
                   <span className={styles.storeLabel}>Get it on</span>
                   <span className={styles.storeName}>Google Play</span>
                 </div>
               </a>
               <a href="https://apps.apple.com/us/app/trustline/id164" target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
-                <svg className={styles.storeIcon} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.21.67-2.93 1.49-.62.69-1.16 1.84-1.01 2.96 1.12.09 2.27-.57 2.95-1.39z" />
-                </svg>
+                <Smartphone className={styles.storeIcon} />
                 <div className={styles.storeTextCol}>
                   <span className={styles.storeLabel}>Download on the</span>
                   <span className={styles.storeName}>App Store</span>
@@ -152,20 +212,25 @@ export function LandingPageClient() {
             <div className={styles.separator}>— or —</div>
 
             <Link href="/login" className={styles.heroBrowserCta}>
-              Open in browser — it&apos;s free →
+              Open in browser — it&apos;s free <ArrowRight className={styles.btnArrow} />
             </Link>
 
             <div className={styles.trustSignals}>
-              <span>✓ Free to use</span>
+              <span className={styles.signalWord}><Check className={styles.signalCheck} /> Free to use</span>
               <span className={styles.signalsDot}>·</span>
-              <span>✓ No bank required</span>
+              <span className={styles.signalWord}><Check className={styles.signalCheck} /> No bank required</span>
               <span className={styles.signalsDot}>·</span>
-              <span>✓ Works offline</span>
+              <span className={styles.signalWord}><Check className={styles.signalCheck} /> Works offline</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Dynamic CSS Card Mockup */}
-          <div className={`${styles.heroCardCol} ${styles.reveal}`}>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, rotateY: 15 }}
+            animate={{ opacity: 1, scale: 1, rotateY: -8 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className={styles.heroCardCol}
+          >
             <div 
               className={styles.trustlineCard}
               ref={heroCardRef}
@@ -174,7 +239,9 @@ export function LandingPageClient() {
             >
               <div className={styles.cardHeader}>
                 <span className={styles.cardTitle}>TRUSTLINE</span>
-                <span className={styles.verifiedBadge}>VERIFIED</span>
+                <span className={styles.verifiedBadge}>
+                  <ShieldCheck size={10} className={styles.verifiedIcon} /> VERIFIED
+                </span>
               </div>
 
               <div className={styles.cardBody}>
@@ -220,18 +287,28 @@ export function LandingPageClient() {
             </div>
 
             {/* Floating rating badge */}
-            <div className={styles.floatingBadge}>
+            <motion.div 
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className={styles.floatingBadge}
+            >
               <div className={styles.badgeIconCircle}>
-                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
+                <Star size={16} fill="currentColor" />
               </div>
               <div>
                 <p className={styles.badgeTitle}>47 customer reviews</p>
                 <p className={styles.badgeSub}>4.9 average rating</p>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Dynamic transition border */}
+        <div className={styles.heroBorderBottom}>
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
+            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--linen)"></path>
+            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
         </div>
       </header>
 
@@ -239,19 +316,19 @@ export function LandingPageClient() {
       <section className={styles.statsBar}>
         <div className={styles.statsInner}>
           <div className={styles.statItem}>
-            <span className={styles.statNum}>12,000+</span>
+            <StatCounter value="12000+" />
             <span className={styles.statLabel}>Active traders</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statNum}>₦2.4B+</span>
+            <StatCounter value="₦2.4B+" />
             <span className={styles.statLabel}>Income tracked</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statNum}>340+</span>
+            <StatCounter value="340+" />
             <span className={styles.statLabel}>Ajo groups active</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statNum}>4.9★</span>
+            <StatCounter value="4.9★" />
             <span className={styles.statLabel}>Average trust score</span>
           </div>
         </div>
@@ -260,53 +337,57 @@ export function LandingPageClient() {
       {/* "Who It's For" Section */}
       <section className={styles.whoSection}>
         <div className={styles.sectionInner}>
-          <div className={`${styles.sectionHeaderLeft} ${styles.reveal}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className={styles.sectionHeaderLeft}
+          >
             <span className={styles.sectionEyebrow}>WHO WE SERVE</span>
             <h2 className={styles.sectionTitle}>Built for people who work hard every day</h2>
             <p className={styles.sectionSubtitle}>Whether you sell goods, offer services, or save with a group — Trustline is for you</p>
-          </div>
+          </motion.div>
 
           <div className={styles.cardGrid}>
-            <div className={`${styles.whoCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(26, 61, 43, 0.12)' }}
+              className={styles.whoCard}
+            >
               <div className={styles.whoIconSquare}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <path d="M16 10a4 4 0 0 1-8 0" />
-                </svg>
+                <Wallet className={styles.whoIcon} />
               </div>
               <h3 className={styles.whoCardTitle}>Traders &amp; Vendors</h3>
               <p className={styles.whoCardText}>
                 Market sellers, shop owners, anyone who buys and sells. Log every sale, track supply costs, see your real profit day by day.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={`${styles.whoCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(26, 61, 43, 0.12)' }}
+              className={styles.whoCard}
+            >
               <div className={styles.whoIconSquare}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-                </svg>
+                <Sparkles className={styles.whoIcon} />
               </div>
               <h3 className={styles.whoCardTitle}>Service Providers</h3>
               <p className={styles.whoCardText}>
                 Tailors, mechanics, hairdressers, electricians. Build a public profile customers can review so new clients know you&apos;re trustworthy.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={`${styles.whoCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(26, 61, 43, 0.12)' }}
+              className={styles.whoCard}
+            >
               <div className={styles.whoIconSquare}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
+                <Users className={styles.whoIcon} />
               </div>
               <h3 className={styles.whoCardTitle}>Savings Groups</h3>
               <p className={styles.whoCardText}>
                 Ajo, esusu, contribution circles. Manage rotating savings digitally — track who&apos;s paid, whose turn it is, never lose money to poor records.
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -314,20 +395,23 @@ export function LandingPageClient() {
       {/* "How It Works" Section */}
       <section className={styles.howSection}>
         <div className={styles.sectionInner}>
-          <div className={`${styles.sectionHeaderCenter} ${styles.reveal}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className={styles.sectionHeaderCenter}
+          >
             <span className={styles.sectionEyebrow}>SIMPLE STEPS</span>
             <h2 className={styles.sectionTitle}>How Trustline works</h2>
             <p className={styles.sectionSubtitle}>Three simple steps to start building your financial reputation</p>
-          </div>
+          </motion.div>
 
           <div className={styles.stepsGrid}>
-            <div className={`${styles.stepCard} ${styles.reveal}`}>
+            <div className={styles.stepCard}>
               <div className={styles.stepCircleWrapper}>
                 <div className={styles.stepCircle}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
-                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-                    <line x1="1" y1="10" x2="23" y2="10" />
-                  </svg>
+                  <TrendingUp size={28} />
                 </div>
                 <span className={styles.stepBadge}>1</span>
               </div>
@@ -337,12 +421,10 @@ export function LandingPageClient() {
               </p>
             </div>
 
-            <div className={`${styles.stepCard} ${styles.reveal}`}>
+            <div className={styles.stepCard}>
               <div className={styles.stepCircleWrapper}>
                 <div className={styles.stepCircle}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  </svg>
+                  <Star size={28} />
                 </div>
                 <span className={styles.stepBadge}>2</span>
               </div>
@@ -352,13 +434,10 @@ export function LandingPageClient() {
               </p>
             </div>
 
-            <div className={`${styles.stepCard} ${styles.reveal}`}>
+            <div className={styles.stepCard}>
               <div className={styles.stepCircleWrapper}>
                 <div className={styles.stepCircle}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
-                    <line x1="12" y1="1" x2="12" y2="23" />
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                  </svg>
+                  <AwardIcon size={28} />
                 </div>
                 <span className={styles.stepBadge}>3</span>
               </div>
@@ -374,63 +453,69 @@ export function LandingPageClient() {
       {/* Features Section */}
       <section className={styles.featuresSection}>
         <div className={styles.sectionInner}>
-          <div className={`${styles.sectionHeaderCenter} ${styles.reveal}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className={styles.sectionHeaderCenter}
+          >
             <span className={styles.sectionEyebrowSaffron}>WHY CHOOSE TRUSTLINE</span>
             <h2 className={styles.featuresTitle}>Built for how you actually work</h2>
-          </div>
+          </motion.div>
 
           <div className={styles.featuresGrid}>
-            <div className={`${styles.featureCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className={styles.featureCard}
+            >
               <div className={styles.featureIconWrapper}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                  <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
-                  <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
-                  <line x1="1" y1="1" x2="23" y2="23" />
-                </svg>
+                <WifiOff size={22} />
               </div>
               <h3 className={styles.featureTitle}>Works offline</h3>
               <p className={styles.featureText}>
                 Log income and expenses with no data. Syncs automatically when back online.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={`${styles.featureCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className={styles.featureCard}
+            >
               <div className={styles.featureIconWrapper}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
+                <Star size={22} />
               </div>
               <h3 className={styles.featureTitle}>Customer reviews</h3>
               <p className={styles.featureText}>
                 Customers rate you directly. A real public profile is your most powerful marketing tool.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={`${styles.featureCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className={styles.featureCard}
+            >
               <div className={styles.featureIconWrapper}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                  <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12S6.48 2 12 2z" />
-                  <path d="M12 6v6l4 2" />
-                </svg>
+                <Users size={22} />
               </div>
               <h3 className={styles.featureTitle}>Ajo &amp; savings groups</h3>
               <p className={styles.featureText}>
                 Manage rotating savings with full transparency. Everyone sees the records, no disputes.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={`${styles.featureCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className={styles.featureCard}
+            >
               <div className={styles.featureIconWrapper}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
+                <GiftIcon size={22} />
               </div>
               <h3 className={styles.featureTitle}>Completely free</h3>
               <p className={styles.featureText}>
                 No subscription fees, no hidden charges. Every hardworking person deserves a financial identity.
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -438,13 +523,22 @@ export function LandingPageClient() {
       {/* Testimonials Section */}
       <section className={styles.testimonialsSection}>
         <div className={styles.sectionInner}>
-          <div className={`${styles.sectionHeaderCenter} ${styles.reveal}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className={styles.sectionHeaderCenter}
+          >
             <span className={styles.sectionEyebrow}>COMMUNITY VOICES</span>
             <h2 className={styles.sectionTitle}>Deserving profiles build real trust</h2>
-          </div>
+          </motion.div>
 
           <div className={styles.testimonialsGrid}>
-            <div className={`${styles.testimonialCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ y: -6 }}
+              className={styles.testimonialCard}
+            >
               <span className={styles.quoteMark}>“</span>
               <p className={styles.testimonialText}>
                 &quot;I&apos;ve been selling fabrics for 9 years. I never had a way to show how much I earn. Trustline gave me a record I could actually show to a lender.&quot;
@@ -456,9 +550,12 @@ export function LandingPageClient() {
                   <span className={styles.authorRole}>Fabric seller, Balogun Market</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className={`${styles.testimonialCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ y: -6 }}
+              className={styles.testimonialCard}
+            >
               <span className={styles.quoteMark}>“</span>
               <p className={styles.testimonialText}>
                 &quot;Our ajo group had arguments every month about who had paid. Since we moved to Trustline, everything is clear. No more quarrels.&quot;
@@ -470,9 +567,12 @@ export function LandingPageClient() {
                   <span className={styles.authorRole}>Group admin, Ikeja</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className={`${styles.testimonialCard} ${styles.reveal}`}>
+            <motion.div 
+              whileHover={{ y: -6 }}
+              className={styles.testimonialCard}
+            >
               <span className={styles.quoteMark}>“</span>
               <p className={styles.testimonialText}>
                 &quot;My customers can now check my profile before they book. My new clients doubled in three months.&quot;
@@ -484,7 +584,7 @@ export function LandingPageClient() {
                   <span className={styles.authorRole}>Auto mechanic, Abuja</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -492,11 +592,17 @@ export function LandingPageClient() {
       {/* Install Section */}
       <section className={styles.installSection}>
         <div className={styles.installInner}>
-          <div className={`${styles.sectionHeaderCenter} ${styles.reveal}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className={styles.sectionHeaderCenter}
+          >
             <span className={styles.sectionEyebrow}>EASY INSTALLATION</span>
             <h2 className={styles.sectionTitle}>Get Trustline on your phone</h2>
             <p className={styles.sectionSubtitle}>Choose your device layout below to install Trustline as a light web app</p>
-          </div>
+          </motion.div>
 
           {/* Tab Selection */}
           <div className={styles.tabButtons}>
@@ -522,50 +628,55 @@ export function LandingPageClient() {
 
           {/* Panels */}
           <div className={styles.panelContent}>
-            {activeTab === 'android' && (
-              <div className={styles.panel}>
-                <ol className={styles.stepsList}>
-                  <li>Tap &quot;Get it on Google Play&quot; below</li>
-                  <li>Tap Install — it&apos;s free, no card required</li>
-                  <li>Open Trustline and create your profile</li>
-                </ol>
-                <button className={styles.installActionBtn} onClick={handleAndroidInstall}>
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M5 3.22a.75.75 0 0 0-.22.53v16.5a.75.75 0 0 0 .22.53l9.07-9.06-9.07-9.5zm10.13 8.03l3.03-3.03a.5.5 0 0 0 0-.7l-3.03-3.03-3.03 3.03a.5.5 0 0 0 0 .7l3.03 3.03zm-1.78-4.8L5.59 2.5a1 1 0 0 0-1.18 0l9.07 9.07-2.12-2.12zM5.59 21.5l7.76-3.95-2.12-2.12-9.07 9.07a1 1 0 0 0 1.18-.5z" />
-                  </svg>
-                  Get it on Google Play
-                </button>
-              </div>
-            )}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3 }}
+                className={styles.panel}
+              >
+                {activeTab === 'android' && (
+                  <>
+                    <ol className={styles.stepsList}>
+                      <li>Tap &quot;Get it on Google Play&quot; below</li>
+                      <li>Tap Install — it&apos;s free, no card required</li>
+                      <li>Open Trustline and create your profile</li>
+                    </ol>
+                    <button className={styles.installActionBtn} onClick={handleAndroidInstall}>
+                      <Download size={18} /> Get it on Google Play
+                    </button>
+                  </>
+                )}
 
-            {activeTab === 'ios' && (
-              <div className={styles.panel}>
-                <ol className={styles.stepsList}>
-                  <li>Open Trustline in Safari on your iPhone (Safari required for PWA install on iOS)</li>
-                  <li>Tap the Share button (□↑) at the bottom of Safari</li>
-                  <li>Scroll down and tap &quot;Add to Home Screen&quot; — Trustline appears like a native app</li>
-                </ol>
-                <Link href="/login" className={styles.installActionBtn}>
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.21.67-2.93 1.49-.62.69-1.16 1.84-1.01 2.96 1.12.09 2.27-.57 2.95-1.39z" />
-                  </svg>
-                  Open in Safari →
-                </Link>
-              </div>
-            )}
+                {activeTab === 'ios' && (
+                  <>
+                    <ol className={styles.stepsList}>
+                      <li>Open Trustline in Safari on your iPhone (Safari required for PWA install on iOS)</li>
+                      <li>Tap the Share button (□↑) at the bottom of Safari</li>
+                      <li>Scroll down and tap &quot;Add to Home Screen&quot; — Trustline appears like a native app</li>
+                    </ol>
+                    <Link href="/login" className={styles.installActionBtn}>
+                      <Smartphone size={18} /> Open in Safari →
+                    </Link>
+                  </>
+                )}
 
-            {activeTab === 'web' && (
-              <div className={styles.panel}>
-                <ol className={styles.stepsList}>
-                  <li>Open Trustline in Chrome or Edge</li>
-                  <li>Look for the install icon (⊕) in the address bar</li>
-                  <li>Use it like a native app, even offline</li>
-                </ol>
-                <Link href="/login" className={styles.installActionBtn}>
-                  🌐 Open Trustline in browser
-                </Link>
-              </div>
-            )}
+                {activeTab === 'web' && (
+                  <>
+                    <ol className={styles.stepsList}>
+                      <li>Open Trustline in Chrome or Edge</li>
+                      <li>Look for the install icon (⊕) in the address bar</li>
+                      <li>Use it like a native app, even offline</li>
+                    </ol>
+                    <Link href="/login" className={styles.installActionBtn}>
+                      🌐 Open Trustline in browser
+                    </Link>
+                  </>
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
@@ -617,5 +728,26 @@ export function LandingPageClient() {
         </div>
       </footer>
     </div>
+  )
+}
+
+function AwardIcon(props: any) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+      <circle cx="12" cy="8" r="7" />
+      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+    </svg>
+  )
+}
+
+function GiftIcon(props: any) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+      <polyline points="20 12 20 22 4 22 4 12" />
+      <rect x="2" y="7" width="20" height="5" rx="1" />
+      <line x1="12" y1="22" x2="12" y2="7" />
+      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+    </svg>
   )
 }

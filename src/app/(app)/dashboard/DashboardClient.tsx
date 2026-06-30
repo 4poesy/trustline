@@ -3,6 +3,22 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  TrendingUp, 
+  Award, 
+  ArrowRight, 
+  BookOpen, 
+  Users, 
+  MapPin, 
+  LogOut, 
+  DollarSign, 
+  Activity,
+  Layers,
+  Star,
+  ChevronRight,
+  ShieldAlert
+} from 'lucide-react'
 import { getCreditScore } from '@/lib/supabase/creditScore'
 import { supabase } from '@/lib/supabase/client'
 import { db } from '@/modules/cashflow/db/cashflow-db'
@@ -16,8 +32,9 @@ interface Props {
 export function DashboardClient({ profile }: Props) {
   const router = useRouter()
   const [monthlyIncome, setMonthlyIncome] = useState(0)
-  const [trustScore, setTrustScore] = useState('--')
+  const [trustScore, setTrustScore] = useState<number | null>(null)
   const [creditBand, setCreditBand] = useState('Building')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchMonthlyIncome = async () => {
@@ -25,7 +42,7 @@ export function DashboardClient({ profile }: Props) {
         const now = new Date()
         const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
         
-        const txs = await db.transactions
+        const txs = await db.table('transactions')
           .where('profile_id')
           .equals(profile.id)
           .and(t => t.type === 'income' && t.entry_date >= firstDayOfMonth)
@@ -46,11 +63,13 @@ export function DashboardClient({ profile }: Props) {
       try {
         const { data } = await getCreditScore(profile.id)
         if (data) {
-          setTrustScore(String(data.score))
+          setTrustScore(data.score)
           setCreditBand(data.band)
         }
       } catch (e) {
         console.error('Error fetching trust score:', e)
+      } finally {
+        setLoading(false)
       }
     }
     fetchTrustScore()
@@ -78,11 +97,21 @@ export function DashboardClient({ profile }: Props) {
   }
 
   return (
-    <div className={styles.page}>
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className={styles.page}
+    >
+      {/* Background Decorative Gradients */}
+      <div className={styles.dashboardGlowTeal} />
+      <div className={styles.dashboardGlowGold} />
+
+      {/* Header section with Sophisticated card look */}
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div>
-            <p className={styles.greeting}>{getGreeting()},</p>
+            <span className={styles.greeting}>{getGreeting()},</span>
             <h1 className={styles.userName}>{profile.name}</h1>
           </div>
           <button
@@ -92,26 +121,29 @@ export function DashboardClient({ profile }: Props) {
             aria-label="Sign out"
             id="sign-out-button"
           >
-            <span className={styles.avatarInitial}>
-              {profile.name.charAt(0).toUpperCase()}
-            </span>
+            <LogOut size={16} className={styles.logoutIcon} />
           </button>
         </div>
-        <div className={styles.roleBadge}>
-          {getRoleLabel(profile.role)}
-          {profile.business_type && ` · ${profile.business_type}`}
+        <div className={styles.roleBadgeContainer}>
+          <span className={styles.roleBadge}>
+            <span className={styles.roleBadgeDot} />
+            {getRoleLabel(profile.role)}
+            {profile.business_type && ` · ${profile.business_type}`}
+          </span>
         </div>
       </header>
 
       <main className={styles.main}>
-        {/* Quick Stats - placeholders for future modules */}
+        {/* Quick Stats Grid */}
         <section className={styles.statsGrid}>
-          <div className={`card ${styles.statCard}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className={`card ${styles.statCard}`}
+          >
             <div className={styles.statIcon}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                <line x1="12" y1="1" x2="12" y2="23" />
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-              </svg>
+              <DollarSign size={20} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statValue}>
@@ -119,85 +151,107 @@ export function DashboardClient({ profile }: Props) {
               </span>
               <span className={styles.statLabel}>This month&apos;s income</span>
             </div>
-          </div>
+          </motion.div>
 
-          <Link href="/credit-profile" className={`card ${styles.statCard} ${styles.statCardLink}`}>
-            <div className={`${styles.statIcon} ${styles.statIconSecondary}`}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-            </div>
-            <div className={styles.statContent}>
-              <span className={styles.statValue}>{trustScore} ({creditBand})</span>
-              <span className={styles.statLabel}>Trust score &rarr;</span>
-            </div>
-          </Link>
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            <Link href="/credit-profile" className={`card ${styles.statCard} ${styles.statCardLink}`}>
+              <div className={`${styles.statIcon} ${styles.statIconSecondary}`}>
+                <Award size={20} />
+              </div>
+              <div className={styles.statContent}>
+                <span className={styles.statValue}>
+                  {loading ? '--' : `${trustScore} (${creditBand})`}
+                </span>
+                <span className={styles.statLabel}>Trust score &rarr;</span>
+              </div>
+            </Link>
+          </motion.div>
         </section>
 
-        {/* Module action cards - placeholders */}
+        {/* Dynamic score progress indicator on dashboard */}
+        <AnimatePresence>
+          {!loading && trustScore !== null && (
+            <motion.section 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className={`card ${styles.scoreBarCard}`}
+            >
+              <div className={styles.scoreHeader}>
+                <span className={styles.scoreTitle}>CREDIT HEALTH</span>
+                <span className={styles.scorePercent}>{trustScore}/100</span>
+              </div>
+              <div className={styles.progressBarBg}>
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${trustScore}%` }}
+                  transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                  className={styles.progressBarFill}
+                />
+              </div>
+              <p className={styles.scoreTip}>
+                {trustScore >= 80 ? '🎉 Excellent! You have qualified for premium saving rewards.' : 
+                 trustScore >= 60 ? '👍 Good standing! Keep logging your daily sales to reach Trusted status.' :
+                 '📈 Grow your credit score by recording transactions and saving weekly.'}
+              </p>
+            </motion.section>
+          )}
+        </AnimatePresence>
+
+        {/* Module action cards */}
         <section className={styles.actionCards}>
           <h2 className={styles.sectionTitle}>Quick Actions</h2>
 
-          <Link href="/cashflow" className={`card ${styles.actionCard}`} id="cashflow-action-card">
-            <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-                <line x1="1" y1="10" x2="23" y2="10" />
-              </svg>
-            </div>
-            <div className={styles.actionContent}>
-              <h3 className={styles.actionTitle}>Track your cashflow</h3>
-              <p className={styles.actionDescription}>Log daily income and expenses to build your financial record</p>
-            </div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20" className={styles.chevron}>
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </Link>
+          <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.99 }}>
+            <Link href="/cashflow" className={`card ${styles.actionCard}`} id="cashflow-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
+                <Activity size={22} />
+              </div>
+              <div className={styles.actionContent}>
+                <h3 className={styles.actionTitle}>Track your cashflow</h3>
+                <p className={styles.actionDescription}>Log daily income and expenses to build your financial record</p>
+              </div>
+              <ChevronRight size={18} className={styles.chevron} />
+            </Link>
+          </motion.div>
 
-          <Link href="/directory" className={`card ${styles.actionCard}`} id="directory-action-card">
-            <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-            </div>
-            <div className={styles.actionContent}>
-              <h3 className={styles.actionTitle}>Your public profile</h3>
-              <p className={styles.actionDescription}>Get found by customers and build your reputation with reviews</p>
-            </div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20" className={styles.chevron}>
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </Link>
+          <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.99 }}>
+            <Link href="/directory" className={`card ${styles.actionCard}`} id="directory-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
+                <BookOpen size={22} />
+              </div>
+              <div className={styles.actionContent}>
+                <h3 className={styles.actionTitle}>Your public profile</h3>
+                <p className={styles.actionDescription}>Get found by customers and build your reputation with reviews</p>
+              </div>
+              <ChevronRight size={18} className={styles.chevron} />
+            </Link>
+          </motion.div>
 
-          <Link href="/savings" className={`card ${styles.actionCard}`} id="savings-action-card">
-            <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-            </div>
-            <div className={styles.actionContent}>
-              <h3 className={styles.actionTitle}>Savings groups</h3>
-              <p className={styles.actionDescription}>Join or create an ajo/esusu group and save together</p>
-            </div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20" className={styles.chevron}>
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </Link>
+          <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.99 }}>
+            <Link href="/savings" className={`card ${styles.actionCard}`} id="savings-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
+                <Users size={22} />
+              </div>
+              <div className={styles.actionContent}>
+                <h3 className={styles.actionTitle}>Savings groups</h3>
+                <p className={styles.actionDescription}>Join or create an ajo/esusu group and save together</p>
+              </div>
+              <ChevronRight size={18} className={styles.chevron} />
+            </Link>
+          </motion.div>
         </section>
 
         {/* Location indicator */}
         <div className={styles.locationBar}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-          <span>{profile.location}</span>
+          <MapPin size={16} className={styles.locationIcon} />
+          <span>Active in {profile.location}</span>
         </div>
       </main>
-    </div>
+    </motion.div>
   )
 }
