@@ -128,11 +128,7 @@ export function ProfileClient({ listing, initialReviews }: Props) {
       <nav className={styles.nav}>
         <div className={`container ${styles.navInner}`}>
           <Link href="/directory" className={styles.logo}>
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.logoIcon}>
-              <rect width="40" height="40" rx="10" fill="#0D7C66" />
-              <path d="M12 28L16 14L20 22L24 16L28 24" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="28" cy="24" r="2" fill="#D4A24E" />
-            </svg>
+            <div className={styles.logoMark}>T</div>
             <span className={styles.logoText}>Trustline</span>
           </Link>
           <button className="btn btn-secondary" onClick={() => router.back()}>

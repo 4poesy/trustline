@@ -2,16 +2,24 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { 
+  TrendingUp, 
+  ShoppingBag, 
+  Truck, 
+  Home, 
+  PlusCircle, 
+  X 
+} from 'lucide-react'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { useCashflow } from '@/modules/cashflow/hooks/useCashflow'
 import styles from './page.module.css'
 
 const categories = [
-  { id: 'Sales', label: 'Sales', icon: '💰' },
-  { id: 'Supplies', label: 'Supplies', icon: '📦' },
-  { id: 'Transport', label: 'Transport', icon: '🚗' },
-  { id: 'Rent', label: 'Rent', icon: '🏠' },
-  { id: 'Other', label: 'Other', icon: '⚙️' },
+  { id: 'Sales', label: 'Sales', icon: TrendingUp },
+  { id: 'Supplies', label: 'Supplies', icon: ShoppingBag },
+  { id: 'Transport', label: 'Transport', icon: Truck },
+  { id: 'Rent', label: 'Rent', icon: Home },
+  { id: 'Other', label: 'Other', icon: PlusCircle },
 ]
 
 export default function AddTransactionPage() {
@@ -34,7 +42,6 @@ export default function AddTransactionPage() {
         setAmountStr(prev => (prev === '' ? '0.' : prev + '.'))
       }
     } else {
-      // Prevent typing more than 2 decimal digits
       if (amountStr.includes('.')) {
         const [, decimals] = amountStr.split('.')
         if (decimals && decimals.length >= 2) return
@@ -55,7 +62,6 @@ export default function AddTransactionPage() {
         note: note.trim() || undefined,
         entry_date: entryDate,
       })
-      // Return instantly
       router.replace('/cashflow')
     } catch (e) {
       console.error(e)
@@ -80,13 +86,10 @@ export default function AddTransactionPage() {
     <div className={styles.page}>
       <header className={styles.header}>
         <button className={styles.backButton} onClick={() => router.replace('/cashflow')} aria-label="Cancel">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="24" height="24">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <X size={20} />
         </button>
         <h1 className={styles.title}>New Entry</h1>
-        <div style={{ width: 40 }} /> {/* spacer */}
+        <div style={{ width: 40 }} />
       </header>
 
       <main className={styles.main}>
@@ -120,18 +123,44 @@ export default function AddTransactionPage() {
         <div className={styles.section}>
           <label className={styles.label}>Category</label>
           <div className={styles.categoryGrid}>
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                className={`${styles.categoryChip} ${category === cat.id ? styles.categoryChipActive : ''}`}
-                onClick={() => setCategory(cat.id)}
-              >
-                <span className={styles.categoryIcon}>{cat.icon}</span>
-                <span className={styles.categoryLabel}>{cat.label}</span>
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const IconComponent = cat.icon
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  className={`${styles.categoryChip} ${category === cat.id ? styles.categoryChipActive : ''}`}
+                  onClick={() => setCategory(cat.id)}
+                >
+                  <span className={styles.categoryIcon} style={{ pointerEvents: 'none' }}>
+                    <IconComponent size={20} />
+                  </span>
+                  <span className={styles.categoryLabel} style={{ pointerEvents: 'none' }}>
+                    {cat.label}
+                  </span>
+                </button>
+              )
+            })}
           </div>
+        </div>
+
+        {/* Category Help Content */}
+        <div className={styles.categoryHelpBox}>
+          {category === 'Sales' && (
+            <p><strong>Sales</strong>: Recording income from sales increases your Consistency &amp; Volume scores.</p>
+          )}
+          {category === 'Supplies' && (
+            <p><strong>Supplies</strong>: Log purchases of stock, inventory, raw materials, or wholesale items.</p>
+          )}
+          {category === 'Transport' && (
+            <p><strong>Transport</strong>: Log logistics, dispatch, fueling, or travel expenses for business.</p>
+          )}
+          {category === 'Rent' && (
+            <p><strong>Rent</strong>: Track monthly shop rent, storage fees, or commercial operating space costs.</p>
+          )}
+          {category === 'Other' && (
+            <p><strong>Other</strong>: Log miscellaneous transactions, bank charges, or custom expenses.</p>
+          )}
         </div>
 
         {/* Optional Note & Date */}
@@ -183,7 +212,7 @@ export default function AddTransactionPage() {
               onClick={() => handleKeyPress(key)}
             >
               {key === 'backspace' ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20" style={{ pointerEvents: 'none' }}>
                   <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z" />
                   <line x1="18" y1="9" x2="12" y2="15" />
                   <line x1="12" y1="9" x2="18" y2="15" />

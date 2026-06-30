@@ -14,10 +14,8 @@ import {
   LogOut, 
   DollarSign, 
   Activity,
-  Layers,
-  Star,
   ChevronRight,
-  ShieldAlert
+  ArrowLeft
 } from 'lucide-react'
 import { getCreditScore } from '@/lib/supabase/creditScore'
 import { supabase } from '@/lib/supabase/client'
@@ -103,16 +101,17 @@ export function DashboardClient({ profile }: Props) {
       transition={{ duration: 0.5 }}
       className={styles.page}
     >
-      {/* Background Decorative Gradients */}
-      <div className={styles.dashboardGlowTeal} />
-      <div className={styles.dashboardGlowGold} />
-
-      {/* Header section with Sophisticated card look */}
+      {/* Header section with stagnant solid green background and gold wavy divider */}
       <header className={styles.header}>
         <div className={styles.headerTop}>
-          <div>
-            <span className={styles.greeting}>{getGreeting()},</span>
-            <h1 className={styles.userName}>{profile.name}</h1>
+          <div className={styles.headerLeft}>
+            <Link href="/" className={styles.backArrowLink} title="Back to main website">
+              <ArrowLeft size={20} />
+            </Link>
+            <div>
+              <span className={styles.greeting}>{getGreeting()},</span>
+              <h1 className={styles.userName}>{profile.name}</h1>
+            </div>
           </div>
           <button
             className={styles.avatarButton}
@@ -130,6 +129,14 @@ export function DashboardClient({ profile }: Props) {
             {getRoleLabel(profile.role)}
             {profile.business_type && ` · ${profile.business_type}`}
           </span>
+        </div>
+
+        {/* Replicated Gold Wavy Divider at bottom of header */}
+        <div className={styles.headerBorderBottom}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="var(--color-background)"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--color-secondary-500)" strokeWidth="3"></path>
+          </svg>
         </div>
       </header>
 
@@ -194,9 +201,7 @@ export function DashboardClient({ profile }: Props) {
                 />
               </div>
               <p className={styles.scoreTip}>
-                {trustScore >= 80 ? '🎉 Excellent! You have qualified for premium saving rewards.' : 
-                 trustScore >= 60 ? '👍 Good standing! Keep logging your daily sales to reach Trusted status.' :
-                 '📈 Grow your credit score by recording transactions and saving weekly.'}
+                Grow your credit score by recording transactions and saving weekly.
               </p>
             </motion.section>
           )}
