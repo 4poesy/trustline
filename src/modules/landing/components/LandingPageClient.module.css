@@ -32,13 +32,13 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #E8E4DA;
+  background-color: var(--green-deep);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0 48px;
-  height: 120px;
+  height: 100px;
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
 .navInner {
@@ -57,7 +57,7 @@
 }
 
 .logoFull {
-  height: 104px;
+  height: 76px;
   width: auto;
   object-fit: contain;
 }
@@ -69,7 +69,7 @@
 }
 
 .navLink {
-  color: var(--green-deep);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
@@ -102,7 +102,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  padding-top: 120px; /* nav height */
+  padding-top: 100px; /* nav height */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1563,7 +1563,7 @@
 
 @media (max-width: 768px) {
   .nav { padding: 0 20px; height: 80px; }
-  .logoFull { height: 68px; }
+  .logoFull { height: 56px; }
   .hero { padding-top: 80px; }
   .heroContent {
     padding: 60px 24px 100px;
