@@ -392,7 +392,7 @@ export function LandingPageClient() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS (Horizontal Auto-Scrolling Marquee) ===== */}
+      {/* ===== TESTIMONIALS — Grey.co style: photo left + big quote right, auto-scroll ===== */}
       <section className={styles.testimonialsSection}>
         <div className={styles.testimonialsHeader}>
           <span className={styles.sectionEyebrowLight}>COMMUNITY VOICES</span>
@@ -401,16 +401,20 @@ export function LandingPageClient() {
 
         <div className={styles.testimonialsTrackWrapper}>
           <div className={styles.testimonialsTrack}>
-            {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
+            {[...testimonials, ...testimonials].map((t, i) => (
               <div key={i} className={styles.testimonialCard}>
-                <div className={styles.cardTop}>
-                  <img src={t.image} alt={t.author} className={styles.cardAvatar} />
-                  <div className={styles.cardAuthorInfo}>
-                    <h4 className={styles.cardAuthorName}>{t.author}</h4>
-                    <span className={styles.cardAuthorRole}>{t.role}</span>
+                {/* Left: portrait photo */}
+                <div className={styles.tCardPhoto}>
+                  <img src={t.image} alt={t.author} className={styles.tCardImg} />
+                </div>
+                {/* Right: quote + name */}
+                <div className={styles.tCardBody}>
+                  <p className={styles.tCardQuote}>&ldquo;{t.quote}&rdquo;</p>
+                  <div className={styles.tCardAuthor}>
+                    <span className={styles.tCardName}>{t.author}</span>
+                    <span className={styles.tCardRole}>{t.role}</span>
                   </div>
                 </div>
-                <p className={styles.cardQuote}>&ldquo;{t.quote}&rdquo;</p>
               </div>
             ))}
           </div>

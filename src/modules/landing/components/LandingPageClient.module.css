@@ -747,13 +747,12 @@
 
 /* =============================================
    TESTIMONIALS — Grey.co large card style
-   ============================================= */
 /* =============================================
-   TESTIMONIALS — Horizontal Auto-Scrolling Marquee
+   TESTIMONIALS — Grey.co style: large card, photo left + quote right
    ============================================= */
 .testimonialsSection {
-  background-color: var(--charcoal);
-  padding: 80px 0;
+  background-color: #0D1117;
+  padding: 90px 0 80px;
   overflow: hidden;
 }
 
@@ -763,7 +762,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .sectionEyebrowLight {
@@ -782,94 +781,104 @@
   letter-spacing: -1px;
 }
 
-/* The outer container clips overflow */
+/* Outer wrapper clips overflow + adds edge fades */
 .testimonialsTrackWrapper {
   overflow: hidden;
   width: 100%;
-  /* fade edges */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  padding: 0 40px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
 }
 
-/* The scrolling inner strip — exactly double the cards so we can loop */
+/* Scrolling strip — 2× duplicate, so translateX(-50%) gives seamless loop */
 .testimonialsTrack {
   display: flex;
-  gap: 28px;
+  gap: 32px;
   width: max-content;
-  animation: scrollTestimonials 40s linear infinite;
-  padding: 12px 0 24px; /* breathing room so shadows aren't clipped */
+  animation: scrollTestimonials 50s linear infinite;
+  padding: 16px 0 28px;
 }
 
-/* Pause on hover */
 .testimonialsTrack:hover {
   animation-play-state: paused;
 }
 
 @keyframes scrollTestimonials {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-33.333%); } /* 1/3 of 3× duplicated list */
+  100% { transform: translateX(-50%); }
 }
 
-/* Individual card */
+/* ── Individual large card (Grey.co layout) ── */
 .testimonialCard {
-  background-color: #1E1E1C;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 20px;
-  padding: 36px 32px;
-  width: 360px;
+  background-color: #161B22;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  overflow: hidden;
+  width: 700px;
+  min-height: 340px;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.25s, box-shadow 0.25s;
   cursor: default;
 }
 .testimonialCard:hover {
-  border-color: var(--saffron);
-  transform: translateY(-4px);
+  border-color: rgba(232,160,32,0.45);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
 }
 
-/* Top row: avatar + name/role */
-.cardTop {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+/* Left column — portrait photo */
+.tCardPhoto {
+  overflow: hidden;
+  position: relative;
 }
 
-.cardAvatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+.tCardImg {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: top center;
-  border: 2px solid var(--saffron);
-  flex-shrink: 0;
+  display: block;
 }
 
-.cardAuthorInfo {
+/* Right column — quote + author */
+.tCardBody {
+  padding: 44px 44px 40px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  justify-content: space-between;
+  gap: 28px;
 }
 
-.cardAuthorName {
+.tCardQuote {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  line-height: 1.55;
+  color: #FFFFFF;
+  letter-spacing: -0.2px;
+  flex: 1;
+}
+
+.tCardAuthor {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 20px;
+}
+
+.tCardName {
   font-weight: 700;
   font-size: 1rem;
   color: var(--white);
 }
 
-.cardAuthorRole {
-  font-size: 0.8rem;
+.tCardRole {
+  font-size: 0.85rem;
   color: rgba(255,255,255,0.45);
 }
 
-/* Quote body */
-.cardQuote {
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.75);
-  font-style: italic;
-}
 
 /* =============================================
    PARALLAX DIVIDER
