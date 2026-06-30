@@ -35,7 +35,7 @@
   background-color: #FFFFFF;
   border-bottom: 1px solid #E8E4DA;
   padding: 0 48px;
-  height: 100px;
+  height: 120px;
   display: flex;
   align-items: center;
   box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -57,7 +57,7 @@
 }
 
 .logoFull {
-  height: 84px;
+  height: 104px;
   width: auto;
   object-fit: contain;
 }
@@ -102,7 +102,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  padding-top: 100px; /* nav height */
+  padding-top: 120px; /* nav height */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -913,25 +913,410 @@
    ============================================= */
 .installSection {
   background-color: var(--linen);
-  padding: 100px 0;
+  padding: 120px 0;
 }
 
-.installInner {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 0 24px;
+.installGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 1.3fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.mockupContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mockupPhone {
+  width: 300px;
+  height: 600px;
+  border-radius: 44px;
+  border: 12px solid #1E293B; /* slate-800 */
+  background-color: #0F172A; /* slate-900 */
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3), 0 0 50px rgba(13, 124, 102, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.mockupSpeaker {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130px;
+  height: 20px;
+  background-color: #1E293B;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  z-index: 10;
+}
+
+.mockupScreen {
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Play Store Mockup Styles */
+.mockPlayStore {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #FFFFFF;
+}
+
+.mockPlayHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 16px 12px;
+  background-color: #F8F9FA;
+  border-bottom: 1px solid #E8EAED;
+}
+
+.mockPlayBack {
+  font-size: 20px;
+  color: #5F6368;
+  font-weight: bold;
+}
+
+.mockPlaySearch {
+  font-size: 15px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.mockPlayContent {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.mockPlayAppInfo {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.mockPlayIcon {
+  width: 64px;
+  height: 64px;
+  background-color: #0D7C66;
+  color: #FFFFFF;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.mockPlayAppText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mockPlayTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #202124;
+  margin: 0;
+}
+
+.mockPlayDev {
+  font-size: 14px;
+  color: #01875F;
+  font-weight: 500;
+  margin: 0;
+}
+
+.mockPlayRating {
+  font-size: 12px;
+  color: #5F6368;
+  margin: 0;
+}
+
+.mockPlayInstallBtn {
+  width: 100%;
+  padding: 10px;
+  background-color: #01875F;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mockPlayScreenshots {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.mockPlayScreenItem {
+  flex: 1;
+  border: 1px solid #DADCE0;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #F8F9FA;
+  height: 200px;
+}
+
+.mockInnerApp {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+
+.mockInnerHeader {
+  font-size: 12px;
+  font-weight: bold;
+  color: #0D7C66;
+}
+
+.mockInnerCard {
+  background-color: #FFFFFF;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  border: 1px solid #E8EAED;
+}
+
+.mockInnerCardSecondary {
+  background-color: #FFFFFF;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 10px;
+  border: 1px solid #E8EAED;
+  color: #0D7C66;
+}
+
+/* Safari Mockup Styles */
+.mockSafari {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #F2F2F7;
+}
+
+.mockSafariHeader {
+  padding: 24px 16px 8px;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #D1D1D6;
+}
+
+.mockSafariLock {
+  font-size: 12px;
+}
+
+.mockSafariUrl {
+  font-size: 13px;
+  color: #000000;
+  font-weight: 400;
+}
+
+.mockSafariPage {
+  flex: 1;
+  background-color: #F7F3EC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.mockAppBranding {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.mockAppLogo {
+  font-size: 40px;
+}
+
+.mockAppBranding h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #0D7C66;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.mockAppBranding p {
+  margin: 0;
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.mockSafariMenu {
+  background-color: #FFFFFF;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mockSafariMenuHeader {
+  text-align: center;
+  border-bottom: 1px solid #E5E5EA;
+  padding-bottom: 8px;
+}
+
+.mockSafariMenuTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #8E8E93;
+}
+
+.mockSafariMenuItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #007AFF;
+}
+
+.mockSafariMenuItemActive {
+  background-color: #E5F1FF;
+}
+
+/* PWA Mockup Styles */
+.mockPwa {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #F8F9FA;
+}
+
+.mockPwaHeader {
+  padding: 24px 16px 8px;
+  background-color: #E8EAED;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mockPwaDots {
+  display: flex;
+  gap: 4px;
+}
+
+.mockPwaDots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #5F6368;
+}
+
+.mockPwaUrl {
+  font-size: 12px;
+  color: #5F6368;
+}
+
+.mockPwaPage {
+  flex: 1;
+  background-color: #F7F3EC;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.mockPwaPrompt {
+  position: absolute;
+  bottom: 20px;
+  left: 12px;
+  right: 12px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  border: 1px solid #DADCE0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mockPwaPrompt h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #202124;
+}
+
+.mockPwaPrompt p {
+  margin: 0;
+  font-size: 12px;
+  color: #5F6368;
+  line-height: 1.4;
+}
+
+.mockPwaBtns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.mockPwaCancel {
+  background: none;
+  border: none;
+  color: #5F6368;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+.mockPwaInstall {
+  background-color: #1A73E8;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 16px;
+}
+
+.installContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .tabButtons {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 36px;
-  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
 }
 
 .tabBtn {
-  padding: 10px 22px;
+  padding: 10px 24px;
   border-radius: 100px;
   border: 1.5px solid #C8C2B4;
   background: transparent;
@@ -941,10 +1326,12 @@
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .tabBtn:hover {
   border-color: var(--green-deep);
   color: var(--green-deep);
 }
+
 .tabBtnActive {
   background-color: var(--green-deep);
   border-color: var(--green-deep);
@@ -952,23 +1339,24 @@
 }
 
 .panelContent {
-  min-height: 180px;
+  min-height: 220px;
+  width: 100%;
 }
 
 .panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
 .stepsList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   padding-left: 20px;
   color: var(--charcoal);
-  font-size: 0.975rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .installActionBtn {
@@ -987,6 +1375,7 @@
   align-self: flex-start;
   transition: background-color 0.2s, transform 0.15s;
 }
+
 .installActionBtn:hover {
   background-color: var(--green-light);
   transform: translateY(-2px);
@@ -1108,7 +1497,7 @@
 }
 
 .footerLogo {
-  height: 64px;
+  height: 80px;
   width: auto;
   object-fit: contain;
 }
@@ -1173,9 +1562,9 @@
 }
 
 @media (max-width: 768px) {
-  .nav { padding: 0 20px; height: 72px; }
-  .logoFull { height: 56px; }
-  .hero { padding-top: 72px; }
+  .nav { padding: 0 20px; height: 80px; }
+  .logoFull { height: 68px; }
+  .hero { padding-top: 80px; }
   .heroContent {
     padding: 60px 24px 100px;
     max-width: 100%;
@@ -1205,6 +1594,17 @@
   .stepsDashedLine { display: none; }
   .stepItem { align-items: center; }
   .featuresGrid { grid-template-columns: 1fr; }
+  
+  /* Install grid mobile responsive layout */
+  .installGrid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .mockupPhone {
+    width: 280px;
+    height: 560px;
+  }
   
   /* Testimonial slider mobile responsiveness */
   .tSlide {

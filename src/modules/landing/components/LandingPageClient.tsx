@@ -141,6 +141,93 @@ export function LandingPageClient() {
     return () => clearInterval(timer)
   }, [activeTestimonial])
 
+  const renderPhoneScreen = () => {
+    switch (activeTab) {
+      case 'android':
+        return (
+          <div className={styles.mockPlayStore}>
+            <div className={styles.mockPlayHeader}>
+              <span className={styles.mockPlayBack}>&larr;</span>
+              <span className={styles.mockPlaySearch}>Google Play</span>
+            </div>
+            <div className={styles.mockPlayContent}>
+              <div className={styles.mockPlayAppInfo}>
+                <div className={styles.mockPlayIcon}>🛡️</div>
+                <div className={styles.mockPlayAppText}>
+                  <h4 className={styles.mockPlayTitle}>Trustline</h4>
+                  <p className={styles.mockPlayDev}>Trustline Team</p>
+                  <p className={styles.mockPlayRating}>4.8 ★ · 10K+ downloads</p>
+                </div>
+              </div>
+              <button className={styles.mockPlayInstallBtn} onClick={handleAndroidInstall}>Install</button>
+              <div className={styles.mockPlayScreenshots}>
+                <div className={styles.mockPlayScreenItem}>
+                  <div className={styles.mockInnerApp}>
+                    <div className={styles.mockInnerHeader}>Dashboard</div>
+                    <div className={styles.mockInnerCard}>₦85,000</div>
+                    <div className={styles.mockInnerCardSecondary}>Trust Score: 85</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      case 'ios':
+        return (
+          <div className={styles.mockSafari}>
+            <div className={styles.mockSafariHeader}>
+              <span className={styles.mockSafariLock}>🔒</span>
+              <span className={styles.mockSafariUrl}>trustline.vercel.app</span>
+            </div>
+            <div className={styles.mockSafariPage}>
+              <div className={styles.mockAppBranding}>
+                <span className={styles.mockAppLogo}>🛡️</span>
+                <h3>TRUSTLINE</h3>
+                <p>Your Sales Diary</p>
+              </div>
+            </div>
+            <div className={styles.mockSafariMenu}>
+              <div className={styles.mockSafariMenuHeader}>
+                <span className={styles.mockSafariMenuTitle}>Options</span>
+              </div>
+              <div className={styles.mockSafariMenuItem}>
+                <span>📤 Share...</span>
+              </div>
+              <div className={`${styles.mockSafariMenuItem} ${styles.mockSafariMenuItemActive}`}>
+                <span>➕ <strong>Add to Home Screen</strong></span>
+              </div>
+              <div className={styles.mockSafariMenuItem}>
+                <span>🔖 Add Bookmark</span>
+              </div>
+            </div>
+          </div>
+        )
+      case 'web':
+        return (
+          <div className={styles.mockPwa}>
+            <div className={styles.mockPwaHeader}>
+              <div className={styles.mockPwaDots}><span /><span /><span /></div>
+              <span className={styles.mockPwaUrl}>trustline.vercel.app</span>
+            </div>
+            <div className={styles.mockPwaPage}>
+              <div className={styles.mockAppBranding}>
+                <span className={styles.mockAppLogo}>🛡️</span>
+                <h3>TRUSTLINE</h3>
+              </div>
+              <div className={styles.mockPwaPrompt}>
+                <h4>Install Trustline App?</h4>
+                <p>Run full-screen, launch from desktop, and sync offline.</p>
+                <div className={styles.mockPwaBtns}>
+                  <button className={styles.mockPwaCancel} onClick={() => setActiveTab('android')}>Cancel</button>
+                  <button className={styles.mockPwaInstall} onClick={() => window.open('/login', '_self')}>Install</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+    }
+  }
+
   return (
     <div ref={containerRef} className={styles.page}>
 
@@ -484,73 +571,88 @@ export function LandingPageClient() {
 
       {/* ===== INSTALL SECTION ===== */}
       <section className={styles.installSection}>
-        <div className={styles.installInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderCenter}
-          >
-            <span className={styles.sectionEyebrow}>EASY INSTALLATION</span>
-            <h2 className={styles.sectionTitle}>Get Trustline on your phone</h2>
-            <p className={styles.sectionSubtitle}>Choose your device below to install Trustline as a lightweight web app</p>
-          </motion.div>
+        <div className={styles.sectionInner}>
+          <div className={styles.installGrid}>
+            {/* Left Column: Interactive Phone Mockup */}
+            <div className={styles.mockupContainer}>
+              <div className={styles.mockupPhone}>
+                <div className={styles.mockupSpeaker} />
+                <div className={styles.mockupScreen}>
+                  {renderPhoneScreen()}
+                </div>
+              </div>
+            </div>
 
-          <div className={styles.tabButtons}>
-            <button onClick={() => setActiveTab('android')} className={`${styles.tabBtn} ${activeTab === 'android' ? styles.tabBtnActive : ''}`}>Android</button>
-            <button onClick={() => setActiveTab('ios')} className={`${styles.tabBtn} ${activeTab === 'ios' ? styles.tabBtnActive : ''}`}>iPhone (iOS)</button>
-            <button onClick={() => setActiveTab('web')} className={`${styles.tabBtn} ${activeTab === 'web' ? styles.tabBtnActive : ''}`}>Web App (PWA)</button>
-          </div>
-
-          <div className={styles.panelContent}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
-                className={styles.panel}
+            {/* Right Column: Content + Tabs */}
+            <div className={styles.installContent}>
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6 }}
+                className={styles.sectionHeaderLeft}
               >
-                {activeTab === 'android' && (
-                  <>
-                    <ol className={styles.stepsList}>
-                      <li>Tap &quot;Get it on Google Play&quot; below</li>
-                      <li>Tap Install — it&apos;s free, no card required</li>
-                      <li>Open Trustline and create your profile</li>
-                    </ol>
-                    <button className={styles.installActionBtn} onClick={handleAndroidInstall}>
-                      <Download size={18} /> Get it on Google Play
-                    </button>
-                  </>
-                )}
-                {activeTab === 'ios' && (
-                  <>
-                    <ol className={styles.stepsList}>
-                      <li>Open Trustline in Safari on your iPhone</li>
-                      <li>Tap the Share button (□↑) at the bottom of Safari</li>
-                      <li>Scroll down and tap &quot;Add to Home Screen&quot;</li>
-                    </ol>
-                    <Link href="/login" className={styles.installActionBtn}>
-                      <Smartphone size={18} /> Open in Safari
-                    </Link>
-                  </>
-                )}
-                {activeTab === 'web' && (
-                  <>
-                    <ol className={styles.stepsList}>
-                      <li>Open Trustline in Chrome or Edge</li>
-                      <li>Look for the install icon (⊕) in the address bar</li>
-                      <li>Use it like a native app, even offline</li>
-                    </ol>
-                    <Link href="/login" className={styles.installActionBtn}>
-                      Open Trustline in browser
-                    </Link>
-                  </>
-                )}
+                <span className={styles.sectionEyebrow}>EASY INSTALLATION</span>
+                <h2 className={styles.sectionTitle}>Get Trustline on your phone</h2>
+                <p className={styles.sectionSubtitle}>Choose your device below to install Trustline as a lightweight web app</p>
               </motion.div>
-            </AnimatePresence>
+
+              <div className={styles.tabButtons}>
+                <button onClick={() => setActiveTab('android')} className={`${styles.tabBtn} ${activeTab === 'android' ? styles.tabBtnActive : ''}`}>Android</button>
+                <button onClick={() => setActiveTab('ios')} className={`${styles.tabBtn} ${activeTab === 'ios' ? styles.tabBtnActive : ''}`}>iPhone (iOS)</button>
+                <button onClick={() => setActiveTab('web')} className={`${styles.tabBtn} ${activeTab === 'web' ? styles.tabBtnActive : ''}`}>Web App (PWA)</button>
+              </div>
+
+              <div className={styles.panelContent}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.3 }}
+                    className={styles.panel}
+                  >
+                    {activeTab === 'android' && (
+                      <>
+                        <ol className={styles.stepsList}>
+                          <li>Tap &quot;Get it on Google Play&quot; below</li>
+                          <li>Tap Install — it&apos;s free, no card required</li>
+                          <li>Open Trustline and create your profile</li>
+                        </ol>
+                        <button className={styles.installActionBtn} onClick={handleAndroidInstall}>
+                          <Download size={18} /> Get it on Google Play
+                        </button>
+                      </>
+                    )}
+                    {activeTab === 'ios' && (
+                      <>
+                        <ol className={styles.stepsList}>
+                          <li>Open Trustline in Safari on your iPhone</li>
+                          <li>Tap the Share button (□↑) at the bottom of Safari</li>
+                          <li>Scroll down and tap &quot;Add to Home Screen&quot;</li>
+                        </ol>
+                        <Link href="/login" className={styles.installActionBtn}>
+                          <Smartphone size={18} /> Open in Safari
+                        </Link>
+                      </>
+                    )}
+                    {activeTab === 'web' && (
+                      <>
+                        <ol className={styles.stepsList}>
+                          <li>Open Trustline in Chrome or Edge</li>
+                          <li>Look for the install icon (⊕) in the address bar</li>
+                          <li>Use it like a native app, even offline</li>
+                        </ol>
+                        <Link href="/login" className={styles.installActionBtn}>
+                          Open Trustline in browser
+                        </Link>
+                      </>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
           </div>
         </div>
       </section>

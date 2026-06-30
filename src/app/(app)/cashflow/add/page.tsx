@@ -85,8 +85,11 @@ export default function AddTransactionPage() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <button className={styles.backButton} onClick={() => router.replace('/cashflow')} aria-label="Cancel">
-          <X size={20} />
+        <button className={styles.backButton} onClick={() => router.replace('/cashflow')} aria-label="Back to cashflow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
         </button>
         <h1 className={styles.title}>New Entry</h1>
         <div style={{ width: 40 }} />
