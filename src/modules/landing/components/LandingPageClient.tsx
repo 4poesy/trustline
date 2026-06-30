@@ -13,46 +13,44 @@ import {
   WifiOff, 
   Download,
   Check,
-  TrendingUp
+  TrendingUp,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import styles from './LandingPageClient.module.css'
 
 // Simple Counter Component to animate numbers when in view
-function StatCounter({ value, duration = 2 }: { value: string; duration?: number }) {
+function StatCounter({ value }: { value: string }) {
+  const suffix = value.replace(/[\d,]/g, '')
+  const num = parseInt(value.replace(/[^0-9]/g, ''), 10)
   const [displayValue, setDisplayValue] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
-  const numericValue = parseInt(value.replace(/[^0-9]/g, ''), 10)
-  const suffix = value.replace(/[0-9]/g, '')
+  const started = useRef(false)
 
   useEffect(() => {
-    let observer: IntersectionObserver
-    let startTimestamp: number | null = null
-
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp
-      const progress = Math.min((timestamp - startTimestamp) / (duration * 1000), 1)
-      setDisplayValue(Math.floor(progress * numericValue))
-      if (progress < 1) {
-        window.requestAnimationFrame(step)
-      }
-    }
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting) {
-        window.requestAnimationFrame(step)
-        observer.disconnect()
-      }
-    }
-
-    if (ref.current) {
-      observer = new IntersectionObserver(handleIntersect, { threshold: 0.5 })
-      observer.observe(ref.current)
-    }
-
-    return () => {
-      if (observer) observer.disconnect()
-    }
-  }, [numericValue, duration])
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true
+          let start = 0
+          const duration = 1400
+          const step = (timestamp: number) => {
+            if (!start) start = timestamp
+            const progress = Math.min((timestamp - start) / duration, 1)
+            setDisplayValue(Math.floor(progress * num))
+            if (progress < 1) requestAnimationFrame(step)
+            else setDisplayValue(num)
+          }
+          requestAnimationFrame(step)
+        }
+      },
+      { threshold: 0.5 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [num])
 
   return (
     <span ref={ref} className={styles.statNum}>
@@ -64,7 +62,29 @@ function StatCounter({ value, duration = 2 }: { value: string; duration?: number
 export function LandingPageClient() {
   const [activeTab, setActiveTab] = useState<'android' | 'ios' | 'web'>('android')
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const testimonials = [
+    {
+      quote: "I've been selling fabrics for 9 years. I never had a way to show how much I earn. Trustline gave me a record I could actually show to a lender — it changed everything for me.",
+      author: "Adaeze O.",
+      role: "Fabric seller, Balogun Market",
+      image: "/images/trader-hero.png",
+    },
+    {
+      quote: "Our ajo group had arguments every month about who had paid. Since we moved to Trustline, everything is clear and transparent. No more quarrels, no more missing money.",
+      author: "Kemi B.",
+      role: "Group admin, Ikeja",
+      image: "/images/hairdresser.png",
+    },
+    {
+      quote: "My customers can now check my profile before they book. My business grew 3x in three months just because they could see real reviews from real people.",
+      author: "Emeka C.",
+      role: "Auto mechanic, Abuja",
+      image: "/images/trader-hero.png",
+    }
+  ]
 
   // Auto-detect user device on mount
   useEffect(() => {
@@ -92,279 +112,193 @@ export function LandingPageClient() {
   const handleAndroidInstall = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt()
-      const { outcome } = await deferredPrompt.userChoice
-      if (outcome === 'accepted') {
-        setDeferredPrompt(null)
-      }
+      await deferredPrompt.userChoice
+      setDeferredPrompt(null)
     } else {
       window.open('https://play.google.com/store/apps/details?id=app.trustline', '_blank')
     }
   }
 
+  const prevTestimonial = () => setActiveTestimonial(i => (i - 1 + testimonials.length) % testimonials.length)
+  const nextTestimonial = () => setActiveTestimonial(i => (i + 1) % testimonials.length)
+
   return (
     <div ref={containerRef} className={styles.page}>
-      {/* Navigation - Stagnant header, doesn't scroll with scrollY */}
+
+      {/* ===== NAVIGATION ===== */}
       <nav className={styles.nav}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.logo}>
-            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
-            <span className={styles.logoText}>Trustline</span>
+            <img src="/images/logo-full.jpg" alt="Trustline – Your Sales Diary" className={styles.logoFull} />
           </Link>
           <div className={styles.navLinksRight}>
+            <Link href="/directory" className={styles.navLink}>Directory</Link>
             <Link href="/login" className={styles.navCta}>
-              Get the App
+              Get started — it&apos;s free
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* ===== HERO SECTION (Grey.co style — dark, full-width, image bleeds to edge) ===== */}
       <header className={styles.hero}>
         <div className={styles.heroInner}>
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             className={styles.heroContent}
           >
-            <div className={styles.heroEyebrowRow}>
-              <span className={styles.heroEyebrowLine} />
-              <span className={styles.heroEyebrow}>FOR TRADERS · VENDORS · SERVICE PROVIDERS</span>
-            </div>
+            <p className={styles.heroEyebrow}>For traders · vendors · service providers</p>
             <h1 className={styles.heroTitle}>
-              Build your credit history.<br />
-              <span className={styles.heroTitleItalic}>No bank needed.</span>
+              Your daily hustle,<br />
+              <span className={styles.heroTitleAccent}>now on record.</span>
             </h1>
             <p className={styles.heroDescription}>
-              Track your daily income, get reviews from customers, and save together with your community. Trustline turns your everyday hustle into a provable financial record.
+              Track income, collect customer reviews, save with your group. Trustline turns your everyday work into a provable financial history.
             </p>
-            
-            {/* Flat store buttons */}
-            <div className={styles.storeButtonsRow}>
-              <a href="https://play.google.com/store/apps/details?id=app.trustline" target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
-                <Smartphone className={styles.storeIcon} />
-                <div className={styles.storeTextCol}>
-                  <span className={styles.storeLabel}>Get it on</span>
-                  <span className={styles.storeName}>Google Play</span>
-                </div>
-              </a>
-              <a href="https://apps.apple.com/us/app/trustline/id164" target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
-                <Smartphone className={styles.storeIcon} />
-                <div className={styles.storeTextCol}>
-                  <span className={styles.storeLabel}>Download on the</span>
-                  <span className={styles.storeName}>App Store</span>
-                </div>
-              </a>
+            <div className={styles.heroCtas}>
+              <Link href="/login" className={styles.heroPrimaryBtn}>
+                Get started — it&apos;s free
+              </Link>
+              <Link href="/directory" className={styles.heroSecondaryBtn}>
+                Explore directory <ArrowRight size={16} />
+              </Link>
             </div>
-
-            <div className={styles.separator}>— or —</div>
-
-            <Link href="/login" className={styles.heroBrowserCta}>
-              Open in browser — it&apos;s free <ArrowRight className={styles.btnArrow} />
-            </Link>
-
             <div className={styles.trustSignals}>
-              <span className={styles.signalWord}><Check className={styles.signalCheck} /> Free to use</span>
+              <span><Check size={14} className={styles.signalCheck} /> Free to use</span>
               <span className={styles.signalsDot}>·</span>
-              <span className={styles.signalWord}><Check className={styles.signalCheck} /> No bank required</span>
+              <span><Check size={14} className={styles.signalCheck} /> No bank required</span>
               <span className={styles.signalsDot}>·</span>
-              <span className={styles.signalWord}><Check className={styles.signalCheck} /> Works offline</span>
+              <span><Check size={14} className={styles.signalCheck} /> Works offline</span>
             </div>
           </motion.div>
 
-          {/* Right Column: Replaced card mockup with beautiful African trader image */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className={styles.heroImageContainer}
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            className={styles.heroImageWrap}
           >
             <img 
               src="/images/trader-hero.png" 
-              alt="Trusted Trader" 
-              className={styles.heroImage} 
+              alt="Nigerian trader using Trustline" 
+              className={styles.heroImage}
             />
           </motion.div>
         </div>
-
-        {/* Replicated Wave divider below hero section */}
-        <div className={styles.heroBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--sage)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
-        </div>
       </header>
 
-      {/* Stats Bar */}
+      {/* ===== STATS BAR ===== */}
       <section className={styles.statsBar}>
         <div className={styles.statsInner}>
           <div className={styles.statItem}>
             <StatCounter value="12000+" />
             <span className={styles.statLabel}>Active traders</span>
           </div>
+          <div className={styles.statDivider} />
           <div className={styles.statItem}>
-            <StatCounter value="₦2.4B+" />
-            <span className={styles.statLabel}>Income tracked</span>
+            <StatCounter value="2400000000+" />
+            <span className={styles.statLabel}>Naira tracked</span>
           </div>
+          <div className={styles.statDivider} />
           <div className={styles.statItem}>
             <StatCounter value="340+" />
             <span className={styles.statLabel}>Ajo groups active</span>
           </div>
+          <div className={styles.statDivider} />
           <div className={styles.statItem}>
-            <StatCounter value="4.9★" />
+            <StatCounter value="4.9" />
             <span className={styles.statLabel}>Average trust score</span>
           </div>
         </div>
-
-        {/* Replicated Wave divider below stats bar */}
-        <div className={styles.statsBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--linen)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
-        </div>
       </section>
 
-      {/* "Who It's For" Section */}
+      {/* ===== WHO IT'S FOR ===== */}
       <section className={styles.whoSection}>
         <div className={styles.sectionInner}>
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
             className={styles.sectionHeaderLeft}
           >
             <span className={styles.sectionEyebrow}>WHO WE SERVE</span>
-            <h2 className={styles.sectionTitle}>Built for people who work hard every day</h2>
+            <h2 className={styles.sectionTitle}>Built for people who<br />work hard every day</h2>
             <p className={styles.sectionSubtitle}>Whether you sell goods, offer services, or save with a group — Trustline is for you</p>
           </motion.div>
 
           <div className={styles.cardGrid}>
-            <motion.div 
-              whileHover={{ y: -8 }}
-              className={styles.whoCard}
-            >
-              <div className={styles.whoIconSquare}>
-                <Wallet className={styles.whoIcon} />
-              </div>
-              <h3 className={styles.whoCardTitle}>Traders &amp; Vendors</h3>
-              <p className={styles.whoCardText}>
-                Market sellers, shop owners, anyone who buys and sells. Log every sale, track supply costs, see your real profit day by day.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -8 }}
-              className={styles.whoCard}
-            >
-              <div className={styles.whoIconSquare}>
-                <Sparkles className={styles.whoIcon} />
-              </div>
-              <h3 className={styles.whoCardTitle}>Service Providers</h3>
-              <p className={styles.whoCardText}>
-                Tailors, mechanics, hairdressers, electricians. Build a public profile customers can review so new clients know you&apos;re trustworthy.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -8 }}
-              className={styles.whoCard}
-            >
-              <div className={styles.whoIconSquare}>
-                <Users className={styles.whoIcon} />
-              </div>
-              <h3 className={styles.whoCardTitle}>Savings Groups</h3>
-              <p className={styles.whoCardText}>
-                Ajo, esusu, contribution circles. Manage rotating savings digitally — track who&apos;s paid, whose turn it is, never lose money to poor records.
-              </p>
-            </motion.div>
+            {[
+              { icon: <Wallet size={26} />, title: "Traders & Vendors", text: "Market sellers, shop owners, anyone who buys and sells. Log every sale, track supply costs, see your real profit day by day." },
+              { icon: <Sparkles size={26} />, title: "Service Providers", text: "Tailors, mechanics, hairdressers, electricians. Build a public profile customers can review so new clients know you're trustworthy." },
+              { icon: <Users size={26} />, title: "Savings Groups", text: "Ajo, esusu, contribution circles. Manage rotating savings digitally — track who's paid, whose turn it is, never lose money to poor records." },
+            ].map((card, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileHover={{ y: -8 }}
+                className={styles.whoCard}
+              >
+                <div className={styles.whoIconSquare}>{card.icon}</div>
+                <h3 className={styles.whoCardTitle}>{card.title}</h3>
+                <p className={styles.whoCardText}>{card.text}</p>
+              </motion.div>
+            ))}
           </div>
-        </div>
-
-        {/* Replicated Wave divider below who section */}
-        <div className={styles.whoBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--linen-dark)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
         </div>
       </section>
 
-      {/* "How It Works" Section */}
+      {/* ===== HOW IT WORKS ===== */}
       <section className={styles.howSection}>
         <div className={styles.sectionInner}>
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
             className={styles.sectionHeaderCenter}
           >
-            <span className={styles.sectionEyebrow}>SIMPLE STEPS</span>
-            <h2 className={styles.sectionTitle}>How Trustline works</h2>
-            <p className={styles.sectionSubtitle}>Three simple steps to start building your financial reputation</p>
+            <span className={styles.sectionEyebrowLight}>SIMPLE STEPS</span>
+            <h2 className={styles.sectionTitleLight}>How Trustline works</h2>
+            <p className={styles.sectionSubtitleLight}>Three simple steps to start building your financial reputation</p>
           </motion.div>
 
           <div className={styles.stepsGrid}>
-            <div className={styles.stepCard}>
-              <div className={styles.stepCircleWrapper}>
-                <div className={styles.stepCircle}>
-                  <TrendingUp size={28} />
-                </div>
-                <span className={styles.stepBadge}>1</span>
-              </div>
-              <h3 className={styles.stepTitle}>Log your income</h3>
-              <p className={styles.stepText}>
-                Record daily sales and expenses in seconds. Works without internet, syncs when you reconnect.
-              </p>
-            </div>
-
-            <div className={styles.stepCard}>
-              <div className={styles.stepCircleWrapper}>
-                <div className={styles.stepCircle}>
-                  <Star size={28} />
-                </div>
-                <span className={styles.stepBadge}>2</span>
-              </div>
-              <h3 className={styles.stepTitle}>Build your reputation</h3>
-              <p className={styles.stepText}>
-                Share your profile link with customers. Every review strengthens your record.
-              </p>
-            </div>
-
-            <div className={styles.stepCard}>
-              <div className={styles.stepCircleWrapper}>
-                <div className={styles.stepCircle}>
-                  <AwardIcon size={28} />
-                </div>
-                <span className={styles.stepBadge}>3</span>
-              </div>
-              <h3 className={styles.stepTitle}>Access credit &amp; savings</h3>
-              <p className={styles.stepText}>
-                Your income record becomes your credit history. Join ajo groups, qualify for micro-credit, prove your worth.
-              </p>
-            </div>
+            {[
+              { num: "01", icon: <TrendingUp size={28} />, title: "Log your income", text: "Record daily sales and expenses in seconds. Works without internet, syncs when you reconnect." },
+              { num: "02", icon: <Star size={28} />, title: "Build your reputation", text: "Share your profile link with customers. Every review strengthens your record." },
+              { num: "03", icon: <AwardIcon size={28} />, title: "Access credit & savings", text: "Your income record becomes your credit history. Join ajo groups, qualify for micro-credit, prove your worth." },
+            ].map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className={styles.stepCard}
+              >
+                <span className={styles.stepNum}>{step.num}</span>
+                <div className={styles.stepCircle}>{step.icon}</div>
+                <h3 className={styles.stepTitle}>{step.title}</h3>
+                <p className={styles.stepText}>{step.text}</p>
+              </motion.div>
+            ))}
           </div>
-        </div>
-
-        {/* Replicated Wave divider below how section */}
-        <div className={styles.howBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--green-deep)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* ===== FEATURES GRID (Grey.co dark bento style) ===== */}
       <section className={styles.featuresSection}>
         <div className={styles.sectionInner}>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
             className={styles.sectionHeaderCenter}
           >
@@ -373,179 +307,105 @@ export function LandingPageClient() {
           </motion.div>
 
           <div className={styles.featuresGrid}>
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
-              <div className={styles.featureIconWrapper}>
-                <WifiOff size={22} />
-              </div>
-              <h3 className={styles.featureTitle}>Works offline</h3>
-              <p className={styles.featureText}>
-                Log income and expenses with no data. Syncs automatically when back online.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
-              <div className={styles.featureIconWrapper}>
-                <Star size={22} />
-              </div>
-              <h3 className={styles.featureTitle}>Customer reviews</h3>
-              <p className={styles.featureText}>
-                Customers rate you directly. A real public profile is your most powerful marketing tool.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
-              <div className={styles.featureIconWrapper}>
-                <Users size={22} />
-              </div>
-              <h3 className={styles.featureTitle}>Ajo &amp; savings groups</h3>
-              <p className={styles.featureText}>
-                Manage rotating savings with full transparency. Everyone sees the records, no disputes.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
-              <div className={styles.featureIconWrapper}>
-                <GiftIcon size={22} />
-              </div>
-              <h3 className={styles.featureTitle}>Completely free</h3>
-              <p className={styles.featureText}>
-                No subscription fees, no hidden charges. Every hardworking person deserves a financial identity.
-              </p>
-            </motion.div>
+            {[
+              { icon: <WifiOff size={22} />, title: "Works offline", text: "Log income and expenses with no data. Syncs automatically when back online." },
+              { icon: <Star size={22} />, title: "Customer reviews", text: "Customers rate you directly. A real public profile is your most powerful marketing tool." },
+              { icon: <Users size={22} />, title: "Ajo & savings groups", text: "Manage rotating savings with full transparency. Everyone sees the records, no disputes." },
+              { icon: <GiftIcon size={22} />, title: "Completely free", text: "No subscription fees, no hidden charges. Every hardworking person deserves a financial identity." },
+            ].map((feat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                whileHover={{ scale: 1.02 }}
+                className={styles.featureCard}
+              >
+                <div className={styles.featureIconWrapper}>{feat.icon}</div>
+                <h3 className={styles.featureTitle}>{feat.title}</h3>
+                <p className={styles.featureText}>{feat.text}</p>
+              </motion.div>
+            ))}
           </div>
-        </div>
-
-        {/* Replicated Wave divider below features section */}
-        <div className={styles.featuresBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#FFFFFF"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* ===== TESTIMONIALS (Grey.co large card style) ===== */}
       <section className={styles.testimonialsSection}>
-        <div className={styles.sectionInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderCenter}
-          >
-            <span className={styles.sectionEyebrow}>COMMUNITY VOICES</span>
-            <h2 className={styles.sectionTitle}>Deserving profiles build real trust</h2>
-          </motion.div>
-
-          <div className={styles.testimonialsGrid}>
-            <motion.div 
-              whileHover={{ y: -6 }}
+        <div className={styles.testimonialsInner}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTestimonial}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.4 }}
               className={styles.testimonialCard}
             >
-              <span className={styles.quoteMark}>“</span>
-              <p className={styles.testimonialText}>
-                &quot;I&apos;ve been selling fabrics for 9 years. I never had a way to show how much I earn. Trustline gave me a record I could actually show to a lender.&quot;
-              </p>
-              <div className={styles.authorRow}>
-                <div className={styles.avatarCircle}>A</div>
-                <div>
-                  <h4 className={styles.authorName}>Adaeze O.</h4>
-                  <span className={styles.authorRole}>Fabric seller, Balogun Market</span>
+              <div className={styles.testimonialImgCol}>
+                <img
+                  src={testimonials[activeTestimonial].image}
+                  alt={testimonials[activeTestimonial].author}
+                  className={styles.testimonialImg}
+                />
+              </div>
+              <div className={styles.testimonialTextCol}>
+                <p className={styles.testimonialQuote}>
+                  &ldquo;{testimonials[activeTestimonial].quote}&rdquo;
+                </p>
+                <div className={styles.testimonialAuthor}>
+                  <span className={styles.authorName}>{testimonials[activeTestimonial].author}</span>
+                  <span className={styles.authorRole}>{testimonials[activeTestimonial].role}</span>
+                </div>
+                <div className={styles.testimonialNav}>
+                  <button onClick={prevTestimonial} className={styles.navArrow} aria-label="Previous testimonial">
+                    <ChevronLeft size={20} />
+                  </button>
+                  <div className={styles.testimonialDots}>
+                    {testimonials.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setActiveTestimonial(i)}
+                        className={`${styles.dot} ${i === activeTestimonial ? styles.dotActive : ''}`}
+                        aria-label={`Go to testimonial ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                  <button onClick={nextTestimonial} className={styles.navArrow} aria-label="Next testimonial">
+                    <ChevronRight size={20} />
+                  </button>
                 </div>
               </div>
             </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -6 }}
-              className={styles.testimonialCard}
-            >
-              <span className={styles.quoteMark}>“</span>
-              <p className={styles.testimonialText}>
-                &quot;Our ajo group had arguments every month about who had paid. Since we moved to Trustline, everything is clear. No more quarrels.&quot;
-              </p>
-              <div className={styles.authorRow}>
-                <div className={styles.avatarCircle}>K</div>
-                <div>
-                  <h4 className={styles.authorName}>Kemi B.</h4>
-                  <span className={styles.authorRole}>Group admin, Ikeja</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -6 }}
-              className={styles.testimonialCard}
-            >
-              <span className={styles.quoteMark}>“</span>
-              <p className={styles.testimonialText}>
-                &quot;My customers can now check my profile before they book. My new clients doubled in three months.&quot;
-              </p>
-              <div className={styles.authorRow}>
-                <div className={styles.avatarCircle}>E</div>
-                <div>
-                  <h4 className={styles.authorName}>Emeka C.</h4>
-                  <span className={styles.authorRole}>Auto mechanic, Abuja</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* Parallax Divider Image of Somebody */}
+      {/* ===== PARALLAX DIVIDER ===== */}
       <div className={styles.parallaxSection} />
 
-      {/* Install Section */}
+      {/* ===== INSTALL SECTION ===== */}
       <section className={styles.installSection}>
         <div className={styles.installInner}>
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
             className={styles.sectionHeaderCenter}
           >
             <span className={styles.sectionEyebrow}>EASY INSTALLATION</span>
             <h2 className={styles.sectionTitle}>Get Trustline on your phone</h2>
-            <p className={styles.sectionSubtitle}>Choose your device layout below to install Trustline as a light web app</p>
+            <p className={styles.sectionSubtitle}>Choose your device below to install Trustline as a lightweight web app</p>
           </motion.div>
 
-          {/* Tab Selection */}
           <div className={styles.tabButtons}>
-            <button
-              onClick={() => setActiveTab('android')}
-              className={`${styles.tabBtn} ${activeTab === 'android' ? styles.tabBtnActive : ''}`}
-            >
-              Android
-            </button>
-            <button
-              onClick={() => setActiveTab('ios')}
-              className={`${styles.tabBtn} ${activeTab === 'ios' ? styles.tabBtnActive : ''}`}
-            >
-              iPhone (iOS)
-            </button>
-            <button
-              onClick={() => setActiveTab('web')}
-              className={`${styles.tabBtn} ${activeTab === 'web' ? styles.tabBtnActive : ''}`}
-            >
-              Web App (PWA)
-            </button>
+            <button onClick={() => setActiveTab('android')} className={`${styles.tabBtn} ${activeTab === 'android' ? styles.tabBtnActive : ''}`}>Android</button>
+            <button onClick={() => setActiveTab('ios')} className={`${styles.tabBtn} ${activeTab === 'ios' ? styles.tabBtnActive : ''}`}>iPhone (iOS)</button>
+            <button onClick={() => setActiveTab('web')} className={`${styles.tabBtn} ${activeTab === 'web' ? styles.tabBtnActive : ''}`}>Web App (PWA)</button>
           </div>
 
-          {/* Panels */}
           <div className={styles.panelContent}>
             <AnimatePresence mode="wait">
               <motion.div
@@ -568,20 +428,18 @@ export function LandingPageClient() {
                     </button>
                   </>
                 )}
-
                 {activeTab === 'ios' && (
                   <>
                     <ol className={styles.stepsList}>
-                      <li>Open Trustline in Safari on your iPhone (Safari required for PWA install on iOS)</li>
+                      <li>Open Trustline in Safari on your iPhone</li>
                       <li>Tap the Share button (□↑) at the bottom of Safari</li>
-                      <li>Scroll down and tap &quot;Add to Home Screen&quot; — Trustline appears like a native app</li>
+                      <li>Scroll down and tap &quot;Add to Home Screen&quot;</li>
                     </ol>
                     <Link href="/login" className={styles.installActionBtn}>
                       <Smartphone size={18} /> Open in Safari
                     </Link>
                   </>
                 )}
-
                 {activeTab === 'web' && (
                   <>
                     <ol className={styles.stepsList}>
@@ -598,17 +456,9 @@ export function LandingPageClient() {
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Replicated Wave divider below install section */}
-        <div className={styles.installBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--green-deep)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
-        </div>
       </section>
 
-      {/* Final CTA Section */}
+      {/* ===== FINAL CTA ===== */}
       <section className={styles.finalCtaSection}>
         <div className={styles.finalCtaInner}>
           <span className={styles.finalEyebrow}>Your work is your proof</span>
@@ -631,14 +481,11 @@ export function LandingPageClient() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* ===== FOOTER ===== */}
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <div className={styles.footerBrand}>
-            <div className={styles.logo}>
-              <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
-              <span className={styles.logoTextCharcoal}>Trustline</span>
-            </div>
+            <img src="/images/logo-full.jpg" alt="Trustline" className={styles.footerLogo} />
             <p className={styles.footerTagline}>Building financial trust for Africa&apos;s informal economy.</p>
           </div>
           <div className={styles.footerLinks}>
