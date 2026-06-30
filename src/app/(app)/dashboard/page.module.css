@@ -129,7 +129,7 @@
   padding: var(--space-4);
   max-width: var(--max-width-content);
   margin: 0 auto;
-  margin-top: -50px;
+  margin-top: 24px;
   position: relative;
   z-index: 3;
 }

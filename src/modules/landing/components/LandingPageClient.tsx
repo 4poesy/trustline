@@ -133,6 +133,14 @@ export function LandingPageClient() {
     setActiveTestimonial(i => (i + 1) % testimonials.length)
   }
 
+  // Auto-advance testimonials every 6 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      goNext()
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [activeTestimonial])
+
   return (
     <div ref={containerRef} className={styles.page}>
 
@@ -280,17 +288,35 @@ export function LandingPageClient() {
       {/* ===== WHO IT'S FOR ===== */}
       <section className={styles.whoSection}>
         <div className={styles.sectionInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderLeft}
-          >
-            <span className={styles.sectionEyebrow}>WHO WE SERVE</span>
-            <h2 className={styles.sectionTitle}>Built for people who<br />work hard every day</h2>
-            <p className={styles.sectionSubtitle}>Whether you sell goods, offer services, or save with a group — Trustline is for you</p>
-          </motion.div>
+          <div className={styles.whoIntro}>
+            {/* Left Column: Image depicting hard workers */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              className={styles.whoImageCol}
+            >
+              <img
+                src="/images/barrow_pushers.png"
+                alt="Hardworking workers pushing carts"
+                className={styles.whoIntroImage}
+              />
+            </motion.div>
+
+            {/* Right Column: Text content */}
+            <motion.div 
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              className={styles.whoTextCol}
+            >
+              <span className={styles.sectionEyebrow}>WHO WE SERVE</span>
+              <h2 className={styles.sectionTitle}>Built for people who<br />work hard every day</h2>
+              <p className={styles.sectionSubtitle}>Whether you sell goods, offer services, or save with a group — Trustline is for you</p>
+            </motion.div>
+          </div>
 
           <div className={styles.cardGrid}>
             {[
