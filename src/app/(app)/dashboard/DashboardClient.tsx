@@ -14,7 +14,6 @@ import {
   LogOut, 
   DollarSign, 
   Activity,
-  ChevronRight,
   ArrowLeft
 } from 'lucide-react'
 import { getCreditScore } from '@/lib/supabase/creditScore'
@@ -207,48 +206,59 @@ export function DashboardClient({ profile }: Props) {
           )}
         </AnimatePresence>
 
-        {/* Module action cards */}
+        {/* Module action cards - Grid layout */}
         <section className={styles.actionCards}>
           <h2 className={styles.sectionTitle}>Quick Actions</h2>
 
-          <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.99 }}>
-            <Link href="/cashflow" className={`card ${styles.actionCard}`} id="cashflow-action-card">
-              <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
-                <Activity size={22} />
-              </div>
-              <div className={styles.actionContent}>
-                <h3 className={styles.actionTitle}>Track your cashflow</h3>
-                <p className={styles.actionDescription}>Log daily income and expenses to build your financial record</p>
-              </div>
-              <ChevronRight size={18} className={styles.chevron} />
-            </Link>
-          </motion.div>
+          <div className={styles.actionGrid}>
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              whileHover={{ y: -4 }} 
+              whileTap={{ scale: 0.97 }}
+            >
+              <Link href="/cashflow" className={`card ${styles.actionCard}`} id="cashflow-action-card">
+                <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
+                  <Activity size={24} />
+                </div>
+                <h3 className={styles.actionTitle}>Track Cashflow</h3>
+                <p className={styles.actionDescription}>Log daily income &amp; expenses to build your financial record</p>
+              </Link>
+            </motion.div>
 
-          <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.99 }}>
-            <Link href="/directory" className={`card ${styles.actionCard}`} id="directory-action-card">
-              <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
-                <BookOpen size={22} />
-              </div>
-              <div className={styles.actionContent}>
-                <h3 className={styles.actionTitle}>Your public profile</h3>
-                <p className={styles.actionDescription}>Get found by customers and build your reputation with reviews</p>
-              </div>
-              <ChevronRight size={18} className={styles.chevron} />
-            </Link>
-          </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              whileHover={{ y: -4 }} 
+              whileTap={{ scale: 0.97 }}
+            >
+              <Link href="/directory" className={`card ${styles.actionCard}`} id="directory-action-card">
+                <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
+                  <BookOpen size={24} />
+                </div>
+                <h3 className={styles.actionTitle}>Public Profile</h3>
+                <p className={styles.actionDescription}>Get found by customers and grow your reputation</p>
+              </Link>
+            </motion.div>
 
-          <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.99 }}>
-            <Link href="/savings" className={`card ${styles.actionCard}`} id="savings-action-card">
-              <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
-                <Users size={22} />
-              </div>
-              <div className={styles.actionContent}>
-                <h3 className={styles.actionTitle}>Savings groups</h3>
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              whileHover={{ y: -4 }} 
+              whileTap={{ scale: 0.97 }}
+            >
+              <Link href="/savings" className={`card ${styles.actionCard}`} id="savings-action-card">
+                <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
+                  <Users size={24} />
+                </div>
+                <h3 className={styles.actionTitle}>Savings Groups</h3>
                 <p className={styles.actionDescription}>Join or create an ajo/esusu group and save together</p>
-              </div>
-              <ChevronRight size={18} className={styles.chevron} />
-            </Link>
-          </motion.div>
+              </Link>
+            </motion.div>
+          </div>
         </section>
 
         {/* Location indicator */}
