@@ -201,23 +201,18 @@ export function LandingPageClient() {
             </div>
           ))}
         </div>
-
-        {/* Organic wave divider at bottom of stats bar, transitioning to white background */}
-        <div className={styles.statsBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
-              fill="#ffffff"
-            />
-            <path
-              d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64"
-              fill="none"
-              stroke="var(--saffron)"
-              strokeWidth="3"
-            />
-          </svg>
-        </div>
       </section>
+
+      {/* ===== HORIZONTAL TICKER BAR — scrolling under the hero/stats section ===== */}
+      <div className={styles.tickerBar}>
+        <div className={styles.tickerTrack}>
+          {Array(8).fill(null).map((_, i) => (
+            <span key={i} className={styles.tickerText}>
+              Trustline • Building financial trust for Africa&apos;s informal economy
+            </span>
+          ))}
+        </div>
+      </div>
 
       {/* ===== SOCIAL PROOF SECTION ===== */}
       <section className={styles.socialProofSection}>
