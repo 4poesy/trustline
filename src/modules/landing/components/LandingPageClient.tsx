@@ -13,9 +13,7 @@ import {
   WifiOff, 
   Download,
   Check,
-  TrendingUp,
-  ChevronLeft,
-  ChevronRight
+  TrendingUp
 } from 'lucide-react'
 import styles from './LandingPageClient.module.css'
 
@@ -62,7 +60,6 @@ function StatCounter({ value }: { value: string }) {
 export function LandingPageClient() {
   const [activeTab, setActiveTab] = useState<'android' | 'ios' | 'web'>('android')
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const testimonials = [
@@ -125,8 +122,7 @@ export function LandingPageClient() {
     }
   }
 
-  const prevTestimonial = () => setActiveTestimonial(i => (i - 1 + testimonials.length) % testimonials.length)
-  const nextTestimonial = () => setActiveTestimonial(i => (i + 1) % testimonials.length)
+
 
   return (
     <div ref={containerRef} className={styles.page}>
@@ -396,54 +392,28 @@ export function LandingPageClient() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS (Grey.co large card style) ===== */}
+      {/* ===== TESTIMONIALS (Horizontal Auto-Scrolling Marquee) ===== */}
       <section className={styles.testimonialsSection}>
-        <div className={styles.testimonialsInner}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTestimonial}
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.4 }}
-              className={styles.testimonialCard}
-            >
-              <div className={styles.testimonialImgCol}>
-                <img
-                  src={testimonials[activeTestimonial].image}
-                  alt={testimonials[activeTestimonial].author}
-                  className={styles.testimonialImg}
-                />
-              </div>
-              <div className={styles.testimonialTextCol}>
-                <p className={styles.testimonialQuote}>
-                  &ldquo;{testimonials[activeTestimonial].quote}&rdquo;
-                </p>
-                <div className={styles.testimonialAuthor}>
-                  <span className={styles.authorName}>{testimonials[activeTestimonial].author}</span>
-                  <span className={styles.authorRole}>{testimonials[activeTestimonial].role}</span>
-                </div>
-                <div className={styles.testimonialNav}>
-                  <button onClick={prevTestimonial} className={styles.navArrow} aria-label="Previous testimonial">
-                    <ChevronLeft size={20} />
-                  </button>
-                  <div className={styles.testimonialDots}>
-                    {testimonials.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActiveTestimonial(i)}
-                        className={`${styles.dot} ${i === activeTestimonial ? styles.dotActive : ''}`}
-                        aria-label={`Go to testimonial ${i + 1}`}
-                      />
-                    ))}
+        <div className={styles.testimonialsHeader}>
+          <span className={styles.sectionEyebrowLight}>COMMUNITY VOICES</span>
+          <h2 className={styles.testimonialsHeading}>Deserving profiles build real trust</h2>
+        </div>
+
+        <div className={styles.testimonialsTrackWrapper}>
+          <div className={styles.testimonialsTrack}>
+            {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
+              <div key={i} className={styles.testimonialCard}>
+                <div className={styles.cardTop}>
+                  <img src={t.image} alt={t.author} className={styles.cardAvatar} />
+                  <div className={styles.cardAuthorInfo}>
+                    <h4 className={styles.cardAuthorName}>{t.author}</h4>
+                    <span className={styles.cardAuthorRole}>{t.role}</span>
                   </div>
-                  <button onClick={nextTestimonial} className={styles.navArrow} aria-label="Next testimonial">
-                    <ChevronRight size={20} />
-                  </button>
                 </div>
+                <p className={styles.cardQuote}>&ldquo;{t.quote}&rdquo;</p>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            ))}
+          </div>
         </div>
       </section>
 

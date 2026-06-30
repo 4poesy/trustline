@@ -748,115 +748,127 @@
 /* =============================================
    TESTIMONIALS — Grey.co large card style
    ============================================= */
+/* =============================================
+   TESTIMONIALS — Horizontal Auto-Scrolling Marquee
+   ============================================= */
 .testimonialsSection {
   background-color: var(--charcoal);
-  padding: 80px 60px;
-}
-
-.testimonialsInner {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.testimonialCard {
-  background-color: #1A1A1A;
-  border-radius: 28px;
-  display: grid;
-  grid-template-columns: 380px 1fr;
+  padding: 80px 0;
   overflow: hidden;
-  min-height: 440px;
 }
 
-.testimonialImgCol {
-  overflow: hidden;
-  position: relative;
-}
-
-.testimonialImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-}
-
-.testimonialTextCol {
-  padding: 56px 56px 48px;
+.testimonialsHeader {
+  text-align: center;
+  padding: 0 60px 56px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 32px;
+  align-items: center;
+  gap: 12px;
 }
 
-.testimonialQuote {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
-  line-height: 1.5;
-  color: var(--white);
-  letter-spacing: -0.25px;
-}
-
-.testimonialAuthor {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.authorName {
+.sectionEyebrowLight {
+  font-size: 0.75rem;
   font-weight: 700;
-  font-size: 1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--saffron);
+}
+
+.testimonialsHeading {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 3.5vw, 3rem);
   color: var(--white);
+  letter-spacing: -1px;
 }
 
-.authorRole {
-  font-size: 0.875rem;
-  color: rgba(255,255,255,0.5);
+/* The outer container clips overflow */
+.testimonialsTrackWrapper {
+  overflow: hidden;
+  width: 100%;
+  /* fade edges */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
-.testimonialNav {
+/* The scrolling inner strip — exactly double the cards so we can loop */
+.testimonialsTrack {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  animation: scrollTestimonials 40s linear infinite;
+  padding: 12px 0 24px; /* breathing room so shadows aren't clipped */
+}
+
+/* Pause on hover */
+.testimonialsTrack:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollTestimonials {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); } /* 1/3 of 3× duplicated list */
+}
+
+/* Individual card */
+.testimonialCard {
+  background-color: #1E1E1C;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 36px 32px;
+  width: 360px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+.testimonialCard:hover {
+  border-color: var(--saffron);
+  transform: translateY(-4px);
+}
+
+/* Top row: avatar + name/role */
+.cardTop {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.navArrow {
-  width: 40px;
-  height: 40px;
+.cardAvatar {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: transparent;
-  color: rgba(255,255,255,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
-}
-.navArrow:hover {
-  border-color: var(--saffron);
-  color: var(--saffron);
-  background-color: rgba(232,160,32,0.1);
+  object-fit: cover;
+  object-position: top center;
+  border: 2px solid var(--saffron);
+  flex-shrink: 0;
 }
 
-.testimonialDots {
+.cardAuthorInfo {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: rgba(255,255,255,0.25);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: background-color 0.2s, transform 0.2s;
+.cardAuthorName {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--white);
 }
-.dotActive {
-  background-color: var(--saffron);
-  transform: scale(1.3);
+
+.cardAuthorRole {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+}
+
+/* Quote body */
+.cardQuote {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
 }
 
 /* =============================================
