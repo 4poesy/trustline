@@ -146,52 +146,53 @@ export function LandingPageClient() {
         </div>
       </nav>
 
-      {/* ===== HERO SECTION (Grey.co style — dark, full-width, image bleeds to edge) ===== */}
+      {/* ===== HERO SECTION — full-bleed background image, centered text ===== */}
       <header className={styles.hero}>
-        <div className={styles.heroInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className={styles.heroContent}
-          >
-            <p className={styles.heroEyebrow}>For traders · vendors · service providers</p>
-            <h1 className={styles.heroTitle}>
-              Your daily hustle,<br />
-              <span className={styles.heroTitleAccent}>now on record.</span>
-            </h1>
-            <p className={styles.heroDescription}>
-              Track income, collect customer reviews, save with your group. Trustline turns your everyday work into a provable financial history.
-            </p>
-            <div className={styles.heroCtas}>
-              <Link href="/login" className={styles.heroPrimaryBtn}>
-                Get started — it&apos;s free
-              </Link>
-              <Link href="/directory" className={styles.heroSecondaryBtn}>
-                Explore directory <ArrowRight size={16} />
-              </Link>
-            </div>
-            <div className={styles.trustSignals}>
-              <span><Check size={14} className={styles.signalCheck} /> Free to use</span>
-              <span className={styles.signalsDot}>·</span>
-              <span><Check size={14} className={styles.signalCheck} /> No bank required</span>
-              <span className={styles.signalsDot}>·</span>
-              <span><Check size={14} className={styles.signalCheck} /> Works offline</span>
-            </div>
-          </motion.div>
+        {/* Background image */}
+        <div className={styles.heroBg} />
+        {/* Dark gradient overlay */}
+        <div className={styles.heroOverlay} />
 
-          <motion.div 
-            initial={{ opacity: 0, x: 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-            className={styles.heroImageWrap}
-          >
-            <img 
-              src="/images/market-tomatoes.jpg" 
-              alt="Nigerian market trader" 
-              className={styles.heroImage}
+        {/* Centered content */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className={styles.heroContent}
+        >
+          <p className={styles.heroEyebrow}>For traders · vendors · service providers</p>
+          <h1 className={styles.heroTitle}>
+            Your daily hustle,<br />
+            <span className={styles.heroTitleAccent}>now on record.</span>
+          </h1>
+          <p className={styles.heroDescription}>
+            Track income, collect customer reviews, save with your group. Trustline turns your everyday work into a provable financial history.
+          </p>
+          <div className={styles.heroCtas}>
+            <Link href="/login" className={styles.heroPrimaryBtn}>
+              Get started — it&apos;s free
+            </Link>
+            <Link href="/directory" className={styles.heroSecondaryBtn}>
+              Explore directory <ArrowRight size={16} />
+            </Link>
+          </div>
+          <div className={styles.trustSignals}>
+            <span><Check size={14} className={styles.signalCheck} /> Free to use</span>
+            <span className={styles.signalsDot}>·</span>
+            <span><Check size={14} className={styles.signalCheck} /> No bank required</span>
+            <span className={styles.signalsDot}>·</span>
+            <span><Check size={14} className={styles.signalCheck} /> Works offline</span>
+          </div>
+        </motion.div>
+
+        {/* Organic wave divider at bottom */}
+        <div className={styles.heroWave}>
+          <svg viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0,40 C180,100 360,0 540,55 C720,110 900,20 1080,65 C1260,110 1380,50 1440,40 L1440,110 L0,110 Z"
+              fill="#ffffff"
             />
-          </motion.div>
+          </svg>
         </div>
       </header>
 

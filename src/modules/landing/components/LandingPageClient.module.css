@@ -56,7 +56,7 @@
 }
 
 .logoFull {
-  height: 44px;
+  height: 56px;
   width: auto;
   object-fit: contain;
 }
@@ -95,49 +95,83 @@
 }
 
 /* =============================================
-   HERO — dark, full-bleed, Grey.co style
+   HERO — full-bleed background image, centered
    ============================================= */
 .hero {
-  background-color: var(--green-deep);
+  position: relative;
   min-height: 100vh;
   padding-top: 72px; /* nav height */
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
-  position: relative;
 }
 
-.heroInner {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 80px 60px 60px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
+/* The background image layer */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/fabric-trader.jpg');
+  background-size: cover;
+  background-position: center center;
+  z-index: 0;
 }
 
+/* Dark green gradient overlay for legibility */
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 46, 31, 0.85) 0%,
+    rgba(10, 46, 31, 0.65) 50%,
+    rgba(10, 46, 31, 0.80) 100%
+  );
+  z-index: 1;
+}
+
+/* Content sits above bg and overlay */
 .heroContent {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 28px;
+  max-width: 860px;
+  padding: 80px 40px 120px;
+}
+
+/* Organic SVG wave at bottom of hero */
+.heroWave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  line-height: 0;
+}
+.heroWave svg {
+  width: 100%;
+  height: 110px;
+  display: block;
 }
 
 .heroEyebrow {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--saffron);
-  opacity: 0.9;
 }
 
 .heroTitle {
   font-family: 'DM Sans', sans-serif;
   font-weight: 800;
-  font-size: clamp(3rem, 5.5vw, 5.2rem);
-  line-height: 1.08;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 1.06;
   color: var(--white);
   letter-spacing: -1.5px;
 }
@@ -149,8 +183,8 @@
 .heroDescription {
   font-size: 1.15rem;
   line-height: 1.75;
-  color: rgba(255,255,255,0.75);
-  max-width: 500px;
+  color: rgba(255,255,255,0.8);
+  max-width: 580px;
 }
 
 .heroCtas {
@@ -158,6 +192,7 @@
   gap: 16px;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   margin-top: 4px;
 }
 
@@ -166,7 +201,7 @@
   color: var(--green-deep);
   font-weight: 700;
   font-size: 1rem;
-  padding: 16px 32px;
+  padding: 16px 36px;
   border-radius: 100px;
   text-decoration: none !important;
   transition: all 0.2s;
@@ -182,11 +217,11 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255,255,255,0.85);
   font-weight: 500;
   font-size: 1rem;
   text-decoration: none !important;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.35);
   padding-bottom: 2px;
   transition: color 0.2s, border-color 0.2s;
 }
@@ -199,10 +234,11 @@
 .trustSignals {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.5);
+  justify-content: center;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
 }
 
 .signalCheck {
@@ -213,22 +249,6 @@
 
 .signalsDot { opacity: 0.3; }
 
-.heroImageWrap {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  height: 580px;
-  overflow: hidden;
-  border-radius: 24px 24px 0 0;
-}
-
-.heroImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  border-radius: 24px 24px 0 0;
-}
 
 /* =============================================
    SOCIAL PROOF — two-column: stats + photo mosaic
@@ -980,9 +1000,8 @@
    RESPONSIVE
    ============================================= */
 @media (max-width: 1024px) {
-  .heroInner {
-    padding: 80px 40px 60px;
-    gap: 40px;
+  .heroContent {
+    padding: 80px 40px 120px;
   }
   .sectionInner { padding: 0 40px; }
   .socialProofSection { padding: 80px 40px; }
@@ -994,15 +1013,11 @@
 
 @media (max-width: 768px) {
   .nav { padding: 0 20px; }
-  .heroInner {
-    grid-template-columns: 1fr;
-    padding: 60px 24px 0;
-    gap: 40px;
+  .heroContent {
+    padding: 60px 24px 100px;
+    max-width: 100%;
   }
-  .heroImageWrap {
-    height: 320px;
-    border-radius: 20px 20px 0 0;
-  }
+  .heroWave svg { height: 70px; }
   .sectionInner { padding: 0 24px; }
   .socialProofSection { padding: 60px 24px; }
   .socialProofInner {
@@ -1027,5 +1042,5 @@
   .footer { padding: 48px 24px; }
   .footerInner { flex-direction: column; align-items: flex-start; }
   .navLinksRight { gap: 16px; }
-  .logoFull { height: 34px; }
+  .logoFull { height: 40px; }
 }
