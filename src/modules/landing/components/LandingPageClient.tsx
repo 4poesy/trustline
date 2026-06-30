@@ -12,7 +12,6 @@ import {
   ArrowRight, 
   WifiOff, 
   Download,
-  Check,
   TrendingUp
 } from 'lucide-react'
 import styles from './LandingPageClient.module.css'
@@ -61,6 +60,14 @@ function StatCounter({ value, duration = 2 }: { value: string; duration?: number
   )
 }
 
+// Subtle fade-in animation (Grey.co style)
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' } as const,
+  transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }
+}
+
 export function LandingPageClient() {
   const [activeTab, setActiveTab] = useState<'android' | 'ios' | 'web'>('android')
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
@@ -101,9 +108,17 @@ export function LandingPageClient() {
     }
   }
 
+  // Stats data for the marquee
+  const stats = [
+    { value: '12000+', label: 'Active traders' },
+    { value: '₦2.4B+', label: 'Income tracked' },
+    { value: '340+', label: 'Ajo groups active' },
+    { value: '4.9★', label: 'Average trust score' },
+  ]
+
   return (
     <div ref={containerRef} className={styles.page}>
-      {/* Navigation - Stagnant header, doesn't scroll with scrollY */}
+      {/* Fixed Navigation */}
       <nav className={styles.nav}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.logo}>
@@ -118,13 +133,13 @@ export function LandingPageClient() {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section — Clean: headline + subtitle + CTA + image */}
       <header className={styles.hero}>
         <div className={styles.heroInner}>
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             className={styles.heroContent}
           >
             <div className={styles.heroEyebrowRow}>
@@ -138,45 +153,15 @@ export function LandingPageClient() {
             <p className={styles.heroDescription}>
               Track your daily income, get reviews from customers, and save together with your community. Trustline turns your everyday hustle into a provable financial record.
             </p>
-            
-            {/* Flat store buttons */}
-            <div className={styles.storeButtonsRow}>
-              <a href="https://play.google.com/store/apps/details?id=app.trustline" target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
-                <Smartphone className={styles.storeIcon} />
-                <div className={styles.storeTextCol}>
-                  <span className={styles.storeLabel}>Get it on</span>
-                  <span className={styles.storeName}>Google Play</span>
-                </div>
-              </a>
-              <a href="https://apps.apple.com/us/app/trustline/id164" target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
-                <Smartphone className={styles.storeIcon} />
-                <div className={styles.storeTextCol}>
-                  <span className={styles.storeLabel}>Download on the</span>
-                  <span className={styles.storeName}>App Store</span>
-                </div>
-              </a>
-            </div>
-
-            <div className={styles.separator}>— or —</div>
-
-            <Link href="/login" className={styles.heroBrowserCta}>
-              Open in browser — it&apos;s free <ArrowRight className={styles.btnArrow} />
+            <Link href="/login" className={styles.heroPrimaryCta}>
+              Get started — it&apos;s free <ArrowRight className={styles.btnArrow} />
             </Link>
-
-            <div className={styles.trustSignals}>
-              <span className={styles.signalWord}><Check className={styles.signalCheck} /> Free to use</span>
-              <span className={styles.signalsDot}>·</span>
-              <span className={styles.signalWord}><Check className={styles.signalCheck} /> No bank required</span>
-              <span className={styles.signalsDot}>·</span>
-              <span className={styles.signalWord}><Check className={styles.signalCheck} /> Works offline</span>
-            </div>
           </motion.div>
 
-          {/* Right Column: Replaced card mockup with beautiful African trader image */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}
             className={styles.heroImageContainer}
           >
             <img 
@@ -186,56 +171,32 @@ export function LandingPageClient() {
             />
           </motion.div>
         </div>
-
-        {/* Replicated Wave divider below hero section */}
-        <div className={styles.heroBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--sage)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
-        </div>
       </header>
 
-      {/* Stats Bar */}
+      {/* Stats Marquee — Infinite scrolling ticker */}
       <section className={styles.statsBar}>
-        <div className={styles.statsInner}>
-          <div className={styles.statItem}>
-            <StatCounter value="12000+" />
-            <span className={styles.statLabel}>Active traders</span>
-          </div>
-          <div className={styles.statItem}>
-            <StatCounter value="₦2.4B+" />
-            <span className={styles.statLabel}>Income tracked</span>
-          </div>
-          <div className={styles.statItem}>
-            <StatCounter value="340+" />
-            <span className={styles.statLabel}>Ajo groups active</span>
-          </div>
-          <div className={styles.statItem}>
-            <StatCounter value="4.9★" />
-            <span className={styles.statLabel}>Average trust score</span>
-          </div>
-        </div>
-
-        {/* Replicated Wave divider below stats bar */}
-        <div className={styles.statsBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--linen)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
+        <div className={styles.marqueeTrack}>
+          {/* Duplicate content for seamless loop */}
+          {[0, 1].map((setIndex) => (
+            <div key={setIndex} className={styles.marqueeContent}>
+              {stats.map((stat, i) => (
+                <div key={`${setIndex}-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className={styles.statItem}>
+                    <StatCounter value={stat.value} />
+                    <span className={styles.statLabel}>{stat.label}</span>
+                  </div>
+                  <div className={styles.statDivider} />
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 
       {/* "Who It's For" Section */}
       <section className={styles.whoSection}>
         <div className={styles.sectionInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderLeft}
-          >
+          <motion.div {...fadeUp} className={styles.sectionHeaderLeft}>
             <span className={styles.sectionEyebrow}>WHO WE SERVE</span>
             <h2 className={styles.sectionTitle}>Built for people who work hard every day</h2>
             <p className={styles.sectionSubtitle}>Whether you sell goods, offer services, or save with a group — Trustline is for you</p>
@@ -243,7 +204,8 @@ export function LandingPageClient() {
 
           <div className={styles.cardGrid}>
             <motion.div 
-              whileHover={{ y: -8 }}
+              {...fadeUp}
+              transition={{ ...fadeUp.transition, delay: 0 }}
               className={styles.whoCard}
             >
               <div className={styles.whoIconSquare}>
@@ -256,7 +218,8 @@ export function LandingPageClient() {
             </motion.div>
 
             <motion.div 
-              whileHover={{ y: -8 }}
+              {...fadeUp}
+              transition={{ ...fadeUp.transition, delay: 0.1 }}
               className={styles.whoCard}
             >
               <div className={styles.whoIconSquare}>
@@ -269,7 +232,8 @@ export function LandingPageClient() {
             </motion.div>
 
             <motion.div 
-              whileHover={{ y: -8 }}
+              {...fadeUp}
+              transition={{ ...fadeUp.transition, delay: 0.2 }}
               className={styles.whoCard}
             >
               <div className={styles.whoIconSquare}>
@@ -282,33 +246,19 @@ export function LandingPageClient() {
             </motion.div>
           </div>
         </div>
-
-        {/* Replicated Wave divider below who section */}
-        <div className={styles.whoBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--linen-dark)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
-        </div>
       </section>
 
       {/* "How It Works" Section */}
       <section className={styles.howSection}>
         <div className={styles.sectionInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderCenter}
-          >
+          <motion.div {...fadeUp} className={styles.sectionHeaderCenter}>
             <span className={styles.sectionEyebrow}>SIMPLE STEPS</span>
             <h2 className={styles.sectionTitle}>How Trustline works</h2>
             <p className={styles.sectionSubtitle}>Three simple steps to start building your financial reputation</p>
           </motion.div>
 
           <div className={styles.stepsGrid}>
-            <div className={styles.stepCard}>
+            <motion.div {...fadeUp} className={styles.stepCard}>
               <div className={styles.stepCircleWrapper}>
                 <div className={styles.stepCircle}>
                   <TrendingUp size={28} />
@@ -319,9 +269,9 @@ export function LandingPageClient() {
               <p className={styles.stepText}>
                 Record daily sales and expenses in seconds. Works without internet, syncs when you reconnect.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={styles.stepCard}>
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.1 }} className={styles.stepCard}>
               <div className={styles.stepCircleWrapper}>
                 <div className={styles.stepCircle}>
                   <Star size={28} />
@@ -332,9 +282,9 @@ export function LandingPageClient() {
               <p className={styles.stepText}>
                 Share your profile link with customers. Every review strengthens your record.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={styles.stepCard}>
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.2 }} className={styles.stepCard}>
               <div className={styles.stepCircleWrapper}>
                 <div className={styles.stepCircle}>
                   <AwardIcon size={28} />
@@ -345,38 +295,21 @@ export function LandingPageClient() {
               <p className={styles.stepText}>
                 Your income record becomes your credit history. Join ajo groups, qualify for micro-credit, prove your worth.
               </p>
-            </div>
+            </motion.div>
           </div>
-        </div>
-
-        {/* Replicated Wave divider below how section */}
-        <div className={styles.howBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--green-deep)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
         </div>
       </section>
 
       {/* Features Section */}
       <section className={styles.featuresSection}>
         <div className={styles.sectionInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderCenter}
-          >
+          <motion.div {...fadeUp} className={styles.sectionHeaderCenter}>
             <span className={styles.sectionEyebrowSaffron}>WHY CHOOSE TRUSTLINE</span>
             <h2 className={styles.featuresTitle}>Built for how you actually work</h2>
           </motion.div>
 
           <div className={styles.featuresGrid}>
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
+            <motion.div {...fadeUp} className={styles.featureCard}>
               <div className={styles.featureIconWrapper}>
                 <WifiOff size={22} />
               </div>
@@ -386,10 +319,7 @@ export function LandingPageClient() {
               </p>
             </motion.div>
 
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.1 }} className={styles.featureCard}>
               <div className={styles.featureIconWrapper}>
                 <Star size={22} />
               </div>
@@ -399,10 +329,7 @@ export function LandingPageClient() {
               </p>
             </motion.div>
 
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.2 }} className={styles.featureCard}>
               <div className={styles.featureIconWrapper}>
                 <Users size={22} />
               </div>
@@ -412,10 +339,7 @@ export function LandingPageClient() {
               </p>
             </motion.div>
 
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className={styles.featureCard}
-            >
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.3 }} className={styles.featureCard}>
               <div className={styles.featureIconWrapper}>
                 <GiftIcon size={22} />
               </div>
@@ -426,36 +350,19 @@ export function LandingPageClient() {
             </motion.div>
           </div>
         </div>
-
-        {/* Replicated Wave divider below features section */}
-        <div className={styles.featuresBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#FFFFFF"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
-        </div>
       </section>
 
       {/* Testimonials Section */}
       <section className={styles.testimonialsSection}>
         <div className={styles.sectionInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderCenter}
-          >
+          <motion.div {...fadeUp} className={styles.sectionHeaderCenter}>
             <span className={styles.sectionEyebrow}>COMMUNITY VOICES</span>
             <h2 className={styles.sectionTitle}>Deserving profiles build real trust</h2>
           </motion.div>
 
           <div className={styles.testimonialsGrid}>
-            <motion.div 
-              whileHover={{ y: -6 }}
-              className={styles.testimonialCard}
-            >
-              <span className={styles.quoteMark}>“</span>
+            <motion.div {...fadeUp} className={styles.testimonialCard}>
+              <span className={styles.quoteMark}>&ldquo;</span>
               <p className={styles.testimonialText}>
                 &quot;I&apos;ve been selling fabrics for 9 years. I never had a way to show how much I earn. Trustline gave me a record I could actually show to a lender.&quot;
               </p>
@@ -468,11 +375,8 @@ export function LandingPageClient() {
               </div>
             </motion.div>
 
-            <motion.div 
-              whileHover={{ y: -6 }}
-              className={styles.testimonialCard}
-            >
-              <span className={styles.quoteMark}>“</span>
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.1 }} className={styles.testimonialCard}>
+              <span className={styles.quoteMark}>&ldquo;</span>
               <p className={styles.testimonialText}>
                 &quot;Our ajo group had arguments every month about who had paid. Since we moved to Trustline, everything is clear. No more quarrels.&quot;
               </p>
@@ -485,11 +389,8 @@ export function LandingPageClient() {
               </div>
             </motion.div>
 
-            <motion.div 
-              whileHover={{ y: -6 }}
-              className={styles.testimonialCard}
-            >
-              <span className={styles.quoteMark}>“</span>
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.2 }} className={styles.testimonialCard}>
+              <span className={styles.quoteMark}>&ldquo;</span>
               <p className={styles.testimonialText}>
                 &quot;My customers can now check my profile before they book. My new clients doubled in three months.&quot;
               </p>
@@ -505,22 +406,16 @@ export function LandingPageClient() {
         </div>
       </section>
 
-      {/* Parallax Divider Image of Somebody */}
+      {/* Parallax Divider Image */}
       <div className={styles.parallaxSection} />
 
       {/* Install Section */}
       <section className={styles.installSection}>
         <div className={styles.installInner}>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.sectionHeaderCenter}
-          >
+          <motion.div {...fadeUp} className={styles.sectionHeaderCenter}>
             <span className={styles.sectionEyebrow}>EASY INSTALLATION</span>
             <h2 className={styles.sectionTitle}>Get Trustline on your phone</h2>
-            <p className={styles.sectionSubtitle}>Choose your device layout below to install Trustline as a light web app</p>
+            <p className={styles.sectionSubtitle}>Choose your device below to install Trustline as a light web app</p>
           </motion.div>
 
           {/* Tab Selection */}
@@ -550,10 +445,10 @@ export function LandingPageClient() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25 }}
                 className={styles.panel}
               >
                 {activeTab === 'android' && (
@@ -597,14 +492,6 @@ export function LandingPageClient() {
               </motion.div>
             </AnimatePresence>
           </div>
-        </div>
-
-        {/* Replicated Wave divider below install section */}
-        <div className={styles.installBorderBottom}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className={styles.waveSvg}>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="var(--green-deep)"></path>
-            <path d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
-          </svg>
         </div>
       </section>
 
