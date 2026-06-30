@@ -293,37 +293,44 @@ export function LandingPageClient() {
         </div>
       </section>
 
-      {/* ===== HOW IT WORKS ===== */}
+      {/* ===== HOW IT WORKS — screenshot style ===== */}
       <section className={styles.howSection}>
         <div className={styles.sectionInner}>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
             className={styles.sectionHeaderCenter}
           >
-            <span className={styles.sectionEyebrowLight}>SIMPLE STEPS</span>
-            <h2 className={styles.sectionTitleLight}>How Trustline works</h2>
-            <p className={styles.sectionSubtitleLight}>Three simple steps to start building your financial reputation</p>
+            <span className={styles.sectionEyebrow}>SIMPLE STEPS</span>
+            <h2 className={styles.sectionTitle}>How Trustline works</h2>
+            <p className={styles.sectionSubtitle}>Three simple steps to start building your financial reputation</p>
           </motion.div>
 
-          <div className={styles.stepsGrid}>
+          {/* Steps row with dashed connector line */}
+          <div className={styles.stepsRow}>
+            {/* Dashed connector line sits behind all circles */}
+            <div className={styles.stepsDashedLine} />
+
             {[
-              { num: "01", icon: <TrendingUp size={28} />, title: "Log your income", text: "Record daily sales and expenses in seconds. Works without internet, syncs when you reconnect." },
-              { num: "02", icon: <Star size={28} />, title: "Build your reputation", text: "Share your profile link with customers. Every review strengthens your record." },
-              { num: "03", icon: <AwardIcon size={28} />, title: "Access credit & savings", text: "Your income record becomes your credit history. Join ajo groups, qualify for micro-credit, prove your worth." },
+              { num: "1", icon: <TrendingUp size={32} />, title: "Log your income", text: "Record daily sales and expenses in seconds. Works without internet, syncs when you reconnect." },
+              { num: "2", icon: <Star size={32} />, title: "Build your reputation", text: "Share your profile link with customers. Every review strengthens your record." },
+              { num: "3", icon: <AwardIcon size={32} />, title: "Access credit & savings", text: "Your income record becomes your credit history. Join ajo groups, qualify for micro-credit, prove your worth." },
             ].map((step, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                className={styles.stepCard}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                className={styles.stepItem}
               >
-                <span className={styles.stepNum}>{step.num}</span>
-                <div className={styles.stepCircle}>{step.icon}</div>
+                {/* Circle with icon + badge */}
+                <div className={styles.stepCircleWrap}>
+                  <div className={styles.stepCircleBig}>{step.icon}</div>
+                  <span className={styles.stepBadge}>{step.num}</span>
+                </div>
                 <h3 className={styles.stepTitle}>{step.title}</h3>
                 <p className={styles.stepText}>{step.text}</p>
               </motion.div>

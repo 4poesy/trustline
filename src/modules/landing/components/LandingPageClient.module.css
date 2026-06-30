@@ -507,56 +507,98 @@
 }
 
 /* =============================================
-   HOW IT WORKS — dark bg
+   HOW IT WORKS — screenshot style (white bg, circles, dashed line)
    ============================================= */
 .howSection {
-  background-color: var(--green-deep);
+  background-color: var(--white);
   padding: 100px 0;
+  border-bottom: 1px solid #EEEBE4;
 }
 
-.stepsGrid {
+/* The outer row that holds the dashed line + all step items */
+.stepsRow {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
+  align-items: flex-start;
 }
 
-.stepCard {
+/* Horizontal dashed line connecting all 3 circles — sits behind */
+.stepsDashedLine {
+  position: absolute;
+  top: 44px; /* half of circle height (88px / 2) */
+  left: calc(16.67% + 44px); /* starts after 1st circle center */
+  right: calc(16.67% + 44px); /* ends before last circle center */
+  height: 2px;
+  border-top: 2.5px dashed #C5BEB2;
+  z-index: 0;
+}
+
+/* Individual step column */
+.stepItem {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 20px;
   position: relative;
+  z-index: 1;
 }
 
-.stepNum {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--saffron);
-  letter-spacing: 0.1em;
+/* Wrapper for the circle + badge overlay */
+.stepCircleWrap {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
 }
 
-.stepCircle {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background-color: rgba(232,160,32,0.12);
-  border: 1px solid rgba(232,160,32,0.2);
-  color: var(--saffron);
+/* The large filled dark green circle */
+.stepCircleBig {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background-color: var(--green-deep);
+  color: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 8px 24px rgba(10, 46, 31, 0.25);
+}
+
+/* Gold step number badge — top-right corner of circle */
+.stepBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--saffron);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .stepTitle {
   font-weight: 700;
-  font-size: 1.2rem;
-  color: var(--white);
+  font-size: 1.15rem;
+  color: var(--charcoal);
 }
 
 .stepText {
-  font-size: 0.925rem;
-  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+  color: var(--body-muted);
   line-height: 1.75;
+  max-width: 260px;
 }
+
 
 /* =============================================
    FEATURES — dark bento grid
@@ -1030,7 +1072,9 @@
   .mosaicTopRight, .mosaicBottomRight { height: 164px; }
   .statsGrid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .cardGrid { grid-template-columns: 1fr; }
-  .stepsGrid { grid-template-columns: 1fr; gap: 32px; }
+  .stepsRow { grid-template-columns: 1fr; gap: 40px; }
+  .stepsDashedLine { display: none; }
+  .stepItem { align-items: center; }
   .featuresGrid { grid-template-columns: 1fr; }
   .testimonialCard {
     grid-template-columns: 1fr;
