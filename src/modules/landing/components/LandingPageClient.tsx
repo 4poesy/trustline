@@ -184,16 +184,6 @@ export function LandingPageClient() {
             <span><Check size={14} className={styles.signalCheck} /> Works offline</span>
           </div>
         </motion.div>
-
-        {/* Organic wave divider — dark green flowing into sage stats */}
-        <div className={styles.heroWave}>
-          <svg viewBox="0 0 1440 130" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0,0 L0,65 C240,130 480,20 720,75 C960,130 1200,40 1440,80 L1440,130 L0,130 Z"
-              fill="#B8D8C8"
-            />
-          </svg>
-        </div>
       </header>
 
       {/* ===== STATS BAR — Sage green, matching Screenshot 1 ===== */}
