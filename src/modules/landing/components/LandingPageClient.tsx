@@ -67,22 +67,28 @@ export function LandingPageClient() {
 
   const testimonials = [
     {
-      quote: "I've been selling fabrics for 9 years. I never had a way to show how much I earn. Trustline gave me a record I could actually show to a lender — it changed everything for me.",
+      quote: "I've been selling tomatoes here for 7 years. I never had proof of my earnings. Trustline gave me a record I could finally show — it opened doors I didn't know existed.",
       author: "Adaeze O.",
-      role: "Fabric seller, Balogun Market",
-      image: "/images/trader-hero.png",
+      role: "Market trader, Balogun Market, Lagos",
+      image: "/images/market-tomatoes.jpg",
     },
     {
       quote: "Our ajo group had arguments every month about who had paid. Since we moved to Trustline, everything is clear and transparent. No more quarrels, no more missing money.",
       author: "Kemi B.",
-      role: "Group admin, Ikeja",
+      role: "Hairdresser & group admin, Ikeja",
       image: "/images/hairdresser.png",
     },
     {
-      quote: "My customers can now check my profile before they book. My business grew 3x in three months just because they could see real reviews from real people.",
-      author: "Emeka C.",
-      role: "Auto mechanic, Abuja",
-      image: "/images/trader-hero.png",
+      quote: "I carry goods every day and use my phone to track everything. Trustline is the first app that actually understands how we work — simple, fast, no stress.",
+      author: "Fatima A.",
+      role: "Goods carrier & small trader, Oshodi",
+      image: "/images/trader-phone.jpg",
+    },
+    {
+      quote: "From spices to savings — Trustline helped me organise my ajo contributions and show my income when I needed a small loan. Best thing I ever used.",
+      author: "Ngozi E.",
+      role: "Spice trader, Kano Market",
+      image: "/images/spice-trader.jpg",
     }
   ]
 
@@ -181,36 +187,69 @@ export function LandingPageClient() {
             className={styles.heroImageWrap}
           >
             <img 
-              src="/images/trader-hero.png" 
-              alt="Nigerian trader using Trustline" 
+              src="/images/market-tomatoes.jpg" 
+              alt="Nigerian market trader" 
               className={styles.heroImage}
             />
           </motion.div>
         </div>
       </header>
 
-      {/* ===== STATS BAR ===== */}
-      <section className={styles.statsBar}>
-        <div className={styles.statsInner}>
-          <div className={styles.statItem}>
-            <StatCounter value="12000+" />
-            <span className={styles.statLabel}>Active traders</span>
+      {/* ===== SOCIAL PROOF SECTION ===== */}
+      <section className={styles.socialProofSection}>
+        <div className={styles.socialProofInner}>
+
+          {/* Left: Headline + Stats Grid */}
+          <div className={styles.socialProofLeft}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className={styles.sectionEyebrow}>OUR NUMBERS</span>
+              <h2 className={styles.socialProofTitle}>Trusted by traders,<br />built for the hustle.</h2>
+              <p className={styles.socialProofSub}>Real people. Real records. Real results — across markets and communities in Nigeria.</p>
+            </motion.div>
+
+            <div className={styles.statsGrid}>
+              {[
+                { val: '500+', label: 'Active traders', desc: 'Across Lagos, Abuja & beyond' },
+                { val: '₦8.5M+', label: 'Income tracked', desc: 'And growing every week' },
+                { val: '45+', label: 'Ajo groups', desc: 'Running on Trustline' },
+                { val: '4.8★', label: 'Trust score avg', desc: 'From verified user reviews' },
+              ].map((s, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className={styles.statCard}
+                >
+                  <span className={styles.statNum}>{s.val}</span>
+                  <span className={styles.statLabel}>{s.label}</span>
+                  <span className={styles.statDesc}>{s.desc}</span>
+                </motion.div>
+              ))}
+            </div>
           </div>
-          <div className={styles.statDivider} />
-          <div className={styles.statItem}>
-            <StatCounter value="2400000000+" />
-            <span className={styles.statLabel}>Naira tracked</span>
-          </div>
-          <div className={styles.statDivider} />
-          <div className={styles.statItem}>
-            <StatCounter value="340+" />
-            <span className={styles.statLabel}>Ajo groups active</span>
-          </div>
-          <div className={styles.statDivider} />
-          <div className={styles.statItem}>
-            <StatCounter value="4.9" />
-            <span className={styles.statLabel}>Average trust score</span>
-          </div>
+
+          {/* Right: Photo mosaic of real traders */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7 }}
+            className={styles.socialProofPhotos}
+          >
+            <div className={styles.photoMosaic}>
+              <img src="/images/market-tomatoes.jpg" alt="Market trader" className={`${styles.mosaicImg} ${styles.mosaicMain}`} />
+              <img src="/images/trader-phone.jpg" alt="Trader on phone" className={`${styles.mosaicImg} ${styles.mosaicTopRight}`} />
+              <img src="/images/spice-trader.jpg" alt="Spice trader" className={`${styles.mosaicImg} ${styles.mosaicBottomRight}`} />
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
