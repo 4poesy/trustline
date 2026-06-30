@@ -746,94 +746,40 @@
 }
 
 /* =============================================
-   TESTIMONIALS — Grey.co large card style
-/* =============================================
-   TESTIMONIALS — Grey.co style: large card, photo left + quote right
+   TESTIMONIALS — Grey.co: one large card, horizontal slide
    ============================================= */
 .testimonialsSection {
   background-color: #0D1117;
-  padding: 90px 0 80px;
-  overflow: hidden;
+  padding: 80px 60px;
 }
 
-.testimonialsHeader {
-  text-align: center;
-  padding: 0 60px 56px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-.sectionEyebrowLight {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--saffron);
-}
-
-.testimonialsHeading {
-  font-family: 'Fraunces', serif;
-  font-weight: 800;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  color: var(--white);
-  letter-spacing: -1px;
-}
-
-/* Outer wrapper clips overflow + adds edge fades */
-.testimonialsTrackWrapper {
-  overflow: hidden;
-  width: 100%;
-  padding: 0 40px;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-}
-
-/* Scrolling strip — 2× duplicate, so translateX(-50%) gives seamless loop */
-.testimonialsTrack {
-  display: flex;
-  gap: 32px;
-  width: max-content;
-  animation: scrollTestimonials 50s linear infinite;
-  padding: 16px 0 28px;
-}
-
-.testimonialsTrack:hover {
-  animation-play-state: paused;
-}
-
-@keyframes scrollTestimonials {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ── Individual large card (Grey.co layout) ── */
-.testimonialCard {
-  background-color: #161B22;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 24px;
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  overflow: hidden;
-  width: 700px;
-  min-height: 340px;
-  flex-shrink: 0;
-  transition: border-color 0.25s, box-shadow 0.25s;
-  cursor: default;
-}
-.testimonialCard:hover {
-  border-color: rgba(232,160,32,0.45);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
-}
-
-/* Left column — portrait photo */
-.tCardPhoto {
+/* The outer card container — clips the sliding motion */
+.testimonialsCard {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 28px;
   overflow: hidden;
   position: relative;
+  min-height: 440px;
+  background-color: #161B22;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
-.tCardImg {
+/* Each slide — two-column grid matching Grey.co */
+.tSlide {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  min-height: 440px;
+}
+
+/* Left: portrait photo */
+.tPhotoCol {
+  overflow: hidden;
+  position: relative;
+  background-color: #D0CFC8;
+}
+
+.tPhoto {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -841,42 +787,75 @@
   display: block;
 }
 
-/* Right column — quote + author */
-.tCardBody {
-  padding: 44px 44px 40px;
+/* Right: quote + author row */
+.tTextCol {
+  padding: 52px 56px 48px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 28px;
+  gap: 32px;
 }
 
-.tCardQuote {
+/* The big bold quote — like Grey.co */
+.tQuote {
   font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
-  line-height: 1.55;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.45;
   color: #FFFFFF;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.5px;
   flex: 1;
 }
 
-.tCardAuthor {
+/* Bottom row: author left, arrows right */
+.tAuthorRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.tAuthorInfo {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 20px;
 }
 
-.tCardName {
+.tAuthorName {
   font-weight: 700;
   font-size: 1rem;
   color: var(--white);
 }
 
-.tCardRole {
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.45);
+.tAuthorRole {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+}
+
+/* Prev/Next arrow buttons — bottom right, like Grey.co */
+.tNavArrows {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.tArrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.tArrow:hover {
+  background-color: var(--saffron);
+  border-color: var(--saffron);
+  color: var(--green-deep);
 }
 
 

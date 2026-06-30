@@ -60,6 +60,8 @@ function StatCounter({ value }: { value: string }) {
 export function LandingPageClient() {
   const [activeTab, setActiveTab] = useState<'android' | 'ios' | 'web'>('android')
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [slideDir, setSlideDir] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const testimonials = [
@@ -122,7 +124,14 @@ export function LandingPageClient() {
     }
   }
 
-
+  const goPrev = () => {
+    setSlideDir(-1)
+    setActiveTestimonial(i => (i - 1 + testimonials.length) % testimonials.length)
+  }
+  const goNext = () => {
+    setSlideDir(1)
+    setActiveTestimonial(i => (i + 1) % testimonials.length)
+  }
 
   return (
     <div ref={containerRef} className={styles.page}>
@@ -392,32 +401,55 @@ export function LandingPageClient() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS — Grey.co style: photo left + big quote right, auto-scroll ===== */}
+      {/* ===== TESTIMONIALS — Grey.co: one full-width card, horizontal slide ===== */}
       <section className={styles.testimonialsSection}>
-        <div className={styles.testimonialsHeader}>
-          <span className={styles.sectionEyebrowLight}>COMMUNITY VOICES</span>
-          <h2 className={styles.testimonialsHeading}>Deserving profiles build real trust</h2>
-        </div>
-
-        <div className={styles.testimonialsTrackWrapper}>
-          <div className={styles.testimonialsTrack}>
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <div key={i} className={styles.testimonialCard}>
-                {/* Left: portrait photo */}
-                <div className={styles.tCardPhoto}>
-                  <img src={t.image} alt={t.author} className={styles.tCardImg} />
-                </div>
-                {/* Right: quote + name */}
-                <div className={styles.tCardBody}>
-                  <p className={styles.tCardQuote}>&ldquo;{t.quote}&rdquo;</p>
-                  <div className={styles.tCardAuthor}>
-                    <span className={styles.tCardName}>{t.author}</span>
-                    <span className={styles.tCardRole}>{t.role}</span>
+        <div className={styles.testimonialsCard}>
+          <AnimatePresence mode="wait" custom={slideDir}>
+            <motion.div
+              key={activeTestimonial}
+              custom={slideDir}
+              variants={{
+                enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
+                center: { x: 0, opacity: 1 },
+                exit: (dir: number) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.45, ease: [0.32, 0, 0.67, 0] }}
+              className={styles.tSlide}
+            >
+              {/* Photo */}
+              <div className={styles.tPhotoCol}>
+                <img
+                  src={testimonials[activeTestimonial].image}
+                  alt={testimonials[activeTestimonial].author}
+                  className={styles.tPhoto}
+                />
+              </div>
+              {/* Quote + author */}
+              <div className={styles.tTextCol}>
+                <p className={styles.tQuote}>
+                  &ldquo;{testimonials[activeTestimonial].quote}&rdquo;
+                </p>
+                <div className={styles.tAuthorRow}>
+                  <div className={styles.tAuthorInfo}>
+                    <span className={styles.tAuthorName}>{testimonials[activeTestimonial].author}</span>
+                    <span className={styles.tAuthorRole}>{testimonials[activeTestimonial].role}</span>
+                  </div>
+                  {/* Navigation arrows — bottom right */}
+                  <div className={styles.tNavArrows}>
+                    <button onClick={goPrev} className={styles.tArrow} aria-label="Previous">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button onClick={goNext} className={styles.tArrow} aria-label="Next">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
