@@ -18,7 +18,8 @@ import {
   Calculator,
   CheckSquare,
   Plus,
-  Trash2
+  Trash2,
+  CreditCard
 } from 'lucide-react'
 import { getCreditScore } from '@/lib/supabase/creditScore'
 import { supabase } from '@/lib/supabase/client'
@@ -322,6 +323,22 @@ export function DashboardClient({ profile }: Props) {
                 </div>
                 <h3 className={styles.actionTitle}>Savings Groups</h3>
                 <p className={styles.actionDescription}>Join or create an ajo/esusu group and save together</p>
+              </Link>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              whileHover={{ y: -4 }} 
+              whileTap={{ scale: 0.97 }}
+            >
+              <Link href="/pay" className={`card ${styles.actionCard}`} id="pay-action-card">
+                <div className={`${styles.actionIcon} ${styles.actionIconBills}`}>
+                  <CreditCard size={24} />
+                </div>
+                <h3 className={styles.actionTitle}>Pay Bills</h3>
+                <p className={styles.actionDescription}>Buy airtime, data, electricity, and TV subscriptions</p>
               </Link>
             </motion.div>
           </div>

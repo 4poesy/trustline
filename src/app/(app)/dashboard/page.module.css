@@ -267,7 +267,7 @@
 
 .actionGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
 }
 
@@ -318,6 +318,11 @@
   color: var(--color-secondary-500);
 }
 
+.actionIconBills {
+  background-color: #E0F2FE;
+  color: #0284C7;
+}
+
 .actionTitle {
   font-size: var(--font-size-sm);
   font-weight: 700;
@@ -334,12 +339,6 @@
 @media (max-width: 480px) {
   .actionGrid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .actionGrid > :last-child {
-    grid-column: 1 / -1;
-    max-width: 50%;
-    justify-self: center;
   }
 }
 
