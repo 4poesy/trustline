@@ -32,12 +32,13 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background-color: var(--green-deep);
-  border-bottom: 1px solid rgba(232,160,32,0.25);
-  padding: 0 40px;
-  height: 72px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E8E4DA;
+  padding: 0 48px;
+  height: 100px;
   display: flex;
   align-items: center;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
 }
 
 .navInner {
@@ -56,7 +57,7 @@
 }
 
 .logoFull {
-  height: 56px;
+  height: 84px;
   width: auto;
   object-fit: contain;
 }
@@ -64,13 +65,13 @@
 .navLinksRight {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 36px;
 }
 
 .navLink {
-  color: rgba(255,255,255,0.75);
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--green-deep);
+  font-size: 0.95rem;
+  font-weight: 600;
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -80,12 +81,13 @@
   background-color: var(--saffron);
   color: var(--green-deep);
   font-weight: 700;
-  font-size: 0.875rem;
-  padding: 10px 22px;
+  font-size: 0.9rem;
+  padding: 12px 28px;
   border-radius: 100px;
   text-decoration: none !important;
   transition: background-color 0.2s, transform 0.15s;
   white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(232,160,32,0.35);
 }
 .navCta:hover {
   background-color: #d4911a;
@@ -100,7 +102,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  padding-top: 72px; /* nav height */
+  padding-top: 100px; /* nav height */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,7 +157,7 @@
 }
 .heroWave svg {
   width: 100%;
-  height: 110px;
+  height: 130px;
   display: block;
 }
 
@@ -249,6 +251,67 @@
 
 .signalsDot { opacity: 0.3; }
 
+/* =============================================
+   STATS BAR — sage/mint green, matching Screenshot 1
+   ============================================= */
+.statsBar {
+  background-color: #B8D8C8;
+  padding: 60px 60px 140px; /* extra bottom padding for the wave */
+  position: relative;
+}
+
+.statsInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.statNum {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  color: var(--green-deep);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: var(--green-deep);
+  font-weight: 600;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Organic wave divider at the bottom of stats section */
+.statsBorderBottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.statsBorderBottom svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
 /* =============================================
    SOCIAL PROOF — two-column: stats + photo mosaic
@@ -528,8 +591,8 @@
 .stepsDashedLine {
   position: absolute;
   top: 44px; /* half of circle height (88px / 2) */
-  left: calc(16.67% + 44px); /* starts after 1st circle center */
-  right: calc(16.67% + 44px); /* ends before last circle center */
+  left: 16.67%; /* center of circle 1 */
+  right: 16.67%; /* center of circle 3 */
   height: 2px;
   border-top: 2.5px dashed #C5BEB2;
   z-index: 0;
@@ -587,9 +650,11 @@
 }
 
 .stepTitle {
+  font-family: 'Fraunces', serif;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   color: var(--charcoal);
+  margin-top: 10px;
 }
 
 .stepText {
@@ -1054,7 +1119,9 @@
 }
 
 @media (max-width: 768px) {
-  .nav { padding: 0 20px; }
+  .nav { padding: 0 20px; height: 72px; }
+  .logoFull { height: 56px; }
+  .hero { padding-top: 72px; }
   .heroContent {
     padding: 60px 24px 100px;
     max-width: 100%;
@@ -1086,5 +1153,4 @@
   .footer { padding: 48px 24px; }
   .footerInner { flex-direction: column; align-items: flex-start; }
   .navLinksRight { gap: 16px; }
-  .logoFull { height: 40px; }
 }

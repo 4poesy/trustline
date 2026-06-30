@@ -185,16 +185,49 @@ export function LandingPageClient() {
           </div>
         </motion.div>
 
-        {/* Organic wave divider at bottom */}
+        {/* Organic wave divider — dark green flowing into sage stats */}
         <div className={styles.heroWave}>
-          <svg viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 1440 130" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <path
-              d="M0,40 C180,100 360,0 540,55 C720,110 900,20 1080,65 C1260,110 1380,50 1440,40 L1440,110 L0,110 Z"
-              fill="#ffffff"
+              d="M0,0 L0,65 C240,130 480,20 720,75 C960,130 1200,40 1440,80 L1440,130 L0,130 Z"
+              fill="#B8D8C8"
             />
           </svg>
         </div>
       </header>
+
+      {/* ===== STATS BAR — Sage green, matching Screenshot 1 ===== */}
+      <section className={styles.statsBar}>
+        <div className={styles.statsInner}>
+          {[
+            { val: '500+', label: 'Active traders' },
+            { val: '₦8.5M+', label: 'Income tracked' },
+            { val: '45+', label: 'Ajo groups active' },
+            { val: '4.8★', label: 'Average trust score' },
+          ].map((s, i) => (
+            <div key={i} className={styles.statItem}>
+              <span className={styles.statNum}>{s.val}</span>
+              <span className={styles.statLabel}>{s.label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Organic wave divider at bottom of stats bar, transitioning to white background */}
+        <div className={styles.statsBorderBottom}>
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+              fill="#ffffff"
+            />
+            <path
+              d="M0,32L80,48C160,64,320,96,480,101.3C640,107,800,85,960,74.7C1120,64,1280,64,1360,64L1440,64"
+              fill="none"
+              stroke="var(--saffron)"
+              strokeWidth="3"
+            />
+          </svg>
+        </div>
+      </section>
 
       {/* ===== SOCIAL PROOF SECTION ===== */}
       <section className={styles.socialProofSection}>
