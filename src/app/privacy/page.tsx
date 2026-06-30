@@ -16,7 +16,7 @@ export default function PrivacyPage() {
             <ArrowLeft size={16} /> Back to Home
           </Link>
           <div className={styles.logo}>
-            <div className={styles.logoMark}>T</div>
+            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
             <span className={styles.logoText}>Trustline</span>
           </div>
         </div>

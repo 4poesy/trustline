@@ -93,7 +93,7 @@ export function DirectoryClient({ initialListings }: Props) {
       <nav className={styles.nav}>
         <div className={`container ${styles.navInner}`}>
           <Link href="/" className={styles.logo}>
-            <div className={styles.logoMark}>T</div>
+            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
             <span className={styles.logoText}>Trustline</span>
           </Link>
           <Link href="/login" className="btn btn-secondary">

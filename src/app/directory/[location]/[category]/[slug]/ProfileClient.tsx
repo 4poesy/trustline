@@ -128,7 +128,7 @@ export function ProfileClient({ listing, initialReviews }: Props) {
       <nav className={styles.nav}>
         <div className={`container ${styles.navInner}`}>
           <Link href="/directory" className={styles.logo}>
-            <div className={styles.logoMark}>T</div>
+            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
             <span className={styles.logoText}>Trustline</span>
           </Link>
           <button className="btn btn-secondary" onClick={() => router.back()}>

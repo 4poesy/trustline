@@ -40,22 +40,11 @@
   text-decoration: none !important;
 }
 
-.logoMark {
+.logoIcon {
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background-color: var(--saffron);
-  color: var(--green-deep);
-  font-family: serif;
-  font-weight: 900;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logoMarkSaffron {
-  composes: logoMark;
+  object-fit: cover;
 }
 
 .logoText {

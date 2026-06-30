@@ -26,18 +26,11 @@
   margin-bottom: var(--space-6);
 }
 
-.logoMark {
+.logoIcon {
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background-color: var(--color-secondary-500);
-  color: var(--color-primary-900);
-  font-family: serif;
-  font-weight: 900;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
 }
 
 .logoText {

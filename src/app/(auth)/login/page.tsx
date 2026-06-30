@@ -47,7 +47,7 @@ export default function LoginPage() {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.logo}>
-            <div className={styles.logoMark}>T</div>
+            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
             <span className={styles.logoText}>Trustline</span>
           </div>
           <h1 className={styles.title}>Welcome back</h1>

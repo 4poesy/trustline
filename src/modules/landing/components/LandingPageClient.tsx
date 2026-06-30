@@ -107,7 +107,7 @@ export function LandingPageClient() {
       <nav className={styles.nav}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.logo}>
-            <div className={styles.logoMark}>T</div>
+            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
             <span className={styles.logoText}>Trustline</span>
           </Link>
           <div className={styles.navLinksRight}>
@@ -636,7 +636,7 @@ export function LandingPageClient() {
         <div className={styles.footerInner}>
           <div className={styles.footerBrand}>
             <div className={styles.logo}>
-              <div className={styles.logoMarkSaffron}>T</div>
+              <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
               <span className={styles.logoTextCharcoal}>Trustline</span>
             </div>
             <p className={styles.footerTagline}>Building financial trust for Africa&apos;s informal economy.</p>
