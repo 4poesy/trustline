@@ -365,3 +365,302 @@
     padding-left: 0;
   }
 }
+
+/* =============================================
+   BUSINESS TOOLS SECTION
+   ============================================= */
+.toolsSection {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.toolsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.toolCard {
+  background-color: var(--color-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-neutral-200);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+}
+
+.toolHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--color-neutral-100);
+  padding-bottom: var(--space-3);
+}
+
+.toolTitle {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.toolIcon {
+  color: var(--color-primary-500);
+}
+
+/* Calculator specific styles */
+.calcForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currencyPrefix {
+  position: absolute;
+  left: 14px;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-neutral-500);
+}
+
+.numericInput {
+  width: 100%;
+  padding: 10px 14px 10px 32px;
+  border-radius: 10px;
+  border: 1px solid var(--color-neutral-300);
+  font-size: var(--font-size-sm);
+  background-color: var(--color-background);
+  transition: all var(--transition-fast);
+  color: var(--color-neutral-900);
+}
+
+.numericInput:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 2px rgba(13, 124, 102, 0.1);
+}
+
+.calcResults {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  background-color: var(--color-background);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 12px;
+  border: 1px solid var(--color-neutral-150);
+}
+
+.resultBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.resultLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resultValue {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+}
+
+.resultMarginPositive {
+  color: var(--color-primary-600);
+}
+
+.resultMarginWarning {
+  color: var(--color-secondary-600);
+}
+
+.resultMarginNegative {
+  color: #DC2626;
+}
+
+.logButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 12px 16px;
+  background-color: var(--color-primary-600);
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: 650;
+  transition: all var(--transition-fast);
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.logButton:hover {
+  background-color: var(--color-primary-700);
+}
+
+/* To-Do List specific styles */
+.todoForm {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.todoInput {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-neutral-300);
+  font-size: var(--font-size-sm);
+  background-color: var(--color-background);
+  transition: all var(--transition-fast);
+  color: var(--color-neutral-900);
+}
+
+.todoInput:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 2px rgba(13, 124, 102, 0.1);
+}
+
+.todoAddBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--color-primary-600);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.todoAddBtn:hover {
+  background-color: var(--color-primary-700);
+}
+
+.todoList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom scrollbar for todo list */
+.todoList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.todoList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.todoList::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: 2px;
+}
+
+.todoItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: var(--color-background);
+  border-radius: 8px;
+  border: 1px solid var(--color-neutral-150);
+  gap: var(--space-3);
+  transition: all var(--transition-fast);
+}
+
+.todoItem:hover {
+  border-color: var(--color-neutral-250);
+}
+
+.todoItemLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.todoCheckbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid var(--color-neutral-300);
+  cursor: pointer;
+  accent-color: var(--color-primary-500);
+}
+
+.todoText {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-800);
+  transition: all var(--transition-fast);
+}
+
+.todoCompleted {
+  text-decoration: line-through;
+  color: var(--color-neutral-450);
+}
+
+.todoDeleteBtn {
+  background: none;
+  border: none;
+  color: var(--color-neutral-400);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+}
+
+.todoDeleteBtn:hover {
+  color: #DC2626;
+  background-color: rgba(220, 38, 38, 0.05);
+}
+
+.todoEmpty {
+  text-align: center;
+  padding: var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .toolsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
