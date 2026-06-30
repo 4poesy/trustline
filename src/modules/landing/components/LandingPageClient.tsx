@@ -235,7 +235,7 @@ export function LandingPageClient() {
       <nav className={styles.nav}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.logo}>
-            <img src="/images/logo-full.jpg" alt="Trustline – Your Sales Diary" className={styles.logoFull} />
+            <img src="/images/logo-full.png" alt="Trustline – Your Sales Diary" className={styles.logoFull} />
           </Link>
           <div className={styles.navLinksRight}>
             <Link href="/directory" className={styles.navLink}>Directory</Link>
@@ -684,7 +684,7 @@ export function LandingPageClient() {
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <div className={styles.footerBrand}>
-            <img src="/images/logo-full.jpg" alt="Trustline" className={styles.footerLogo} />
+            <img src="/images/logo-full.png" alt="Trustline" className={styles.footerLogo} />
             <p className={styles.footerTagline}>Building financial trust for Africa&apos;s informal economy.</p>
           </div>
           <div className={styles.footerLinks}>
