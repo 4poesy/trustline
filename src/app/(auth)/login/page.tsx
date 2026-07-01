@@ -46,16 +46,16 @@ export default function LoginPage() {
 
       if (result?.error) {
         setPin('') // Reset pin pad
-        const err = result.error.message || ''
+        const err = typeof result.error === 'string' ? result.error : (result.error.message || '')
 
         if (err.includes('account_locked')) {
           setError('Your account is temporarily locked due to too many failed attempts.')
           setLockoutMinutes(30)
           setStep(1)
-        } else if (err.includes('invalid_credentials')) {
+        } else if (err.includes('invalid_credentials') || err.includes('incorrect_pin')) {
           setError('Incorrect Trustline Code or PIN.')
           // Parse attempts if available in response
-          if (result.error.attempts_remaining !== undefined) {
+          if (result.error && typeof result.error !== 'string' && result.error.attempts_remaining !== undefined) {
             setAttemptsRemaining(result.error.attempts_remaining)
             setError(`Incorrect PIN. ${result.error.attempts_remaining} attempts remaining before temporary lock.`)
           }

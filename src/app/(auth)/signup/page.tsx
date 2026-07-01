@@ -132,7 +132,8 @@ export default function SignupPage() {
       })
 
       if (result?.error) {
-        throw new Error(result.error.message || 'Registration failed.')
+        const errorMsg = typeof result.error === 'string' ? result.error : (result.error.message || 'Registration failed.')
+        throw new Error(errorMsg)
       }
 
       router.push('/dashboard')
