@@ -116,7 +116,7 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 0.85fr 1.15fr;
   align-items: center;
   gap: 64px;
   max-width: 1400px;
@@ -124,7 +124,7 @@
   margin: 0 auto;
 }
 
-.heroLeft {
+.heroTextCol {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -133,7 +133,7 @@
   max-width: 680px;
 }
 
-.heroRight {
+.heroImageCol {
   position: relative;
   display: flex;
   justify-content: center;
@@ -159,7 +159,8 @@
 }
 
 /* Wavy Divider at bottom of hero, matching Screenshot 1 */
-.heroWave {
+.heroWave,
+.sectionWave {
   position: absolute;
   bottom: -1px;
   left: 0;
@@ -197,6 +198,10 @@
 
 .heroTitleAccent {
   color: var(--saffron);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  text-transform: none;
 }
 
 .heroDescription {
@@ -597,8 +602,8 @@
    ============================================= */
 .howSection {
   background-color: var(--white);
-  padding: 100px 0;
-  border-bottom: 1px solid #EEEBE4;
+  padding: 100px 0 160px;
+  position: relative;
 }
 
 /* The outer row that holds the dashed line + all step items */
@@ -693,7 +698,8 @@
    ============================================= */
 .featuresSection {
   background-color: var(--green-mid);
-  padding: 100px 0;
+  padding: 100px 0 160px;
+  position: relative;
 }
 
 .featuresTitle {
@@ -756,7 +762,8 @@
    ============================================= */
 .testimonialsSection {
   background-color: #0D1117;
-  padding: 80px 60px;
+  padding: 80px 60px 140px;
+  position: relative;
 }
 
 /* The outer card container — clips the sliding motion */
@@ -888,7 +895,8 @@
    ============================================= */
 .installSection {
   background-color: var(--linen);
-  padding: 120px 0;
+  padding: 120px 0 180px;
+  position: relative;
 }
 
 .installGrid {
@@ -1544,12 +1552,13 @@
   .navCta { padding: 8px 16px; font-size: 0.8rem; }
   .hero { padding: 100px 20px 60px; min-height: auto; }
   .heroContent {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column-reverse;
     gap: 40px;
     padding: 20px 0 60px;
     max-width: 100%;
   }
-  .heroLeft {
+  .heroTextCol {
     align-items: center;
     text-align: center;
   }

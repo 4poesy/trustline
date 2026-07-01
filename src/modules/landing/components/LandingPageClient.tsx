@@ -250,12 +250,24 @@ export function LandingPageClient() {
       <header className={styles.hero}>
         <div className={styles.heroContent}>
           
-          {/* Left Column — Text */}
+          {/* Left Column — Image */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className={styles.heroLeft}
+            className={styles.heroImageCol}
+          >
+            <div className={styles.heroImgContainer}>
+              <img src="/images/trader-veg.jpg" alt="Trader showing records on Trustline365 app" className={styles.heroImg} />
+            </div>
+          </motion.div>
+
+          {/* Right Column — Text */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            className={styles.heroTextCol}
           >
             <p className={styles.heroEyebrow}>For traders · vendors · service providers</p>
             <h1 className={styles.heroTitle}>
@@ -279,18 +291,6 @@ export function LandingPageClient() {
               <span><Check size={14} className={styles.signalCheck} /> No bank required</span>
               <span className={styles.signalsDot}>·</span>
               <span><Check size={14} className={styles.signalCheck} /> Works offline</span>
-            </div>
-          </motion.div>
-
-          {/* Right Column — Image */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-            className={styles.heroRight}
-          >
-            <div className={styles.heroImgContainer}>
-              <img src="/images/fabric-trader.jpg" alt="Trader using Trustline365 app" className={styles.heroImg} />
             </div>
           </motion.div>
 
@@ -475,6 +475,13 @@ export function LandingPageClient() {
             ))}
           </div>
         </div>
+        {/* Gold Wavy Divider transitioning to featuresSection */}
+        <div className={styles.sectionWave}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="var(--linen)"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
+        </div>
       </section>
 
       {/* ===== FEATURES GRID (Grey.co dark bento style) ===== */}
@@ -513,6 +520,13 @@ export function LandingPageClient() {
               </motion.div>
             ))}
           </div>
+        </div>
+        {/* Gold Wavy Divider transitioning to testimonialsSection */}
+        <div className={styles.sectionWave}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="#0D1117"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
         </div>
       </section>
 
@@ -565,6 +579,13 @@ export function LandingPageClient() {
               </div>
             </motion.div>
           </AnimatePresence>
+        </div>
+        {/* Gold Wavy Divider transitioning to installSection */}
+        <div className={styles.sectionWave}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="var(--linen)"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
         </div>
       </section>
 
@@ -656,6 +677,13 @@ export function LandingPageClient() {
               </div>
             </div>
           </div>
+        </div>
+        {/* Gold Wavy Divider transitioning to finalCtaSection */}
+        <div className={styles.sectionWave}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="var(--green-deep)"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
         </div>
       </section>
 

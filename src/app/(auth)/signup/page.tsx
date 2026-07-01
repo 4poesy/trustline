@@ -203,10 +203,10 @@ export default function SignupPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.container}>
-        
-        {/* Header */}
-        <div className={styles.header}>
+      
+      {/* Full-width premium header banner with wavy divider */}
+      <header className={styles.headerBanner}>
+        <div className={styles.headerBannerInner}>
           <div className={styles.logo}>
             <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
             <span className={styles.logoText}>Trustline365</span>
@@ -223,6 +223,17 @@ export default function SignupPage() {
             {step === 3 && 'Step 3 of 3: Your secure access identity'}
           </p>
         </div>
+
+        {/* Gold Wavy Divider at bottom of banner */}
+        <div className={styles.headerWave}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="var(--color-background)"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
+        </div>
+      </header>
+
+      <div className={styles.container}>
 
         {error && (
           <div className={styles.errorBox} role="alert">
