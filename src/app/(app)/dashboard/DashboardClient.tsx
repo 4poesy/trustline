@@ -19,7 +19,12 @@ import {
   CheckSquare,
   Plus,
   Trash2,
-  CreditCard
+  CreditCard,
+  Coins,
+  Shield,
+  Store,
+  QrCode,
+  FileText
 } from 'lucide-react'
 import { getCreditScore } from '@/lib/supabase/creditScore'
 import { supabase } from '@/lib/supabase/client'
@@ -424,6 +429,54 @@ export function DashboardClient({ profile }: Props) {
               </div>
               <h3 className={styles.actionTitle}>Pay Bills</h3>
               <p className={styles.actionDescription}>Buy airtime, data, electricity, and TV subscriptions</p>
+            </Link>
+
+            <Link href="/loans" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay1}`} id="loans-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconLoans}`}>
+                <Coins size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Find Loans</h3>
+              <p className={styles.actionDescription}>Discover matched loan offers from verified lenders</p>
+            </Link>
+
+            <Link href="/insurance" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay2}`} id="insurance-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconInsurance}`}>
+                <Shield size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Micro-Insurance</h3>
+              <p className={styles.actionDescription}>Protect your inventory, health, and devices</p>
+            </Link>
+
+            <Link href="/group-commerce" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay3}`} id="group-commerce-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconGroupCommerce}`}>
+                <Store size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Group Buy</h3>
+              <p className={styles.actionDescription}>Pool funds with others to purchase goods in bulk</p>
+            </Link>
+
+            <Link href="/insights" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay4}`} id="insights-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconInsights}`}>
+                <TrendingUp size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Business Insights</h3>
+              <p className={styles.actionDescription}>View sales analytics and competitive benchmarks</p>
+            </Link>
+
+            <Link href="/my-qr" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay1}`} id="qr-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconQr}`}>
+                <QrCode size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>My QR Code</h3>
+              <p className={styles.actionDescription}>Receive instant scan-to-pay payments from customers</p>
+            </Link>
+
+            <Link href="/invoices" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay2}`} id="invoices-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconInvoices}`}>
+                <FileText size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Invoices</h3>
+              <p className={styles.actionDescription}>Generate and send invoices to track customer payments</p>
             </Link>
           </div>
         </section>

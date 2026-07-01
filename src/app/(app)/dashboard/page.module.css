@@ -497,6 +497,36 @@
   color: #0284C7;
 }
 
+.actionIconLoans {
+  background-color: #FEF3C7;
+  color: #D97706;
+}
+
+.actionIconInsurance {
+  background-color: #ECFDF5;
+  color: #059669;
+}
+
+.actionIconGroupCommerce {
+  background-color: #FDF2F8;
+  color: #DB2777;
+}
+
+.actionIconInsights {
+  background-color: #EEF2FF;
+  color: #4F46E5;
+}
+
+.actionIconQr {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.actionIconInvoices {
+  background-color: #FFF7ED;
+  color: #EA580C;
+}
+
 .actionTitle {
   font-size: var(--font-size-sm);
   font-weight: 700;
