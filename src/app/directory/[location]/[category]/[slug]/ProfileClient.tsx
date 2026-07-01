@@ -42,6 +42,7 @@ export function ProfileClient({ listing, initialReviews }: Props) {
   const [comment, setComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [user, setUser] = useState<any>(null)
+  const [kycTier, setKycTier] = useState<number | null>(null)
   const router = useRouter()
   const supabase = createClient()
 
@@ -53,6 +54,27 @@ export function ProfileClient({ listing, initialReviews }: Props) {
     }
     fetchUser()
   }, [supabase])
+
+  // Fetch target profile's KYC tier
+  useEffect(() => {
+    const fetchKycTier = async () => {
+      try {
+        const { data } = await supabase
+          .from('kyc_profiles')
+          .select('tier')
+          .eq('profile_id', listing.profile_id)
+          .single()
+        if (data) {
+          setKycTier(data.tier)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    if (listing.profile_id) {
+      fetchKycTier()
+    }
+  }, [listing.profile_id, supabase])
 
   // Calculate statistics
   const totalReviews = reviews.length
@@ -144,7 +166,14 @@ export function ProfileClient({ listing, initialReviews }: Props) {
             {listing.display_name.charAt(0).toUpperCase()}
           </div>
           <div className={styles.profileMeta}>
-            <span className={styles.categoryBadge}>{listing.category}</span>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
+              <span className={styles.categoryBadge}>{listing.category}</span>
+              {kycTier !== null && kycTier > 0 && (
+                <span style={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase', backgroundColor: 'var(--color-primary-50)', color: 'var(--color-primary-600)', padding: '2px 8px', borderRadius: '4px' }}>
+                  Tier {kycTier} Verified
+                </span>
+              )}
+            </div>
             <h1 className={styles.businessName}>{listing.display_name}</h1>
             <p className={styles.location}>📍 {listing.location}</p>
           </div>

@@ -1,0 +1,205 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-primary-500);
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.intro {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+}
+
+.introIcon {
+  color: var(--color-primary-500);
+}
+
+.intro h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.intro p {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-550);
+  max-width: 520px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.plansList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.planCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.planHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.planIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--color-primary-50), rgba(13, 124, 102, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-500);
+  flex-shrink: 0;
+}
+
+.planInfo {
+  flex: 1;
+}
+
+.planInfo h3 {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.premiumLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  font-weight: 600;
+}
+
+.chevron {
+  color: var(--color-neutral-400);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+.planBody {
+  padding: 0 var(--space-6) var(--space-6) var(--space-6);
+  border-top: 1px solid var(--color-neutral-100);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.planDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  line-height: 1.5;
+  margin: var(--space-4) 0;
+}
+
+.coverageLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-700);
+  margin-bottom: var(--space-3);
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.featuresList li {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-650);
+  padding-left: 18px;
+  position: relative;
+}
+
+.featuresList li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary-500);
+  font-weight: 800;
+  font-size: 11px;
+}

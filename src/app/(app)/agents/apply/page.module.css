@@ -1,0 +1,194 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  gap: var(--space-4);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-primary-500);
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.errorAlert {
+  background-color: var(--color-error-light);
+  border: 1px solid var(--color-error);
+  padding: var(--space-4);
+  border-radius: 12px;
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 550;
+}
+
+.kycNoticeCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 20px;
+  padding: var(--space-6);
+  display: flex;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.noticeIcon {
+  color: var(--color-secondary-500);
+  flex-shrink: 0;
+}
+
+.kycNoticeCard h3 {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0 0 4px 0;
+}
+
+.kycNoticeCard p {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.formCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 20px;
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.userIcon {
+  color: var(--color-primary-500);
+}
+
+.formHeader h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.termsBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: var(--color-neutral-50);
+  padding: var(--space-5);
+  border-radius: 12px;
+  border: 1px solid var(--color-neutral-200);
+}
+
+.termsRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  color: var(--color-neutral-650);
+}
+
+.termsRow svg {
+  color: var(--color-primary-500);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.termsRow p {
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  accent-color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+.checkboxRow label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-neutral-700);
+  user-select: none;
+  cursor: pointer;
+}

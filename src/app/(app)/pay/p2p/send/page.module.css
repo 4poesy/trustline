@@ -1,0 +1,216 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-primary-500);
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.balanceCard {
+  background-color: var(--color-primary-600);
+  color: white;
+  border-radius: 20px;
+  padding: var(--space-5) var(--space-6);
+  border: none;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.balanceLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  opacity: 0.8;
+}
+
+.balanceVal {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.errorAlert {
+  background-color: var(--color-error-light);
+  border: 1px solid var(--color-error);
+  padding: var(--space-4);
+  border-radius: 12px;
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 550;
+}
+
+.successAlert {
+  background-color: var(--color-primary-50);
+  border: 1px solid var(--color-primary-500);
+  padding: var(--space-5) var(--space-6);
+  border-radius: 20px;
+  color: var(--color-primary-600);
+  display: flex;
+  gap: var(--space-4);
+}
+
+.successAlert h3 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.successAlert p {
+  font-size: var(--font-size-sm);
+  margin: 0;
+  opacity: 0.9;
+}
+
+.refText {
+  font-size: 11px !important;
+  font-family: monospace;
+  margin-top: 6px !important;
+  color: var(--color-neutral-600);
+}
+
+.formCard {
+  background-color: var(--color-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-neutral-200);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.formTitle {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  margin: 0 0 4px 0;
+}
+
+.formDesc {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.searchRow {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.searchBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-600);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.searchBtn:hover {
+  background-color: var(--color-primary-700);
+}
+
+.recipientHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-neutral-100);
+  padding-bottom: var(--space-4);
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recipientHeader h4 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.recipientHeader p {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  margin: 2px 0 0 0;
+}
+
+.changeBtn {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-secondary-500);
+  background: none;
+  border: none;
+  cursor: pointer;
+}

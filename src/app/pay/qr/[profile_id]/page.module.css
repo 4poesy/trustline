@@ -1,0 +1,171 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer, .errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  gap: var(--space-4);
+  text-align: center;
+  padding: 20px;
+}
+
+.errIcon {
+  color: var(--color-error);
+}
+
+.header {
+  background-color: white;
+  border-bottom: 1px solid var(--color-neutral-200);
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+}
+
+.secureBadge {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.brandTitle {
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  color: var(--color-primary-500);
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.checkoutBox {
+  background-color: white;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.merchantSection {
+  text-align: center;
+  border-bottom: 1px solid var(--color-neutral-100);
+  padding-bottom: 20px;
+}
+
+.merchantName {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.merchantMeta {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  margin: 6px 0 0 0;
+}
+
+.ratingRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-neutral-600);
+  margin-top: 10px;
+  background-color: var(--color-neutral-50);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.starIcon {
+  fill: var(--color-secondary-500);
+  color: var(--color-secondary-500);
+}
+
+.errorAlert {
+  background-color: var(--color-error-light);
+  border: 1px solid var(--color-error);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 12px;
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.trustFooter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--color-neutral-400);
+  font-weight: 550;
+}
+
+.successCard {
+  background-color: white;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 24px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.checkIcon {
+  color: var(--color-primary-500);
+}
+
+.successCard h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.successCard p {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ref {
+  font-family: monospace;
+  font-size: 11px !important;
+  color: var(--color-neutral-450) !important;
+}

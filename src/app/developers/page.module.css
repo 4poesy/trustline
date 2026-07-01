@@ -1,0 +1,161 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  color: var(--color-neutral-900);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 80px;
+  background-color: white;
+  border-bottom: 1px solid var(--color-neutral-200);
+  padding: 0 var(--space-6);
+  display: flex;
+  align-items: center;
+}
+
+.navInner {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+}
+
+.brandName {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-500);
+}
+
+.hero {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, rgba(13, 124, 102, 0.05) 0%, rgba(220, 242, 238, 0.2) 100%);
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.tagline {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--color-neutral-955);
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.description {
+  font-size: 1.25rem;
+  color: var(--color-neutral-600);
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+.heroActions {
+  margin-top: 12px;
+}
+
+.docsSection {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-neutral-950);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.endpointCard {
+  background-color: white;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.endpointHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.methodGet {
+  background-color: var(--color-primary-500);
+  color: white;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.endpointPath {
+  font-family: monospace;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-neutral-800);
+}
+
+.endpointDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-650);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.codeSnippet {
+  background-color: var(--color-neutral-900);
+  color: #a9ffeb;
+  padding: var(--space-4);
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.footer {
+  padding: 40px 20px;
+  border-top: 1px solid var(--color-neutral-200);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  background-color: white;
+}

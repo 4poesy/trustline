@@ -7,8 +7,6 @@ import { useBillPayments } from '@/modules/pay/hooks/useBillPayments'
 import { 
   ArrowLeft, 
   Search, 
-  Filter, 
-  Calendar,
   Smartphone,
   Wifi,
   Zap,
@@ -16,9 +14,11 @@ import {
   CheckCircle,
   Clock,
   XCircle,
-  ArrowRight,
   Info,
-  History as HistoryIcon
+  History as HistoryIcon,
+  Send,
+  Download,
+  CreditCard
 } from 'lucide-react'
 import styles from './page.module.css'
 
@@ -27,21 +27,20 @@ type BillTypeFilter = 'all' | 'airtime' | 'data' | 'electricity' | 'tv_subscript
 export default function BillHistoryPage() {
   const { profile, loading: authLoading } = useAuth()
   const router = useRouter()
-  const { payments, loading: dbLoading, refresh } = useBillPayments(profile?.id)
+  const { payments, walletTransactions, loading: dbLoading } = useBillPayments(profile?.id)
 
-  // Filters
+  const [viewMode, setViewMode] = useState<'bills' | 'wallet'>('bills')
   const [typeFilter, setTypeFilter] = useState<BillTypeFilter>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedPayment, setSelectedPayment] = useState<any | null>(null)
+  const [selectedTx, setSelectedTx] = useState<any | null>(null)
 
   // Filtered Payments list
   const filteredPayments = useMemo(() => {
     return payments.filter((item) => {
-      // 1. Filter by category type
       if (typeFilter !== 'all' && item.type !== typeFilter) {
         return false
       }
-      // 2. Filter by search query (biller name or recipient number)
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim()
         const providerMatch = item.network_or_provider.toLowerCase().includes(query)
@@ -52,6 +51,20 @@ export default function BillHistoryPage() {
       return true
     })
   }, [payments, typeFilter, searchQuery])
+
+  // Filtered Wallet Transactions
+  const filteredWalletTransactions = useMemo(() => {
+    return walletTransactions.filter((item) => {
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim()
+        const descMatch = item.description?.toLowerCase().includes(query) || false
+        const typeMatch = item.type.toLowerCase().includes(query)
+        const refMatch = item.reference.toLowerCase().includes(query)
+        return descMatch || typeMatch || refMatch
+      }
+      return true
+    })
+  }, [walletTransactions, searchQuery])
 
   if (authLoading || dbLoading) {
     return (
@@ -67,7 +80,6 @@ export default function BillHistoryPage() {
     return null
   }
 
-  // Utility to render status badges
   const renderStatusBadge = (status: 'pending' | 'successful' | 'failed') => {
     switch (status) {
       case 'successful':
@@ -94,7 +106,6 @@ export default function BillHistoryPage() {
     }
   }
 
-  // Get service icon
   const getBillIcon = (type: string) => {
     switch (type) {
       case 'airtime':
@@ -110,7 +121,19 @@ export default function BillHistoryPage() {
     }
   }
 
-  // Format Date
+  const getWalletTxIcon = (type: string) => {
+    switch (type) {
+      case 'transfer':
+        return <Send size={18} style={{ color: 'var(--color-error)' }} />
+      case 'deposit':
+        return <Download size={18} style={{ color: 'var(--color-primary-500)' }} />
+      case 'bill_payment':
+        return <CreditCard size={18} style={{ color: 'var(--color-secondary-500)' }} />
+      default:
+        return <Info size={18} />
+    }
+  }
+
   const formatDate = (dateStr: string) => {
     try {
       const date = new Date(dateStr)
@@ -128,7 +151,6 @@ export default function BillHistoryPage() {
 
   return (
     <div className={styles.page}>
-      {/* ===== HEADER ===== */}
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <button 
@@ -143,125 +165,179 @@ export default function BillHistoryPage() {
         </div>
       </header>
 
-      {/* ===== MAIN ===== */}
       <main className={styles.main}>
-        {/* ===== FILTERS PANEL ===== */}
+        {/* Toggle Switch */}
+        <section className={styles.toggleSection}>
+          <button 
+            className={`${styles.toggleBtn} ${viewMode === 'bills' ? styles.toggleBtnActive : ''}`}
+            onClick={() => setViewMode('bills')}
+          >
+            Bill Payments
+          </button>
+          <button 
+            className={`${styles.toggleBtn} ${viewMode === 'wallet' ? styles.toggleBtnActive : ''}`}
+            onClick={() => setViewMode('wallet')}
+          >
+            Wallet Transfers
+          </button>
+        </section>
+
+        {/* Search */}
         <section className={styles.filtersSection}>
           <div className={styles.searchWrapper}>
             <Search className={styles.searchIcon} size={18} />
             <input
               type="text"
-              placeholder="Search by phone number, provider, or reference..."
+              placeholder="Search by phone, description, reference..."
               className={styles.searchInput}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
-          <div className={styles.filterTabs}>
-            <button
-              className={`${styles.filterTab} ${typeFilter === 'all' ? styles.filterTabActive : ''}`}
-              onClick={() => setTypeFilter('all')}
-            >
-              All
-            </button>
-            <button
-              className={`${styles.filterTab} ${typeFilter === 'airtime' ? styles.filterTabActive : ''}`}
-              onClick={() => setTypeFilter('airtime')}
-            >
-              Airtime
-            </button>
-            <button
-              className={`${styles.filterTab} ${typeFilter === 'data' ? styles.filterTabActive : ''}`}
-              onClick={() => setTypeFilter('data')}
-            >
-              Data
-            </button>
-            <button
-              className={`${styles.filterTab} ${typeFilter === 'electricity' ? styles.filterTabActive : ''}`}
-              onClick={() => setTypeFilter('electricity')}
-            >
-              Power
-            </button>
-            <button
-              className={`${styles.filterTab} ${typeFilter === 'tv_subscription' ? styles.filterTabActive : ''}`}
-              onClick={() => setTypeFilter('tv_subscription')}
-            >
-              TV
-            </button>
-          </div>
+          {viewMode === 'bills' && (
+            <div className={styles.filterTabs}>
+              <button
+                className={`${styles.filterTab} ${typeFilter === 'all' ? styles.filterTabActive : ''}`}
+                onClick={() => setTypeFilter('all')}
+              >
+                All
+              </button>
+              <button
+                className={`${styles.filterTab} ${typeFilter === 'airtime' ? styles.filterTabActive : ''}`}
+                onClick={() => setTypeFilter('airtime')}
+              >
+                Airtime
+              </button>
+              <button
+                className={`${styles.filterTab} ${typeFilter === 'data' ? styles.filterTabActive : ''}`}
+                onClick={() => setTypeFilter('data')}
+              >
+                Data
+              </button>
+              <button
+                className={`${styles.filterTab} ${typeFilter === 'electricity' ? styles.filterTabActive : ''}`}
+                onClick={() => setTypeFilter('electricity')}
+              >
+                Power
+              </button>
+              <button
+                className={`${styles.filterTab} ${typeFilter === 'tv_subscription' ? styles.filterTabActive : ''}`}
+                onClick={() => setTypeFilter('tv_subscription')}
+              >
+                TV
+              </button>
+            </div>
+          )}
         </section>
 
-        {/* ===== LIST PANEL ===== */}
+        {/* List Panel */}
         <section className={styles.listSection}>
-          {filteredPayments.length === 0 ? (
-            <div className={styles.emptyCard}>
-              <HistoryIcon size={40} className={styles.emptyIcon} />
-              <h3>No purchases found</h3>
-              <p>Try refining your search query or choosing another tab filter.</p>
-            </div>
-          ) : (
-            <div className={styles.historyList}>
-              {filteredPayments.map((payment) => (
-                <div 
-                  key={payment.id} 
-                  className={styles.historyItem}
-                  onClick={() => setSelectedPayment(payment)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      setSelectedPayment(payment)
-                    }
-                  }}
-                  title="Click to view details"
-                >
-                  <div className={styles.itemLeft}>
-                    <div className={styles.iconCircle}>
-                      {getBillIcon(payment.type)}
+          {viewMode === 'bills' ? (
+            filteredPayments.length === 0 ? (
+              <div className={styles.emptyCard}>
+                <HistoryIcon size={40} className={styles.emptyIcon} />
+                <h3>No purchases found</h3>
+                <p>Try refining your search query or choosing another tab filter.</p>
+              </div>
+            ) : (
+              <div className={styles.historyList}>
+                {filteredPayments.map((payment) => (
+                  <div 
+                    key={payment.id} 
+                    className={styles.historyItem}
+                    onClick={() => setSelectedPayment(payment)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className={styles.itemLeft}>
+                      <div className={styles.iconCircle}>
+                        {getBillIcon(payment.type)}
+                      </div>
+                      <div className={styles.meta}>
+                        <span className={styles.itemName}>
+                          {payment.network_or_provider} ({payment.type.replace('_', ' ')})
+                        </span>
+                        <span className={styles.itemRecipient}>{payment.recipient_number}</span>
+                        <span className={styles.itemDate}>{formatDate(payment.created_at)}</span>
+                      </div>
                     </div>
-                    <div className={styles.meta}>
-                      <span className={styles.itemName}>
-                        {payment.network_or_provider} ({payment.type === 'tv_subscription' ? 'Cable TV' : payment.type})
-                      </span>
-                      <span className={styles.itemRecipient}>{payment.recipient_number}</span>
-                      <span className={styles.itemDate}>{formatDate(payment.created_at)}</span>
-                    </div>
-                  </div>
 
-                  <div className={styles.itemRight}>
-                    <span className={styles.itemAmount}>
-                      ₦{payment.amount.toLocaleString('en-NG')}
-                    </span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      {renderStatusBadge(payment.status)}
-                      <Info size={14} className={styles.infoIndicator} />
+                    <div className={styles.itemRight}>
+                      <span className={styles.itemAmount}>
+                        ₦{payment.amount.toLocaleString('en-NG')}
+                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {renderStatusBadge(payment.status)}
+                        <Info size={14} className={styles.infoIndicator} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )
+          ) : (
+            filteredWalletTransactions.length === 0 ? (
+              <div className={styles.emptyCard}>
+                <HistoryIcon size={40} className={styles.emptyIcon} />
+                <h3>No wallet transactions found</h3>
+                <p>Funds transferred or deposited will appear here.</p>
+              </div>
+            ) : (
+              <div className={styles.historyList}>
+                {filteredWalletTransactions.map((tx) => (
+                  <div 
+                    key={tx.id} 
+                    className={styles.historyItem}
+                    onClick={() => setSelectedTx(tx)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className={styles.itemLeft}>
+                      <div className={styles.iconCircle}>
+                        {getWalletTxIcon(tx.type)}
+                      </div>
+                      <div className={styles.meta}>
+                        <span className={styles.itemName}>
+                          {tx.description || 'Wallet Transaction'}
+                        </span>
+                        <span className={styles.itemRecipient}>{tx.type.toUpperCase()}</span>
+                        <span className={styles.itemDate}>{formatDate(tx.created_at)}</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.itemRight}>
+                      <span className={`${styles.itemAmount} ${tx.type === 'deposit' ? styles.incomeText : styles.expenseText}`}>
+                        {tx.type === 'deposit' ? '+' : '-'} {tx.currency} {tx.amount.toLocaleString()}
+                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {renderStatusBadge(tx.status)}
+                        <Info size={14} className={styles.infoIndicator} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
           )}
         </section>
       </main>
 
-      {/* ===== TRANSACTION DETAILS MODAL OVERLAY ===== */}
+      {/* Bill Details Modal */}
       {selectedPayment && (
         <div className={styles.overlay} onClick={() => setSelectedPayment(null)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h3 className={styles.modalTitle}>Transaction Details</h3>
-            
+            <h3 className={styles.modalTitle}>Purchase Details</h3>
             <div className={styles.modalHeaderGrid}>
               <span className={styles.modalHeaderAmount}>
                 ₦{selectedPayment.amount.toLocaleString('en-NG')}
               </span>
               {renderStatusBadge(selectedPayment.status)}
             </div>
-
             <div className={styles.modalGrid}>
               <div className={styles.modalRow}>
                 <span className={styles.modalLabel}>Product Type</span>
-                <span className={styles.modalVal}>{selectedPayment.type.toUpperCase().replace('_', ' ')}</span>
+                <span className={styles.modalVal}>{selectedPayment.type.toUpperCase()}</span>
               </div>
               <div className={styles.modalRow}>
                 <span className={styles.modalLabel}>Biller/Operator</span>
@@ -269,34 +345,56 @@ export default function BillHistoryPage() {
               </div>
               <div className={styles.modalRow}>
                 <span className={styles.modalLabel}>Recipient ID</span>
-                <span className={styles.modalVal} style={{ fontFamily: 'monospace' }}>
-                  {selectedPayment.recipient_number}
-                </span>
+                <span className={styles.modalVal}>{selectedPayment.recipient_number}</span>
               </div>
               <div className={styles.modalRow}>
                 <span className={styles.modalLabel}>Created Date</span>
                 <span className={styles.modalVal}>{formatDate(selectedPayment.created_at)}</span>
               </div>
-              {selectedPayment.completed_at && (
-                <div className={styles.modalRow}>
-                  <span className={styles.modalLabel}>Completed Date</span>
-                  <span className={styles.modalVal}>{formatDate(selectedPayment.completed_at)}</span>
-                </div>
-              )}
-              <div className={styles.modalRow} style={{ borderTop: '1px solid var(--color-neutral-200)', paddingTop: '12px', marginTop: '4px' }}>
-                <span className={styles.modalLabel}>Provider Reference</span>
-                <span className={`${styles.modalVal} ${styles.modalRef}`}>
-                  {selectedPayment.provider_reference || 'N/A'}
-                </span>
+              <div className={styles.modalRow}>
+                <span className={styles.modalLabel}>Reference</span>
+                <span className={styles.modalVal}>{selectedPayment.provider_reference}</span>
               </div>
             </div>
+            <button className={styles.closeBtn} onClick={() => setSelectedPayment(null)}>Close</button>
+          </div>
+        </div>
+      )}
 
-            <button 
-              className={styles.closeBtn}
-              onClick={() => setSelectedPayment(null)}
-            >
-              Close Details
-            </button>
+      {/* Wallet Details Modal */}
+      {selectedTx && (
+        <div className={styles.overlay} onClick={() => setSelectedTx(null)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <h3 className={styles.modalTitle}>Wallet Transaction Details</h3>
+            <div className={styles.modalHeaderGrid}>
+              <span className={styles.modalHeaderAmount}>
+                {selectedTx.currency} {selectedTx.amount.toLocaleString()}
+              </span>
+              {renderStatusBadge(selectedTx.status)}
+            </div>
+            <div className={styles.modalGrid}>
+              <div className={styles.modalRow}>
+                <span className={styles.modalLabel}>Transaction Type</span>
+                <span className={styles.modalVal}>{selectedTx.type.toUpperCase()}</span>
+              </div>
+              <div className={styles.modalRow}>
+                <span className={styles.modalLabel}>Description</span>
+                <span className={styles.modalVal}>{selectedTx.description}</span>
+              </div>
+              <div className={styles.modalRow}>
+                <span className={styles.modalLabel}>Payment Method</span>
+                <span className={styles.modalVal}>{selectedTx.payment_method}</span>
+              </div>
+              <div className={styles.modalRow}>
+                <span className={styles.modalLabel}>Created Date</span>
+                <span className={styles.modalVal}>{formatDate(selectedTx.created_at)}</span>
+              </div>
+              <div className={styles.modalRow}>
+                <span className={styles.modalLabel}>Reference</span>
+                <span className={styles.modalVal}>{selectedTx.reference}</span>
+              </div>
+            </div>
+            <button className={styles.closeBtn} onClick={() => setSelectedTx(null)}>Close</button>
           </div>
         </div>
       )}

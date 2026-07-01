@@ -1,0 +1,179 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-primary-500);
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.receiveCard {
+  background-color: var(--color-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-neutral-200);
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.avatarCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.profileName {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0 0 2px 0;
+}
+
+.subtitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-neutral-400);
+  letter-spacing: 1.2px;
+  margin-top: var(--space-4);
+}
+
+.phoneContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 12px;
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-2);
+  width: 100%;
+  max-width: 320px;
+  justify-content: space-between;
+}
+
+.phoneNumber {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  letter-spacing: 0.5px;
+}
+
+.copyButton {
+  background: none;
+  border: none;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.copyButton:hover {
+  color: var(--color-primary-500);
+}
+
+.checkIcon {
+  color: var(--color-primary-500);
+}
+
+.shieldNotice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  max-width: 280px;
+  line-height: 1.4;
+}
+
+.shieldIcon {
+  color: var(--color-primary-500);
+  flex-shrink: 0;
+}
+
+.actionSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.shareBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.qrBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

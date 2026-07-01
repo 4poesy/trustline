@@ -1,0 +1,213 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  gap: var(--space-4);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-primary-500);
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.actionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actionHeader h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.listSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.emptyCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 20px;
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  color: var(--color-neutral-500);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-sm);
+}
+
+.emptyIcon {
+  color: var(--color-neutral-300);
+}
+
+.purchasesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.itemCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 20px;
+  padding: var(--space-6);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: border-color var(--transition-fast);
+}
+
+.itemCard:hover {
+  border-color: var(--color-primary-500);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon {
+  color: var(--color-primary-500);
+}
+
+.statusBadge {
+  font-size: 9px;
+  font-weight: 850;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.statusOpen {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.statusFunded {
+  background-color: var(--color-secondary-50);
+  color: var(--color-secondary-600);
+}
+
+.itemTitle {
+  font-size: var(--font-size-base);
+  font-weight: 850;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.itemDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progressLabelRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  font-weight: 750;
+  color: var(--color-neutral-700);
+}
+
+.progressBar {
+  height: 8px;
+  background-color: var(--color-neutral-150);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(to right, var(--color-primary-500), var(--color-primary-400));
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: var(--color-neutral-450);
+  border-top: 1px solid var(--color-neutral-100);
+  padding-top: var(--space-3);
+}
+
+.deadline {
+  display: inline-flex;
+  align-items: center;
+}

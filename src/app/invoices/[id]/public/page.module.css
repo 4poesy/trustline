@@ -1,0 +1,234 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--color-neutral-100);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.noPrintActions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.backBtn {
+  background-color: white;
+  border: 1px solid var(--color-neutral-300);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.printBtn {
+  background-color: var(--color-primary-500);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.invoicePaper {
+  width: 100%;
+  max-width: 680px;
+  background-color: white;
+  border: 1px solid var(--color-neutral-250);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.billHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--color-neutral-100);
+  padding-bottom: 20px;
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+}
+
+.branding h2 {
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  color: var(--color-primary-500);
+  margin: 0;
+}
+
+.statusBadge {
+  font-size: 10px;
+  font-weight: 850;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.statusPaid {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.statusSent {
+  background-color: var(--color-secondary-50);
+  color: var(--color-secondary-600);
+}
+
+.statusDraft {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-600);
+}
+
+.addressSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.addressSection h5, .datesGrid h5, .notesSection h5 {
+  font-size: 9px;
+  color: var(--color-neutral-450);
+  letter-spacing: 1px;
+  margin: 0 0 6px 0;
+}
+
+.addressSection h3 {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.addressSection p {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-600);
+  margin: 4px 0 0 0;
+}
+
+.datesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: var(--color-neutral-50);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-neutral-200);
+}
+
+.dateBlock p {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-neutral-800);
+  margin: 0;
+}
+
+.table {
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tableHeader {
+  background-color: var(--color-neutral-50);
+  display: flex;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--color-neutral-500);
+  padding: 12px 20px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.tableRow {
+  display: flex;
+  font-size: var(--font-size-sm);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+.tableBody .tableRow:last-child {
+  border-bottom: none;
+}
+
+.colDesc {
+  flex: 4;
+  text-align: left;
+}
+
+.colQty {
+  flex: 1;
+  text-align: center;
+}
+
+.colPrice {
+  flex: 2;
+  text-align: right;
+}
+
+.colTotal {
+  flex: 2;
+  text-align: right;
+  font-weight: 700;
+}
+
+.tableFooter {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: var(--color-neutral-50);
+  border-top: 1px solid var(--color-neutral-200);
+  font-weight: 850;
+  font-size: var(--font-size-lg);
+  color: var(--color-neutral-900);
+}
+
+.notesSection p {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.paperFooter {
+  border-top: 1px solid var(--color-neutral-150);
+  padding-top: 20px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--color-neutral-450);
+  font-weight: 600;
+}
+
+/* Print Overrides */
+@media print {
+  body {
+    background-color: white;
+  }
+  .container {
+    padding: 0;
+    background-color: white;
+  }
+  .noPrintActions {
+    display: none !important;
+  }
+  .invoicePaper {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}

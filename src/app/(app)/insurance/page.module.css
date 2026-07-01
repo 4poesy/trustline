@@ -1,0 +1,222 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  gap: var(--space-4);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-primary-500);
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.actionCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 20px;
+  padding: var(--space-5);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.actionCard:hover {
+  border-color: var(--color-primary-400);
+  transform: translateY(-2px);
+}
+
+.actionIcon {
+  color: var(--color-primary-500);
+}
+
+.actionCard h3 {
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.actionCard p {
+  font-size: 11px;
+  color: var(--color-neutral-500);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.emptyCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 20px;
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-neutral-500);
+  box-shadow: var(--shadow-sm);
+}
+
+.emptyIcon {
+  color: var(--color-neutral-300);
+}
+
+.emptyCard h3 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-neutral-700);
+  margin: 0;
+}
+
+.policyList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.policyCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 16px;
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.policyHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.activeIcon {
+  color: #059669;
+}
+
+.activeBadge {
+  font-size: 9px;
+  font-weight: 850;
+  color: #047857;
+  background-color: rgba(52, 211, 153, 0.15);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.policyCard h4 {
+  font-size: var(--font-size-base);
+  font-weight: 750;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.policyType {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-primary-600);
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.policyMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-neutral-500);
+  border-top: 1px solid var(--color-neutral-100);
+  padding-top: var(--space-3);
+  margin-top: var(--space-1);
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.expiredCard {
+  opacity: 0.65;
+}
