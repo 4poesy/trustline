@@ -1,0 +1,21 @@
+.page { min-height:100dvh; background:var(--color-background); display:flex; flex-direction:column; }
+.loadingContainer { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100dvh; gap:var(--space-4); }
+.header { position:sticky; top:0; z-index:10; background:var(--color-primary-500); color:white; padding:0 var(--space-6); height:80px; display:flex; align-items:center; box-shadow:var(--shadow-md); }
+.headerInner { width:100%; max-width:800px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+.backButton { background:none; border:none; color:white; display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:var(--radius-full); cursor:pointer; }
+.backButton:hover { background:rgba(255,255,255,0.15); }
+.title { font-size:var(--font-size-xl); font-weight:var(--font-weight-bold); margin:0; }
+.main { flex:1; width:100%; max-width:800px; margin:0 auto; padding:var(--space-6) var(--space-4); display:flex; flex-direction:column; gap:var(--space-5); }
+.topRow { display:flex; justify-content:space-between; align-items:center; }
+.topRow h2 { font-size:var(--font-size-lg); font-weight:800; margin:0; }
+.emptyCard { background:var(--color-surface); border:1px solid var(--color-neutral-200); border-radius:20px; padding:var(--space-8) var(--space-6); text-align:center; color:var(--color-neutral-500); }
+.productList { display:flex; flex-direction:column; gap:var(--space-4); }
+.productCard { background:var(--color-surface); border:1px solid var(--color-neutral-200); border-radius:20px; padding:var(--space-5); box-shadow:var(--shadow-sm); }
+.productHeader { display:flex; justify-content:space-between; align-items:center; }
+.productHeader h3 { font-size:var(--font-size-base); font-weight:800; margin:0; color:var(--color-neutral-900); }
+.toggleBtn { background:none; border:none; cursor:pointer; padding:0; }
+.productDesc { font-size:var(--font-size-sm); color:var(--color-neutral-600); margin:var(--space-2) 0; line-height:1.4; }
+.productMeta { display:flex; gap:var(--space-3); flex-wrap:wrap; align-items:center; font-size:var(--font-size-xs); color:var(--color-neutral-550); border-top:1px solid var(--color-neutral-100); padding-top:var(--space-3); margin-top:var(--space-2); }
+.statusPill { font-size:9px; font-weight:850; padding:2px 8px; border-radius:12px; }
+.activePill { background:rgba(52,211,153,0.15); color:#047857; }
+.inactivePill { background:var(--color-neutral-100); color:var(--color-neutral-500); }

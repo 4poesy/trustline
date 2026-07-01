@@ -1,0 +1,20 @@
+.page { min-height:100dvh; background:var(--color-background); display:flex; flex-direction:column; }
+.header { position:sticky; top:0; z-index:10; background:var(--color-primary-500); color:white; padding:0 var(--space-6); height:80px; display:flex; align-items:center; box-shadow:var(--shadow-md); }
+.headerInner { width:100%; max-width:800px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+.backButton { background:none; border:none; color:white; display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:var(--radius-full); cursor:pointer; }
+.backButton:hover { background:rgba(255,255,255,0.15); }
+.title { font-size:var(--font-size-xl); font-weight:var(--font-weight-bold); margin:0; }
+.main { flex:1; width:100%; max-width:800px; margin:0 auto; padding:var(--space-6) var(--space-4); display:flex; flex-direction:column; gap:var(--space-6); }
+.errorAlert { background:var(--color-error-light); border:1px solid var(--color-error); padding:var(--space-4); border-radius:12px; color:var(--color-error); font-size:var(--font-size-sm); display:flex; align-items:center; gap:var(--space-2); }
+.formCard { background:var(--color-surface); border:1px solid var(--color-neutral-200); border-radius:20px; padding:var(--space-6); box-shadow:var(--shadow-sm); }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); }
+@media(max-width:480px) { .row2 { grid-template-columns:1fr; } }
+.calcHelper { background:var(--color-primary-50); border:1px solid rgba(13,124,102,0.2); border-radius:12px; padding:var(--space-3) var(--space-4); margin-top:var(--space-3); font-size:var(--font-size-xs); color:var(--color-primary-700); display:flex; align-items:flex-start; gap:var(--space-2); line-height:1.4; }
+.checkRow { display:flex; align-items:center; gap:var(--space-3); font-size:var(--font-size-sm); font-weight:650; cursor:pointer; }
+.checkRow input { width:18px; height:18px; accent-color:var(--color-primary-500); }
+.subTitle { font-size:var(--font-size-sm); font-weight:800; color:var(--color-neutral-800); margin:var(--space-5) 0 var(--space-3); border-top:1px solid var(--color-neutral-100); padding-top:var(--space-4); }
+.rangeInput { width:100%; accent-color:var(--color-primary-500); }
+.rangeVal { font-size:var(--font-size-sm); font-weight:800; color:var(--color-primary-600); }
+.chipRow { display:flex; flex-wrap:wrap; gap:8px; }
+.chip { padding:6px 14px; border-radius:20px; border:1px solid var(--color-neutral-300); font-size:var(--font-size-xs); font-weight:650; color:var(--color-neutral-600); cursor:pointer; text-transform:capitalize; user-select:none; }
+.chipActive { border-color:var(--color-primary-500); background:var(--color-primary-50); color:var(--color-primary-600); }

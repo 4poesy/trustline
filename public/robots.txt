@@ -4,5 +4,6 @@ Disallow: /dashboard
 Disallow: /login
 Disallow: /verify
 Disallow: /setup-profile
+Disallow: /loans
 
 Sitemap: https://trustline.app/sitemap.xml
