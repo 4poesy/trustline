@@ -78,9 +78,12 @@ export function DashboardClient({ profile }: Props) {
   // To-Do List State
   const [todoList, setTodoList] = useState<{ id: string; text: string; completed: boolean }[]>([])
   const [newTodoText, setNewTodoText] = useState('')
+  const [loggingProfit, setLoggingProfit] = useState(false)
+  const [logSuccess, setLogSuccess] = useState(false)
 
   // Load To-dos
   useEffect(() => {
+    if (!profile?.id) return
     const saved = localStorage.getItem(`trustline_todos_${profile.id}`)
     if (saved) {
       try {
@@ -97,41 +100,105 @@ export function DashboardClient({ profile }: Props) {
       setTodoList(defaults)
       localStorage.setItem(`trustline_todos_${profile.id}`, JSON.stringify(defaults))
     }
-  }, [profile.id])
-
-  const saveTodos = (updated: typeof todoList) => {
-    setTodoList(updated)
-    localStorage.setItem(`trustline_todos_${profile.id}`, JSON.stringify(updated))
-  }
+  }, [profile?.id])
 
   const handleAddTodo = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newTodoText.trim()) return
+    if (!newTodoText.trim() || !profile?.id) return
     const newItem = {
       id: Date.now().toString(),
       text: newTodoText.trim(),
       completed: false
     }
-    saveTodos([...todoList, newItem])
+    setTodoList(prev => {
+      const updated = [...prev, newItem]
+      localStorage.setItem(`trustline_todos_${profile.id}`, JSON.stringify(updated))
+      return updated
+    })
     setNewTodoText('')
   }
 
   const handleToggleTodo = (id: string) => {
-    const updated = todoList.map(item => 
-      item.id === id ? { ...item, completed: !item.completed } : item
-    )
-    saveTodos(updated)
+    if (!profile?.id) return
+    setTodoList(prev => {
+      const updated = prev.map(item => 
+        item.id === id ? { ...item, completed: !item.completed } : item
+      )
+      localStorage.setItem(`trustline_todos_${profile.id}`, JSON.stringify(updated))
+      return updated
+    })
   }
 
   const handleDeleteTodo = (id: string) => {
-    const updated = todoList.filter(item => item.id !== id)
-    saveTodos(updated)
+    if (!profile?.id) return
+    setTodoList(prev => {
+      const updated = prev.filter(item => item.id !== id)
+      localStorage.setItem(`trustline_todos_${profile.id}`, JSON.stringify(updated))
+      return updated
+    })
   }
 
   const salesVal = parseFloat(salesInput) || 0
   const expensesVal = parseFloat(expensesInput) || 0
   const profitVal = salesVal - expensesVal
   const profitMargin = salesVal > 0 ? (profitVal / salesVal) * 100 : 0
+
+  const handleLogToCashflow = async () => {
+    if (salesVal <= 0 && expensesVal <= 0 || !profile?.id) return
+    setLoggingProfit(true)
+    try {
+      const todayStr = new Date().toISOString().split('T')[0]
+      
+      if (salesVal > 0) {
+        await db.table('transactions').add({
+          id: crypto.randomUUID(),
+          profile_id: profile.id,
+          type: 'income',
+          amount: salesVal,
+          category: 'Sales',
+          note: 'Logged via Daily Profit Calculator',
+          entry_date: todayStr,
+          created_at: new Date().toISOString(),
+          synced_at: null
+        })
+      }
+      
+      if (expensesVal > 0) {
+        await db.table('transactions').add({
+          id: crypto.randomUUID(),
+          profile_id: profile.id,
+          type: 'expense',
+          amount: expensesVal,
+          category: 'Cost of Goods',
+          note: 'Logged via Daily Profit Calculator',
+          entry_date: todayStr,
+          created_at: new Date().toISOString(),
+          synced_at: null
+        })
+      }
+
+      setLogSuccess(true)
+      setSalesInput('')
+      setExpensesInput('')
+      
+      // Refresh dashboard monthly income metric
+      const now = new Date()
+      const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+      const txs = await db.table('transactions')
+        .where('profile_id')
+        .equals(profile.id)
+        .and(t => t.type === 'income' && t.entry_date >= firstDayOfMonth)
+        .toArray()
+      const total = txs.reduce((sum, t) => sum + t.amount, 0)
+      setMonthlyIncome(total)
+
+      setTimeout(() => setLogSuccess(false), 3000)
+    } catch (err) {
+      console.error('Error logging profit directly to cashflow:', err)
+    } finally {
+      setLoggingProfit(false)
+    }
+  }
 
   useEffect(() => {
     const fetchMonthlyIncome = async () => {
@@ -452,19 +519,20 @@ export function DashboardClient({ profile }: Props) {
                   </div>
                 </div>
 
-                <Link 
-                  href={{
-                    pathname: '/cashflow/add',
-                    query: { 
-                      type: 'income', 
-                      amount: profitVal > 0 ? profitVal.toString() : '0',
-                      description: 'Daily calculated sales profit'
-                    }
-                  }} 
+                <button 
+                  onClick={handleLogToCashflow}
+                  disabled={loggingProfit || (salesVal <= 0 && expensesVal <= 0)}
                   className={styles.logButton}
+                  style={{ width: '100%' }}
                 >
-                  Log Profit to Cashflow
-                </Link>
+                  {loggingProfit ? 'Logging...' : logSuccess ? 'Success ✓' : 'Log Profit to Cashflow'}
+                </button>
+
+                {logSuccess && (
+                  <span style={{ fontSize: '11px', color: 'var(--color-primary-500)', fontWeight: 'bold', textAlign: 'center', display: 'block', marginTop: '8px' }}>
+                    Transactions logged successfully to Cashflow database!
+                  </span>
+                )}
               </div>
             </div>
 

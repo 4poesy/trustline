@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/modules/auth/hooks/useAuth'
 import styles from './page.module.css'
 
 interface ListingWithProfile {
@@ -46,6 +47,7 @@ const citySuggestions = [
 ]
 
 export function DirectoryClient({ initialListings }: Props) {
+  const { isAuthenticated } = useAuth()
   const [nicheInput, setNicheInput] = useState('')
   const [locationInput, setLocationInput] = useState('')
   const [showNicheDropdown, setShowNicheDropdown] = useState(false)
@@ -92,10 +94,18 @@ export function DirectoryClient({ initialListings }: Props) {
       {/* Navigation Header */}
       <nav className={styles.nav}>
         <div className={`container ${styles.navInner}`}>
-          <Link href="/" className={styles.logo}>
-            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
-            <span className={styles.logoText}>Trustline</span>
-          </Link>
+          <div className={styles.navLeft}>
+            <Link href={isAuthenticated ? '/dashboard' : '/'} className={styles.backButton} aria-label="Go back">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+            </Link>
+            <Link href="/" className={styles.logo}>
+              <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
+              <span className={styles.logoText}>Trustline</span>
+            </Link>
+          </div>
           <Link href="/login" className="btn btn-secondary">
             Sign In
           </Link>
