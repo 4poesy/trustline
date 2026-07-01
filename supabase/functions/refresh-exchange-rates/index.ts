@@ -28,12 +28,12 @@ Deno.serve(async (req) => {
       // Base: NGN
       const mockRates: Record<string, number> = {
         'NGN': 1.0,
-        'GHS': 0.010,   -- 1 NGN = 0.010 GHS
-        'KES': 0.088,   -- 1 NGN = 0.088 KES
-        'TZS': 1.75,    -- 1 NGN = 1.75 TZS
-        'ZAR': 0.012,   -- 1 NGN = 0.012 ZAR
-        'UGX': 2.50,    -- 1 NGN = 2.50 UGX
-        'USD': 0.00067  -- 1 NGN = 0.00067 USD
+        'GHS': 0.010,   // 1 NGN = 0.010 GHS
+        'KES': 0.088,   // 1 NGN = 0.088 KES
+        'TZS': 1.75,    // 1 NGN = 1.75 TZS
+        'ZAR': 0.012,   // 1 NGN = 0.012 ZAR
+        'UGX': 2.50,    // 1 NGN = 2.50 UGX
+        'USD': 0.00067  // 1 NGN = 0.00067 USD
       }
 
       for (const from of currencies) {
