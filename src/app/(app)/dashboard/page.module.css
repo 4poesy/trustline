@@ -202,55 +202,202 @@
 }
 
 /* Score progress card */
-.scoreBarCard {
+/* Overview Card */
+.overviewSection {
+  margin-bottom: var(--space-6);
+}
+
+.overviewCard {
   background-color: var(--color-surface);
   border-radius: 20px;
-  padding: var(--space-5) var(--space-6);
+  padding: var(--space-6);
   border: 1px solid var(--color-neutral-200);
   box-shadow: var(--shadow-sm);
-  margin-bottom: var(--space-6);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: var(--space-6);
+}
+
+.overviewLeft {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.overviewMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.overviewSubtitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-neutral-400);
+  letter-spacing: 1.2px;
+}
+
+.overviewTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+}
+
+.metricBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.metricHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.metricIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metricLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+}
+
+.metricValue {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  letter-spacing: -1.2px;
+}
+
+.metricDescription {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+.overviewActions {
+  margin-top: var(--space-2);
+}
+
+.overviewLink {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-primary-500);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.overviewLink:hover {
+  color: var(--color-primary-600);
+  text-decoration: none;
+}
+
+/* Credit Gauge Circular Dial */
+.overviewRight {
+  border-left: 1px solid var(--color-neutral-100);
+  padding-left: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: var(--space-3);
 }
 
-.scoreHeader {
+.gaugeTitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-neutral-400);
+  letter-spacing: 1.2px;
+}
+
+.gaugeWrapper {
+  text-decoration: none;
+  display: block;
+  transition: transform var(--transition-fast);
+}
+
+.gaugeWrapper:hover {
+  transform: scale(1.03);
+}
+
+.gaugeContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.gaugeSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.gaugeTrack {
+  stroke: var(--color-neutral-100);
+}
+
+.gaugeFill {
+  stroke: var(--color-secondary-500);
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.gaugeContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 }
 
-.scoreTitle {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--color-neutral-500);
-  letter-spacing: 1.2px;
-  font-family: monospace;
-}
-
-.scorePercent {
-  font-size: var(--font-size-base);
+.gaugeScore {
+  font-size: var(--font-size-3xl);
   font-weight: 800;
-  color: var(--color-primary-500);
+  color: var(--color-neutral-900);
+  line-height: 1;
 }
 
-.progressBarBg {
-  height: 8px;
-  background-color: var(--color-neutral-100);
-  border-radius: var(--radius-full);
-  overflow: hidden;
+.gaugeBand {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-secondary-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
 }
 
-.progressBarFill {
-  height: 100%;
-  background: var(--color-primary-500);
-  border-radius: var(--radius-full);
+.gaugeTip {
+  font-size: 10px;
+  color: var(--color-neutral-500);
+  line-height: 1.5;
+  max-width: 220px;
 }
 
-.scoreTip {
-  font-size: var(--font-size-xs);
-  color: var(--color-neutral-600);
-  line-height: 1.55;
+@media (max-width: 768px) {
+  .overviewCard {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  .overviewRight {
+    border-left: none;
+    border-top: 1px solid var(--color-neutral-100);
+    padding-left: 0;
+    padding-top: var(--space-6);
+  }
 }
 
 .sectionTitle {

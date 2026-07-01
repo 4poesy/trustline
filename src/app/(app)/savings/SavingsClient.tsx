@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSavings } from '@/modules/savings/hooks/useSavings'
 import type { Profile } from '@/lib/supabase/types'
+import { ArrowLeft, RefreshCw, Users, Plus, TrendingUp } from 'lucide-react'
 import styles from './page.module.css'
 
 interface Props {
@@ -17,6 +18,7 @@ export function SavingsClient({ profile }: Props) {
   const [joining, setJoining] = useState(false)
   const [joinError, setJoinError] = useState('')
   const [joinSuccess, setJoinSuccess] = useState(false)
+  const [isRotating, setIsRotating] = useState(false)
   const router = useRouter()
 
   const handleJoin = async (e: React.FormEvent) => {
@@ -41,6 +43,12 @@ export function SavingsClient({ profile }: Props) {
     }
   }
 
+  const handleRefresh = async () => {
+    setIsRotating(true)
+    await refreshGroups()
+    setTimeout(() => setIsRotating(false), 800)
+  }
+
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
@@ -55,14 +63,15 @@ export function SavingsClient({ profile }: Props) {
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <Link href="/dashboard" className={styles.backButton} aria-label="Back to dashboard">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="24" height="24">
-              <line x1="19" y1="12" x2="5" y2="12" />
-              <polyline points="12 19 5 12 12 5" />
-            </svg>
+            <ArrowLeft size={20} />
           </Link>
           <h1 className={styles.title}>Savings Groups</h1>
-          <button className={styles.refreshButton} onClick={refreshGroups} aria-label="Refresh list">
-            🔄
+          <button 
+            className={`${styles.refreshButton} ${isRotating ? styles.rotating : ''}`} 
+            onClick={handleRefresh} 
+            aria-label="Refresh list"
+          >
+            <RefreshCw size={18} />
           </button>
         </div>
       </header>
@@ -70,8 +79,10 @@ export function SavingsClient({ profile }: Props) {
       <main className={styles.main}>
         {/* Join Group with invite code */}
         <section className={`card ${styles.joinCard}`}>
-          <h2 className={styles.sectionTitle}>Join a Group</h2>
-          <p className={styles.sectionDesc}>Enter an invite code shared by your saving group leader</p>
+          <div className={styles.joinHeader}>
+            <h2 className={styles.sectionTitle}>Join a Savings Group</h2>
+            <p className={styles.sectionDesc}>Enter an invite code shared by your saving group leader</p>
+          </div>
           <form onSubmit={handleJoin} className={styles.joinForm}>
             <input
               type="text"
@@ -79,7 +90,7 @@ export function SavingsClient({ profile }: Props) {
               placeholder="e.g. AB49EF"
               value={inviteCode}
               onChange={(e) => {
-                setInviteCode(e.target.value)
+                setInviteCode(e.target.value.toUpperCase())
                 setJoinError('')
               }}
               required
@@ -96,33 +107,63 @@ export function SavingsClient({ profile }: Props) {
         <section className={styles.groupsSection}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Your Groups</h2>
-            <Link href="/savings/create" className="btn btn-secondary btn-sm" id="create-group-button">
-              + New Group
+            <Link href="/savings/create" className="btn btn-secondary btn-sm" id="create-group-button" style={{ minHeight: '38px', padding: '0 var(--space-4)' }}>
+              <Plus size={16} /> New Group
             </Link>
           </div>
 
           {groups.length === 0 ? (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>👥</div>
-              <p className={styles.emptyText}>You haven&apos;t joined any savings groups yet</p>
-              <p className={styles.emptyHint}>Create your own or ask your coordinator for an invite code.</p>
+              <div className={styles.emptyIconContainer}>
+                <svg viewBox="0 0 100 100" width="80" height="80" fill="none" stroke="currentColor" strokeWidth="2" className={styles.svgDraw}>
+                  <circle cx="50" cy="50" r="30" strokeDasharray="6 4" stroke="var(--color-primary-200)" />
+                  <circle cx="35" cy="40" r="12" fill="var(--color-secondary-50)" stroke="var(--color-secondary-500)" strokeWidth="2.5" />
+                  <circle cx="65" cy="40" r="12" fill="var(--color-primary-50)" stroke="var(--color-primary-500)" strokeWidth="2.5" />
+                  <circle cx="50" cy="70" r="14" fill="#EDE9FE" stroke="#7C3AED" strokeWidth="2.5" />
+                </svg>
+              </div>
+              <p className={styles.emptyText}>No active savings groups</p>
+              <p className={styles.emptyHint}>Create your own or ask your coordinator for an invite code to start saving together.</p>
             </div>
           ) : (
             <div className={styles.groupsList}>
-              {groups.map((group) => (
-                <Link key={group.id} href={`/savings/${group.id}`} className={`card ${styles.groupCard}`}>
-                  <div className={styles.groupMain}>
-                    <h3 className={styles.groupName}>{group.name}</h3>
-                    <span className={styles.groupAmount}>
-                      ₦{Number(group.contribution_amount).toLocaleString()} / {group.cycle_frequency === 'weekly' ? 'week' : 'month'}
-                    </span>
-                  </div>
-                  <div className={styles.groupMeta}>
-                    <span className={styles.badge}>Cycle {group.current_cycle}</span>
-                    <span className={styles.coordinator}>Led by {group.created_by?.name || 'Coordinator'}</span>
-                  </div>
-                </Link>
-              ))}
+              {groups.map((group) => {
+                const membersCount = group.payout_order?.length || 1;
+                // Mock a clean visual percentage based on cycle or general progress
+                const progressPct = Math.min((group.current_cycle / Math.max(membersCount, 1)) * 100, 100) || 10;
+                
+                return (
+                  <Link key={group.id} href={`/savings/${group.id}`} className={`card ${styles.groupCard}`}>
+                    <div className={styles.groupHeaderRow}>
+                      <div className={styles.groupInfoLeft}>
+                        <h3 className={styles.groupName}>{group.name}</h3>
+                        <span className={styles.coordinator}>Led by {group.created_by?.name || 'Coordinator'}</span>
+                      </div>
+                      <div className={styles.groupInfoRight}>
+                        <span className={styles.groupAmount}>
+                          ₦{Number(group.contribution_amount).toLocaleString()}
+                        </span>
+                        <span className={styles.groupFrequency}>
+                          per {group.cycle_frequency === 'weekly' ? 'week' : 'month'}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className={styles.progressSection}>
+                      <div className={styles.progressLabelRow}>
+                        <span className={styles.badge}>Cycle {group.current_cycle}</span>
+                        <span className={styles.membersCountPill}>
+                          <Users size={12} style={{ marginRight: '4px' }} />
+                          {membersCount} {membersCount === 1 ? 'member' : 'members'}
+                        </span>
+                      </div>
+                      <div className={styles.progressBarBg}>
+                        <div className={styles.progressBarFill} style={{ width: `${progressPct}%` }} />
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </section>

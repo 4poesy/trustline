@@ -207,71 +207,81 @@ export function DashboardClient({ profile }: Props) {
       </header>
 
       <main className={styles.main}>
-        {/* Quick Stats Grid */}
-        <section className={styles.statsGrid}>
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
+        {/* Unified Financial & Trust Overview Card */}
+        <section className={styles.overviewSection}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className={`card ${styles.statCard}`}
+            transition={{ duration: 0.5 }}
+            className={`card ${styles.overviewCard}`}
           >
-            <div className={styles.statIcon}>
-              <DollarSign size={20} />
-            </div>
-            <div className={styles.statContent}>
-              <span className={styles.statValue}>
-                ₦{monthlyIncome.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
-              </span>
-              <span className={styles.statLabel}>This month&apos;s income</span>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
-            <Link href="/credit-profile" className={`card ${styles.statCard} ${styles.statCardLink}`}>
-              <div className={`${styles.statIcon} ${styles.statIconSecondary}`}>
-                <Award size={20} />
+            <div className={styles.overviewLeft}>
+              <div className={styles.overviewMeta}>
+                <span className={styles.overviewSubtitle}>FINANCIAL OVERVIEW</span>
+                <h2 className={styles.overviewTitle}>Business Health</h2>
               </div>
-              <div className={styles.statContent}>
-                <span className={styles.statValue}>
-                  {loading ? '--' : `${trustScore} (${creditBand})`}
+              
+              <div className={styles.metricBlock}>
+                <div className={styles.metricHeader}>
+                  <div className={styles.metricIcon}>
+                    <DollarSign size={18} />
+                  </div>
+                  <span className={styles.metricLabel}>Monthly Revenue</span>
+                </div>
+                <span className={styles.metricValue}>
+                  ₦{monthlyIncome.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
                 </span>
-                <span className={styles.statLabel}>Trust score &rarr;</span>
+                <p className={styles.metricDescription}>
+                  Recorded sales earnings in {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}.
+                </p>
               </div>
-            </Link>
+
+              <div className={styles.overviewActions}>
+                <Link href="/credit-profile" className={styles.overviewLink}>
+                  View Credit Health Report <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+
+            <div className={styles.overviewRight}>
+              <span className={styles.gaugeTitle}>TRUST SCORE</span>
+              <Link href="/credit-profile" className={styles.gaugeWrapper} title="View Credit Profile details">
+                <div className={styles.gaugeContainer}>
+                  <svg className={styles.gaugeSvg} viewBox="0 0 120 120">
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="50"
+                      className={styles.gaugeTrack}
+                      strokeWidth="8"
+                      fill="transparent"
+                    />
+                    <motion.circle
+                      cx="60"
+                      cy="60"
+                      r="50"
+                      className={styles.gaugeFill}
+                      strokeWidth="8"
+                      fill="transparent"
+                      strokeLinecap="round"
+                      strokeDasharray="314.16"
+                      initial={{ strokeDashoffset: 314.16 }}
+                      animate={{ strokeDashoffset: 314.16 - (314.16 * (trustScore || 0)) / 100 }}
+                      transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                    />
+                  </svg>
+                  <div className={styles.gaugeContent}>
+                    <span className={styles.gaugeScore}>{loading ? '--' : trustScore}</span>
+                    <span className={styles.gaugeBand}>{loading ? 'Loading...' : creditBand}</span>
+                  </div>
+                </div>
+              </Link>
+              <p className={styles.gaugeTip}>
+                Your reputation rating is calculated from transaction consistency and ajo savings history.
+              </p>
+            </div>
           </motion.div>
         </section>
-
-        {/* Dynamic score progress indicator on dashboard */}
-        <AnimatePresence>
-          {!loading && trustScore !== null && (
-            <motion.section 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className={`card ${styles.scoreBarCard}`}
-            >
-              <div className={styles.scoreHeader}>
-                <span className={styles.scoreTitle}>CREDIT HEALTH</span>
-                <span className={styles.scorePercent}>{trustScore}/100</span>
-              </div>
-              <div className={styles.progressBarBg}>
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${trustScore}%` }}
-                  transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-                  className={styles.progressBarFill}
-                />
-              </div>
-              <p className={styles.scoreTip}>
-                Grow your credit score by recording transactions and saving weekly.
-              </p>
-            </motion.section>
-          )}
-        </AnimatePresence>
 
         {/* Module action cards - Grid layout */}
         <section className={styles.actionCards}>

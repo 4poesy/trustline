@@ -100,7 +100,7 @@ export function TransactionList({ transactions }: Props) {
           <h3 className={styles.groupHeader}>{formatDateLabel(dateStr)}</h3>
           <div className={styles.groupList}>
             {groups[dateStr].map((tx) => (
-              <div key={tx.id} className={styles.row}>
+              <div key={tx.id} className={`${styles.row} ${tx.type === 'income' ? styles.rowIncome : styles.rowExpense}`}>
                 <div className={`${styles.iconWrapper} ${tx.type === 'income' ? styles.iconIncome : styles.iconExpense}`}>
                   {getCategoryIcon(tx.category)}
                 </div>
