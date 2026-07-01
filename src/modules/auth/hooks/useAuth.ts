@@ -78,7 +78,8 @@ export function useAuth() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': supabaseAnonKey
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`
         },
         body: JSON.stringify({ trustline_code: trustlineCode, pin })
       })
@@ -179,7 +180,8 @@ export function useAuth() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': supabaseAnonKey
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`
         },
         body: JSON.stringify(formData)
       })

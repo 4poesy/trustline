@@ -75,8 +75,7 @@ export default function LoginPage() {
       <header className={styles.headerBanner}>
         <div className={styles.headerBannerInner}>
           <div className={styles.logo}>
-            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
-            <span className={styles.logoText}>Trustline365</span>
+            <img src="/images/logo-full.png" alt="Trustline365 Logo" className={styles.logoImage} />
           </div>
           
           <h1 className={styles.title}>

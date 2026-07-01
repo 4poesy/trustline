@@ -81,33 +81,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
   margin-bottom: var(--space-3);
 }
 
-.logoIcon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.logoText {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--saffron);
+.logoImage {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
 .title {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--white);
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  font-style: italic;
+  color: var(--saffron);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   margin-bottom: var(--space-1);
 }
 
 .subtitle {
   font-size: var(--font-size-base);
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
 }
 
 .errorBox {

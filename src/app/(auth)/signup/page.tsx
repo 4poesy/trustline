@@ -91,7 +91,8 @@ export default function SignupPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': supabaseAnonKey
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`
         },
         body: JSON.stringify({ name, phone_last4: phoneLast4 || null })
       })
@@ -217,8 +218,7 @@ export default function SignupPage() {
       <header className={styles.headerBanner}>
         <div className={styles.headerBannerInner}>
           <div className={styles.logo}>
-            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
-            <span className={styles.logoText}>Trustline365</span>
+            <img src="/images/logo-full.png" alt="Trustline365 Logo" className={styles.logoImage} />
           </div>
           
           <h1 className={styles.title}>

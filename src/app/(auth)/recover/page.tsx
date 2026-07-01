@@ -52,18 +52,28 @@ export default function RecoverPage() {
 
     setLoading(true)
     try {
-      const { data, error: recoveryErr } = await supabase.functions.invoke('recover-trustline-code', {
-        body: {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://fecvmzybfzumyxcphpmp.supabase.co'
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+      const res = await fetch(`${supabaseUrl}/functions/v1/recover-trustline-code`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`
+        },
+        body: JSON.stringify({
           name: name.trim(),
           phone_last4: phoneLast4 ? phoneLast4.trim() : null,
           pin,
           recovery_question: recoveryQuestion,
           recovery_answer: recoveryAnswer.trim().toLowerCase()
-        }
+        })
       })
 
-      if (recoveryErr || data?.error) {
-        throw new Error(recoveryErr?.message || data?.error || 'Recovery failed.')
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || data.message || 'Recovery failed.')
       }
 
       setRecoveredCode(data.trustline_code)
@@ -150,8 +160,7 @@ export default function RecoverPage() {
       <header className={styles.headerBanner}>
         <div className={styles.headerBannerInner}>
           <div className={styles.logo}>
-            <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
-            <span className={styles.logoText}>Trustline365</span>
+            <img src="/images/logo-full.png" alt="Trustline365 Logo" className={styles.logoImage} />
           </div>
           
           <h1 className={styles.title}>
