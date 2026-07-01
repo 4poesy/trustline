@@ -5,8 +5,23 @@ export interface Profile {
   role: 'trader' | 'service_provider' | 'group_member'
   business_type: string
   location: string
+  wallet_balance: number
+  currency: string
   created_at: string
   updated_at: string
+}
+
+export interface WalletTransaction {
+  id: string
+  profile_id: string
+  type: 'deposit' | 'withdrawal' | 'bill_payment' | 'transfer'
+  amount: number
+  currency: string
+  description?: string
+  payment_method: 'card' | 'bank_transfer' | 'wallet'
+  reference: string
+  status: 'pending' | 'successful' | 'failed'
+  created_at: string
 }
 
 export type UserRole = Profile['role']

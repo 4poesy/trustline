@@ -12,16 +12,28 @@ const TV_PROVIDERS = [
   { id: 'GOTV', name: 'GOtv' },
   { id: 'Startimes', name: 'StarTimes' }
 ]
-
 export default function TvPaymentPage() {
   const { profile, loading: authLoading } = useAuth()
   const router = useRouter()
-  const { processPayment, processing, error: apiError } = useBillPayments(profile?.id)
+  const { processPayment, processing, walletBalance, currency, error: apiError } = useBillPayments(profile?.id)
+
+  const [paymentMethod, setPaymentMethod] = useState<'wallet' | 'card' | 'bank_transfer'>('wallet')
+
+  const getCurrencySymbol = (cur: string) => {
+    if (cur === 'GHS') return '₵'
+    if (cur === 'KES') return 'KSh'
+    if (cur === 'ZAR') return 'R'
+    if (cur === 'UGX') return 'USh'
+    if (cur === 'TZS') return 'TSh'
+    if (cur === 'XAF') return 'FCFA'
+    return '₦'
+  }
 
   // Form States
   const [provider, setProvider] = useState('DSTV')
   const [smartCardNumber, setSmartCardNumber] = useState('')
   const [amount, setAmount] = useState('')
+  const finalAmount = Number(amount || 0)
   
   // Verification states
   const [verifying, setVerifying] = useState(false)
@@ -96,19 +108,21 @@ export default function TvPaymentPage() {
   // Finalize payment invocation
   const handleConfirmPay = async () => {
     setShowConfirm(false)
-    const finalAmount = Number(amount)
     
     const result = await processPayment({
       type: 'tv_subscription',
       recipient_number: smartCardNumber,
       network_or_provider: provider,
-      amount: finalAmount
+      amount: finalAmount,
+      payment_method: paymentMethod
     })
+
+    const symbol = getCurrencySymbol(currency)
 
     if (result.success) {
       setOutcome({
         status: 'successful',
-        message: `Successfully paid ₦${finalAmount.toLocaleString('en-NG')} TV Subscription for Card ${smartCardNumber}.`,
+        message: `Successfully paid ${symbol}${finalAmount.toLocaleString('en-US')} TV Subscription for Card ${smartCardNumber}.`,
         ref: result.payment?.provider_reference || 'N/A'
       })
     } else {
@@ -296,8 +310,66 @@ export default function TvPaymentPage() {
               <div className={styles.confirmRow} style={{ borderTop: '1px solid var(--color-neutral-200)', paddingTop: '12px', marginTop: '4px' }}>
                 <span className={styles.confirmLabel} style={{ fontWeight: 'bold' }}>Total Amount</span>
                 <span className={`${styles.confirmVal} ${styles.confirmAmount}`}>
-                  ₦{Number(amount).toLocaleString('en-NG')}
+                  {getCurrencySymbol(currency)}{finalAmount.toLocaleString('en-US')}
                 </span>
+              </div>
+
+              {/* Checkout Payment Method Picker */}
+              <div className={styles.paymentMethodSelectBlock}>
+                <span className={styles.confirmLabel} style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '12px', color: 'var(--color-neutral-700)' }}>Choose Payment Method</span>
+                
+                <div className={styles.paymentMethodGrid}>
+                  {/* Wallet Option */}
+                  <label className={`${styles.paymentMethodLabel} ${paymentMethod === 'wallet' ? styles.paymentMethodActive : ''} ${walletBalance < finalAmount ? styles.paymentMethodDisabled : ''}`}>
+                    <input 
+                      type="radio" 
+                      name="payment_method" 
+                      value="wallet" 
+                      checked={paymentMethod === 'wallet'}
+                      onChange={() => setPaymentMethod('wallet')}
+                      disabled={walletBalance < finalAmount}
+                      className={styles.hiddenRadio}
+                    />
+                    <div className={styles.paymentMethodInfo}>
+                      <span className={styles.methodName}>Wallet Balance</span>
+                      <span className={styles.methodSubtitle}>
+                        {walletBalance >= finalAmount ? `Balance: ${getCurrencySymbol(currency)}${walletBalance.toLocaleString('en-US')}` : 'Insufficient balance'}
+                      </span>
+                    </div>
+                  </label>
+
+                  {/* Card Option */}
+                  <label className={`${styles.paymentMethodLabel} ${paymentMethod === 'card' ? styles.paymentMethodActive : ''}`}>
+                    <input 
+                      type="radio" 
+                      name="payment_method" 
+                      value="card" 
+                      checked={paymentMethod === 'card'}
+                      onChange={() => setPaymentMethod('card')}
+                      className={styles.hiddenRadio}
+                    />
+                    <div className={styles.paymentMethodInfo}>
+                      <span className={styles.methodName}>Pay with Card</span>
+                      <span className={styles.methodSubtitle}>Debit Card (Visa/Mastercard)</span>
+                    </div>
+                  </label>
+
+                  {/* Bank Transfer Option */}
+                  <label className={`${styles.paymentMethodLabel} ${paymentMethod === 'bank_transfer' ? styles.paymentMethodActive : ''}`}>
+                    <input 
+                      type="radio" 
+                      name="payment_method" 
+                      value="bank_transfer" 
+                      checked={paymentMethod === 'bank_transfer'}
+                      onChange={() => setPaymentMethod('bank_transfer')}
+                      className={styles.hiddenRadio}
+                    />
+                    <div className={styles.paymentMethodInfo}>
+                      <span className={styles.methodName}>Bank Transfer</span>
+                      <span className={styles.methodSubtitle}>Direct deposit checkout</span>
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
             <div className={styles.sheetActions}>
@@ -343,7 +415,7 @@ export default function TvPaymentPage() {
             <div className={styles.feedbackDetails}>
               <div className={styles.feedbackDetailRow}>
                 <span className={styles.feedbackDetailLabel}>Amount</span>
-                <span className={styles.feedbackDetailVal}>₦{Number(amount).toLocaleString('en-NG')}</span>
+                <span className={styles.feedbackDetailVal}>{getCurrencySymbol(currency)}{Number(amount).toLocaleString('en-US')}</span>
               </div>
               <div className={styles.feedbackDetailRow}>
                 <span className={styles.feedbackDetailLabel}>Smart Card</span>

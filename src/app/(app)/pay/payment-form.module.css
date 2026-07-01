@@ -500,3 +500,76 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ===== CHECKOUT PAYMENT SELECTOR ===== */
+.paymentMethodSelectBlock {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--color-neutral-200);
+  padding-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.paymentMethodGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.paymentMethodLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background-color: var(--color-surface);
+  user-select: none;
+}
+
+.paymentMethodLabel:hover:not(.paymentMethodDisabled) {
+  border-color: var(--color-primary-200);
+  background-color: var(--color-primary-50);
+}
+
+.paymentMethodActive {
+  border-color: var(--color-primary-500) !important;
+  background-color: var(--color-primary-50) !important;
+}
+
+.paymentMethodDisabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background-color: var(--color-neutral-50);
+  border-color: var(--color-neutral-200);
+}
+
+.hiddenRadio {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary-500);
+  cursor: inherit;
+}
+
+.paymentMethodInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.methodName {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  line-height: 1.2;
+}
+
+.methodSubtitle {
+  font-size: 11px;
+  color: var(--color-neutral-500);
+  font-weight: 500;
+}

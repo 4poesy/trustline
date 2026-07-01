@@ -37,6 +37,39 @@ export function DashboardClient({ profile }: Props) {
   const [trustScore, setTrustScore] = useState<number | null>(null)
   const [creditBand, setCreditBand] = useState('Building')
   const [loading, setLoading] = useState(true)
+  const [walletBalance, setWalletBalance] = useState(0)
+  const [currency, setCurrency] = useState('NGN')
+
+  useEffect(() => {
+    const fetchWallet = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('wallet_balance, currency')
+          .eq('id', profile.id)
+          .single()
+        if (data) {
+          setWalletBalance(Number(data.wallet_balance || 0))
+          setCurrency(data.currency || 'NGN')
+        }
+      } catch (e) {
+        console.error('Error fetching wallet on dashboard:', e)
+      }
+    }
+    if (profile.id) {
+      fetchWallet()
+    }
+  }, [profile.id])
+
+  const getCurrencySymbol = (cur: string, loc?: string) => {
+    if (cur === 'GHS' || (loc && loc.toLowerCase().includes('ghana'))) return '₵'
+    if (cur === 'KES' || (loc && loc.toLowerCase().includes('kenya'))) return 'KSh'
+    if (cur === 'ZAR' || (loc && loc.toLowerCase().includes('south africa'))) return 'R'
+    if (cur === 'UGX' || (loc && loc.toLowerCase().includes('uganda'))) return 'USh'
+    if (cur === 'TZS' || (loc && loc.toLowerCase().includes('tanzania'))) return 'TSh'
+    if (cur === 'XAF' || (loc && loc.toLowerCase().includes('cameroon'))) return 'FCFA'
+    return '₦'
+  }
 
   // Calculator State
   const [salesInput, setSalesInput] = useState('')
@@ -221,19 +254,24 @@ export function DashboardClient({ profile }: Props) {
                 <h2 className={styles.overviewTitle}>Business Health</h2>
               </div>
               
-              <div className={styles.metricBlock}>
-                <div className={styles.metricHeader}>
-                  <div className={styles.metricIcon}>
-                    <DollarSign size={18} />
-                  </div>
-                  <span className={styles.metricLabel}>Monthly Revenue</span>
+              <div className={styles.walletMetricBlock}>
+                <span className={styles.walletLabel}>WALLET BALANCE</span>
+                <div className={styles.walletValueRow}>
+                  <span className={styles.walletValue}>
+                    {getCurrencySymbol(currency, profile.location)}
+                    {walletBalance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
+                  </span>
+                  <Link href="/pay/fund" className={`btn ${styles.fundBtnMini}`} id="dashboard-fund-wallet-button">
+                    + Fund
+                  </Link>
                 </div>
-                <span className={styles.metricValue}>
-                  ₦{monthlyIncome.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
+              </div>
+
+              <div className={styles.revenueMetricBlock}>
+                <span className={styles.revenueLabel}>
+                  Monthly Sales: {getCurrencySymbol(currency, profile.location)}
+                  {monthlyIncome.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
                 </span>
-                <p className={styles.metricDescription}>
-                  Recorded sales earnings in {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}.
-                </p>
               </div>
 
               <div className={styles.overviewActions}>
