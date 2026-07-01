@@ -107,7 +107,7 @@
 /* ===== CATEGORY GRID ===== */
 .categoryGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: var(--space-4);
 }
 
@@ -146,6 +146,7 @@
 .dataIcon { background: linear-gradient(135deg, #5375cc, #3151a5); }
 .powerIcon { background: linear-gradient(135deg, #e0a331, #b88220); }
 .tvIcon { background: linear-gradient(135deg, #d95858, #b83333); }
+.fundIcon { background: linear-gradient(135deg, #10b981, #047857); }
 
 .categoryName {
   font-weight: var(--font-weight-bold);

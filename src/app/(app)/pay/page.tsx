@@ -16,7 +16,8 @@ import {
   AlertTriangle,
   CheckCircle,
   Clock,
-  XCircle
+  XCircle,
+  CreditCard
 } from 'lucide-react'
 import styles from './page.module.css'
 
@@ -152,6 +153,14 @@ export default function PayMainPage() {
               </div>
               <span className={styles.categoryName}>Cable TV</span>
               <span className={styles.categoryDesc}>DSTV, GOtv subscriptions</span>
+            </Link>
+
+            <Link href="/pay/fund" className={styles.categoryCard}>
+              <div className={`${styles.iconContainer} ${styles.fundIcon}`}>
+                <CreditCard size={28} />
+              </div>
+              <span className={styles.categoryName}>Fund Wallet</span>
+              <span className={styles.categoryDesc}>Add money via Card/Bank</span>
             </Link>
           </div>
         </section>

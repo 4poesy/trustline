@@ -315,12 +315,7 @@ export function DashboardClient({ profile }: Props) {
       <main className={styles.main}>
         {/* Unified Financial & Trust Overview Card */}
         <section className={styles.overviewSection}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className={`card ${styles.overviewCard}`}
-          >
+          <div className={`card ${styles.overviewCard} ${styles.animateFadeIn}`}>
             <div className={styles.overviewLeft}>
               <div className={styles.overviewMeta}>
                 <span className={styles.overviewSubtitle}>FINANCIAL OVERVIEW</span>
@@ -391,7 +386,7 @@ export function DashboardClient({ profile }: Props) {
                 Your reputation rating is calculated from transaction consistency and ajo savings history.
               </p>
             </div>
-          </motion.div>
+          </div>
         </section>
 
         {/* Module action cards - Grid layout */}
@@ -399,61 +394,37 @@ export function DashboardClient({ profile }: Props) {
           <h2 className={styles.sectionTitle}>Quick Actions</h2>
 
           <div className={styles.actionGrid}>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-            >
-              <Link href="/cashflow" className={`card ${styles.actionCard}`} id="cashflow-action-card">
-                <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
-                  <Activity size={24} />
-                </div>
-                <h3 className={styles.actionTitle}>Track Cashflow</h3>
-                <p className={styles.actionDescription}>Log daily income &amp; expenses to build your financial record</p>
-              </Link>
-            </motion.div>
+            <Link href="/cashflow" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay1}`} id="cashflow-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
+                <Activity size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Track Cashflow</h3>
+              <p className={styles.actionDescription}>Log daily income &amp; expenses to build your financial record</p>
+            </Link>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-            >
-              <Link href="/directory" className={`card ${styles.actionCard}`} id="directory-action-card">
-                <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
-                  <BookOpen size={24} />
-                </div>
-                <h3 className={styles.actionTitle}>Public Profile</h3>
-                <p className={styles.actionDescription}>Get found by customers and grow your reputation</p>
-              </Link>
-            </motion.div>
+            <Link href="/directory" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay2}`} id="directory-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
+                <BookOpen size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Public Profile</h3>
+              <p className={styles.actionDescription}>Get found by customers and grow your reputation</p>
+            </Link>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-            >
-              <Link href="/savings" className={`card ${styles.actionCard}`} id="savings-action-card">
-                <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
-                  <Users size={24} />
-                </div>
-                <h3 className={styles.actionTitle}>Savings Groups</h3>
-                <p className={styles.actionDescription}>Join or create an ajo/esusu group and save together</p>
-              </Link>
-            </motion.div>
+            <Link href="/savings" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay3}`} id="savings-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
+                <Users size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Savings Groups</h3>
+              <p className={styles.actionDescription}>Join or create an ajo/esusu group and save together</p>
+            </Link>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-            >
-              <Link href="/pay" className={`card ${styles.actionCard}`} id="pay-action-card">
-                <div className={`${styles.actionIcon} ${styles.actionIconBills}`}>
-                  <CreditCard size={24} />
-                </div>
-                <h3 className={styles.actionTitle}>Pay Bills</h3>
-                <p className={styles.actionDescription}>Buy airtime, data, electricity, and TV subscriptions</p>
-              </Link>
-            </motion.div>
+            <Link href="/pay" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay4}`} id="pay-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconBills}`}>
+                <CreditCard size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Pay Bills</h3>
+              <p className={styles.actionDescription}>Buy airtime, data, electricity, and TV subscriptions</p>
+            </Link>
           </div>
         </section>
 
