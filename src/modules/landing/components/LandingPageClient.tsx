@@ -246,62 +246,64 @@ export function LandingPageClient() {
         </div>
       </nav>
 
-      {/* ===== HERO SECTION — full-bleed background image, centered text ===== */}
+      {/* ===== HERO SECTION — Split layout: text left, image right ===== */}
       <header className={styles.hero}>
-        {/* Background image */}
-        <div className={styles.heroBg} />
-        {/* Dark gradient overlay */}
-        <div className={styles.heroOverlay} />
-
-        {/* Centered content */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className={styles.heroContent}
-        >
-          <p className={styles.heroEyebrow}>For traders · vendors · service providers</p>
-          <h1 className={styles.heroTitle}>
-            Your daily hustle,<br />
-            <span className={styles.heroTitleAccent}>now on record.</span>
-          </h1>
-          <p className={styles.heroDescription}>
-            Track income, collect customer reviews, save with your group. Trustline turns your everyday work into a provable financial history.
-          </p>
-          <div className={styles.heroCtas}>
-            <Link href="/login" className={styles.heroPrimaryBtn}>
-              Get Started
-            </Link>
-            <Link href="/directory" className={styles.heroSecondaryBtn}>
-              Explore directory <ArrowRight size={16} />
-            </Link>
-          </div>
-          <div className={styles.trustSignals}>
-            <span><Check size={14} className={styles.signalCheck} /> Free to use</span>
-            <span className={styles.signalsDot}>·</span>
-            <span><Check size={14} className={styles.signalCheck} /> No bank required</span>
-            <span className={styles.signalsDot}>·</span>
-            <span><Check size={14} className={styles.signalCheck} /> Works offline</span>
-          </div>
-        </motion.div>
-      </header>
-
-      {/* ===== STATS BAR — Sage green, matching Screenshot 1 ===== */}
-      <section className={styles.statsBar}>
-        <div className={styles.statsInner}>
-          {[
-            { val: '500+', label: 'Active traders' },
-            { val: '₦8.5M+', label: 'Income tracked' },
-            { val: '45+', label: 'Ajo groups active' },
-            { val: '4.8★', label: 'Average trust score' },
-          ].map((s, i) => (
-            <div key={i} className={styles.statItem}>
-              <span className={styles.statNum}>{s.val}</span>
-              <span className={styles.statLabel}>{s.label}</span>
+        <div className={styles.heroContent}>
+          
+          {/* Left Column — Text */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className={styles.heroLeft}
+          >
+            <p className={styles.heroEyebrow}>For traders · vendors · service providers</p>
+            <h1 className={styles.heroTitle}>
+              Your daily hustle,<br />
+              <span className={styles.heroTitleAccent}>now on record.</span>
+            </h1>
+            <p className={styles.heroDescription}>
+              Track income, collect customer reviews, save with your group. Trustline365 turns your everyday work into a provable financial history.
+            </p>
+            <div className={styles.heroCtas}>
+              <Link href="/login" className={styles.heroPrimaryBtn}>
+                Get Started
+              </Link>
+              <Link href="/directory" className={styles.heroSecondaryBtn}>
+                Explore directory <ArrowRight size={16} />
+              </Link>
             </div>
-          ))}
+            <div className={styles.trustSignals}>
+              <span><Check size={14} className={styles.signalCheck} /> Free to use</span>
+              <span className={styles.signalsDot}>·</span>
+              <span><Check size={14} className={styles.signalCheck} /> No bank required</span>
+              <span className={styles.signalsDot}>·</span>
+              <span><Check size={14} className={styles.signalCheck} /> Works offline</span>
+            </div>
+          </motion.div>
+
+          {/* Right Column — Image */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            className={styles.heroRight}
+          >
+            <div className={styles.heroImgContainer}>
+              <img src="/images/fabric-trader.jpg" alt="Trader using Trustline365 app" className={styles.heroImg} />
+            </div>
+          </motion.div>
+
         </div>
-      </section>
+
+        {/* Wavy Divider at bottom of hero section, matching Screenshot 1 */}
+        <div className={styles.heroWave}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="var(--linen)"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
+        </div>
+      </header>
 
       {/* ===== HORIZONTAL TICKER BAR — scrolling under the hero/stats section ===== */}
       <div className={styles.tickerBar}>
