@@ -1,0 +1,59 @@
+.codeContainer {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background-color: var(--color-neutral-100);
+  border: 2px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  justify-content: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast) ease;
+}
+
+.codeContainer:focus-within {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px var(--color-primary-100);
+}
+
+.containerError {
+  border-color: var(--color-error-500);
+  background-color: #FFF5F5;
+}
+
+.prefix {
+  font-family: 'DM Mono', monospace;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--color-neutral-800);
+  user-select: none;
+}
+
+.dash {
+  font-family: 'DM Mono', monospace;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--color-neutral-400);
+  user-select: none;
+}
+
+.segmentInput {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-family: 'DM Mono', monospace;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--color-primary-600);
+  text-align: center;
+  text-transform: uppercase;
+  padding: 0;
+}
+
+.segmentInput::placeholder {
+  color: var(--color-neutral-400);
+  opacity: 0.5;
+}

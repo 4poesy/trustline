@@ -197,7 +197,7 @@ export default function AirtimePaymentPage() {
               <input
                 type="text"
                 className={styles.input}
-                value={profile.phone_number}
+                value={profile.phone_number || ''}
                 disabled
               />
             ) : (

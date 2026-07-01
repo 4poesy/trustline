@@ -1,0 +1,236 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: var(--space-4);
+  color: var(--color-neutral-600);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 80px;
+  background-color: var(--color-primary-500);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.backBtn {
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+
+.main {
+  flex: 1;
+  max-width: var(--max-width-mobile);
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.errorBox {
+  background-color: #FFF5F5;
+  color: var(--color-error-500);
+  border: 1px solid var(--color-error-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+.successBox {
+  background-color: #F0FFF4;
+  color: var(--color-success-600);
+  border: 1px solid var(--color-success-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+.section {
+  background-color: var(--white);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-800);
+  margin-bottom: var(--space-4);
+  border-left: 3px solid var(--color-primary-500);
+  padding-left: var(--space-2);
+}
+
+.certificate {
+  background-color: var(--green-deep);
+  color: var(--white);
+  border: 2px dashed var(--saffron);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.certIcon {
+  color: var(--saffron);
+}
+
+.certBrand {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+  color: var(--saffron);
+}
+
+.codeDisplay {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.05em;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.actionBtn {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+}
+
+.actionBtn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.btnRow {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.btnRow button {
+  flex: 1;
+}
+
+.dangerSection {
+  border-color: var(--color-error-200);
+}
+
+.dangerTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-error-500);
+  margin-bottom: var(--space-3);
+  border-left: 3px solid var(--color-error-500);
+  padding-left: var(--space-2);
+}
+
+.dangerText {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-600);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.deleteBtn {
+  background-color: transparent;
+  color: var(--color-error-500);
+  border: 1px solid var(--color-error-200);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  width: 100%;
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--transition-fast) ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteBtn:hover {
+  background-color: #FFF5F5;
+}
+
+.deleteConfirmBox {
+  background-color: #FFF5F5;
+  border: 1px solid var(--color-error-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.deleteWarnLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-800);
+  text-align: center;
+}
+
+.finalDeleteBtn {
+  background-color: var(--color-error-500);
+  color: var(--white);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-weight: var(--font-weight-semibold);
+  flex: 1;
+}
+
+.finalDeleteBtn:hover {
+  background-color: var(--color-error-600);
+}

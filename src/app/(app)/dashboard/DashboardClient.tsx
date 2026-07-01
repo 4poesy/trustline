@@ -364,6 +364,10 @@ export function DashboardClient({ profile }: Props) {
               <Shield size={18} className={styles.drawerNavIcon} />
               <span>Verify Identity (KYC)</span>
             </Link>
+            <Link href="/profile/settings" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Settings size={18} className={styles.drawerNavIcon} />
+              <span>Account Settings</span>
+            </Link>
             <Link href="/settings/notifications" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
               <Settings size={18} className={styles.drawerNavIcon} />
               <span>Notification Settings</span>
@@ -413,7 +417,7 @@ export function DashboardClient({ profile }: Props) {
           </div>
           <div className={styles.headerRightActions}>
             <Link
-              href="/settings/notifications"
+              href="/profile/settings"
               className={styles.settingsButton}
               title="Settings"
               aria-label="Settings"

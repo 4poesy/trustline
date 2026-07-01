@@ -1,6 +1,6 @@
 export interface Profile {
   id: string
-  phone_number: string
+  phone_number?: string | null
   name: string
   role: 'trader' | 'service_provider' | 'group_member'
   business_type: string
@@ -9,6 +9,13 @@ export interface Profile {
   currency: string
   created_at: string
   updated_at: string
+  trustline_code: string
+  pin_hash: string
+  phone_last4?: string | null
+  public_username?: string | null
+  recovery_answer_hash?: string | null
+  recovery_question?: string | null
+  country_code?: string
 }
 
 export interface WalletTransaction {

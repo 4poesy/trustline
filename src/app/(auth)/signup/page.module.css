@@ -1,0 +1,325 @@
+.page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background-color: var(--color-background);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width-mobile);
+  animation: fadeIn var(--transition-base) ease-out;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.logoText {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-500);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--space-2);
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-600);
+}
+
+.errorBox {
+  background-color: #FFF5F5;
+  color: var(--color-error-500);
+  border: 1px solid var(--color-error-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-6);
+  text-align: center;
+  line-height: var(--line-height-relaxed);
+}
+
+.formContainer {
+  background-color: var(--white);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.rolesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.roleCard {
+  background-color: var(--color-neutral-500)0;
+  border: 2px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast) ease;
+}
+
+.roleCardActive {
+  border-color: var(--color-primary-500);
+  background-color: var(--color-primary-100)0;
+}
+
+.roleCardCheck {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--color-neutral-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+}
+
+.roleCardActive .roleCardCheck {
+  border-color: var(--color-primary-500);
+  background-color: var(--color-primary-500);
+  color: var(--white);
+}
+
+.roleCard h3 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--space-1);
+}
+
+.roleCard p {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+.fieldHelper {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  margin-top: var(--space-1);
+}
+
+.pinSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.resetPinBtn {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  text-decoration: underline;
+  background: transparent;
+}
+
+.dividerLine {
+  height: 1px;
+  background-color: var(--color-neutral-200);
+  margin: var(--space-2) 0;
+}
+
+.usernameWrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-neutral-500)5;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-3);
+}
+
+.usernamePrefix {
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-500);
+  font-weight: var(--font-weight-medium);
+  margin-right: var(--space-1);
+}
+
+.usernameWrapper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: var(--space-3) 0;
+  outline: none;
+}
+
+.btnRow {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.btnRow button {
+  flex: 1;
+}
+
+/* Step 3 Certificate style view */
+.certificateView {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.certificate {
+  background-color: var(--green-deep);
+  color: var(--white);
+  border: 4px double var(--saffron);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-md);
+}
+
+.certIcon {
+  color: var(--saffron);
+}
+
+.certBrand {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.15em;
+  color: var(--saffron);
+}
+
+.certificate h2 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.05em;
+}
+
+.codeReveal {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--saffron);
+  letter-spacing: 0.05em;
+}
+
+.certWarning {
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: var(--line-height-relaxed);
+  max-width: 320px;
+}
+
+.certWarning strong {
+  color: var(--saffron);
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.actionBtn {
+  background-color: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+}
+
+.actionBtn:hover {
+  background-color: var(--color-neutral-200);
+}
+
+.actionBtn span {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-700);
+  text-transform: uppercase;
+}
+
+.consentCheckbox {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-top: var(--space-2);
+  text-align: left;
+}
+
+.consentCheckbox input {
+  margin-top: 3px;
+}
+
+.consentCheckbox label {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-600);
+  line-height: var(--line-height-relaxed);
+  cursor: pointer;
+}
+
+.footerLinks {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  margin-top: var(--space-6);
+}
+
+.loginLink {
+  color: var(--color-primary-500);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-1);
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

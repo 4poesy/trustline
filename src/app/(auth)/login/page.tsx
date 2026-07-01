@@ -2,100 +2,174 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { sendOTP } from '@/lib/supabase/auth'
-import { CountryCodeSelect } from '@/modules/auth/components/CountryCodeSelect'
+import Link from 'next/link'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useAuth } from '@/modules/auth/hooks/useAuth'
+import { TrustlineCodeInput } from '@/modules/auth/components/TrustlineCodeInput'
+import { PinPad } from '@/modules/auth/components/PinPad'
 import styles from './page.module.css'
 
 export default function LoginPage() {
-  const [countryCode, setCountryCode] = useState('+234')
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const [step, setStep] = useState<1 | 2>(1) // 1: Enter Code, 2: Enter PIN
+  const [trustlineCode, setTrustlineCode] = useState('')
+  const [pin, setPin] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [attemptsRemaining, setAttemptsRemaining] = useState<number | null>(null)
+  const [lockoutMinutes, setLockoutMinutes] = useState<number | null>(null)
+  
+  const { login } = useAuth()
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleCodeNext = () => {
     setError('')
-
-    const cleaned = phoneNumber.replace(/\D/g, '').replace(/^0+/, '')
-    if (cleaned.length < 7 || cleaned.length > 12) {
-      setError('Please enter a valid phone number')
+    // Check if code matches the placeholder pattern or is filled
+    const cleanCode = trustlineCode.replace(/_/g, '')
+    if (cleanCode.length < 16) {
+      setError('Please fill in your complete 16-character Trustline Code.')
       return
     }
+    setStep(2)
+  }
 
-    setLoading(true)
-    try {
-      const { error: otpError } = await sendOTP(`${countryCode}${cleaned}`)
+  const handlePinChange = async (newPin: string) => {
+    setPin(newPin)
+    setError('')
 
-      if (otpError) {
-        setError(otpError.message)
-        setLoading(false)
-        return
-      }
+    // Auto-submit when exactly 4 digits entered
+    if (newPin.length === 4) {
+      setLoading(true)
+      const cleanCode = trustlineCode.replace(/_/g, '')
 
-      // Store phone for the verify page
-      sessionStorage.setItem('trustline_auth_phone', `${countryCode}${cleaned}`)
-      router.push('/verify')
-    } catch {
-      setError('Something went wrong. Please try again.')
+      const result = await login(cleanCode, newPin)
       setLoading(false)
+
+      if (result?.error) {
+        setPin('') // Reset pin pad
+        const err = result.error.message || ''
+
+        if (err.includes('account_locked')) {
+          setError('Your account is temporarily locked due to too many failed attempts.')
+          setLockoutMinutes(30)
+          setStep(1)
+        } else if (err.includes('invalid_credentials')) {
+          setError('Incorrect Trustline Code or PIN.')
+          // Parse attempts if available in response
+          if (result.error.attempts_remaining !== undefined) {
+            setAttemptsRemaining(result.error.attempts_remaining)
+            setError(`Incorrect PIN. ${result.error.attempts_remaining} attempts remaining before temporary lock.`)
+          }
+        } else {
+          setError(err || 'Something went wrong. Please try again.')
+        }
+      } else {
+        router.push('/dashboard')
+      }
     }
   }
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
+        
+        {/* Back navigation when on PIN step */}
+        {step === 2 && (
+          <button 
+            type="button" 
+            className={styles.backLinkBtn} 
+            onClick={() => {
+              setStep(1)
+              setPin('')
+              setError('')
+            }}
+          >
+            <ArrowLeft size={16} /> Back to Code
+          </button>
+        )}
+
         <div className={styles.header}>
           <div className={styles.logo}>
             <img src="/icons/icon-192x192.png" alt="Trustline Logo" className={styles.logoIcon} />
             <span className={styles.logoText}>Trustline365</span>
           </div>
-          <h1 className={styles.title}>Welcome back</h1>
-          <p className={styles.subtitle}>Enter your phone number to continue</p>
+          
+          <h1 className={styles.title}>
+            {step === 1 ? 'Enter your Code' : 'Enter your PIN'}
+          </h1>
+          <p className={styles.subtitle}>
+            {step === 1 
+              ? 'Enter your unique 16-character Trustline Code' 
+              : 'Enter your 4-digit security PIN to unlock'}
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.phoneRow}>
-            <CountryCodeSelect value={countryCode} onChange={setCountryCode} />
-            <input
-              type="tel"
-              inputMode="numeric"
-              className={`form-input ${styles.phoneInput} ${error ? 'form-input-error' : ''}`}
-              placeholder="801 234 5678"
-              value={phoneNumber}
-              onChange={(e) => {
-                setPhoneNumber(e.target.value.replace(/[^\d\s]/g, ''))
-                setError('')
-              }}
-              autoComplete="tel-national"
-              autoFocus
-              id="phone-number-input"
-            />
+        {error && (
+          <div className={styles.errorBox} role="alert">
+            {error}
           </div>
+        )}
 
-          {error && <p className="form-error" role="alert">{error}</p>}
+        {lockoutMinutes && (
+          <div className={styles.lockoutBox}>
+            🔒 Locked out. Try again in {lockoutMinutes} minutes.
+          </div>
+        )}
 
-          <button
-            type="submit"
-            className="btn btn-primary btn-large"
-            disabled={loading || phoneNumber.replace(/\D/g, '').length < 7}
-            id="send-code-button"
-          >
-            {loading ? (
-              <>
-                <span className="spinner spinner-white" />
-                Sending code...
-              </>
-            ) : (
-              'Send verification code'
-            )}
-          </button>
-        </form>
+        <div className={styles.formContainer}>
+          {step === 1 ? (
+            <div className={styles.stepContainer}>
+              <div className={styles.inputWrapper}>
+                <TrustlineCodeInput 
+                  value={trustlineCode} 
+                  onChange={(val) => {
+                    setTrustlineCode(val)
+                    setError('')
+                  }}
+                  error={!!error}
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCodeNext}
+                className="btn btn-primary btn-large"
+                disabled={trustlineCode.replace(/_/g, '').length < 16}
+              >
+                Continue <ArrowRight size={18} />
+              </button>
+            </div>
+          ) : (
+            <div className={styles.stepContainer}>
+              <PinPad 
+                value={pin} 
+                onChange={handlePinChange} 
+                maxLength={4}
+              />
+              
+              {loading && (
+                <div className={styles.loadingOverlay}>
+                  <span className="spinner" />
+                  <p>Verifying PIN...</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className={styles.footerLinks}>
+          <Link href="/recover" className={styles.recoveryLink}>
+            I forgot my code
+          </Link>
+          <span className={styles.divider}>·</span>
+          <Link href="/signup" className={styles.signupLink}>
+            New to Trustline365? <strong>Sign up</strong>
+          </Link>
+        </div>
 
         <p className={styles.terms}>
           By continuing, you agree to our{' '}
-          <a href="/terms">Terms of Service</a>{' '}
-          and <a href="/privacy">Privacy Policy</a>
+          <Link href="/terms">Terms of Service</Link>{' '}
+          and <Link href="/privacy">Privacy Policy</Link>
         </p>
       </div>
     </div>
