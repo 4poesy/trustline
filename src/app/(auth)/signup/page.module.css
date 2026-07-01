@@ -45,7 +45,7 @@
 .container {
   width: 100%;
   max-width: var(--max-width-mobile);
-  margin: -40px auto var(--space-8);
+  margin: var(--space-6) auto var(--space-8);
   padding: 0 var(--space-4);
   position: relative;
   z-index: 10;
