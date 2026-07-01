@@ -899,3 +899,224 @@
 .delay4 {
   animation-delay: 0.4s;
 }
+
+/* =============================================
+   MOBILE DRAWER & MENU SYSTEM
+   ============================================= */
+.menuButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  margin-right: var(--space-2);
+}
+
+.menuButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.headerRightActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.settingsButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.settingsButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(30deg);
+}
+
+.drawerBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.drawerOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawerPanel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80%;
+  max-width: 320px;
+  height: 100vh;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xl);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drawerPanelOpen {
+  transform: translateX(0);
+}
+
+.drawerHeader {
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-primary-500);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawerBrand {
+  font-size: var(--font-size-lg);
+  font-weight: 850;
+  letter-spacing: -0.5px;
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.drawerCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.drawerContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawerProfile {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-neutral-100);
+  margin-bottom: var(--space-2);
+}
+
+.drawerProfileName {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.drawerProfileRole {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  margin-top: 2px;
+  display: block;
+}
+
+.drawerNavSection {
+  padding: 0 var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.drawerNavLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-neutral-700);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: 650;
+  border-radius: 12px;
+  transition: all var(--transition-fast);
+}
+
+.drawerNavLink:hover {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.drawerNavLinkActive {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.drawerNavIcon {
+  color: var(--color-neutral-400);
+}
+
+.drawerNavLink:hover .drawerNavIcon {
+  color: var(--color-primary-500);
+}
+
+.drawerSectionHeader {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--color-neutral-400);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: var(--space-4) var(--space-6) var(--space-2);
+}
+
+.drawerFooter {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-neutral-100);
+}
+
+.drawerLogoutBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-200);
+  color: var(--color-neutral-700);
+  font-size: var(--font-size-sm);
+  font-weight: 750;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.drawerLogoutBtn:hover {
+  background: var(--color-error-light);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+

@@ -24,7 +24,10 @@ import {
   Shield,
   Store,
   QrCode,
-  FileText
+  FileText,
+  Menu,
+  X,
+  Settings
 } from 'lucide-react'
 import { getCreditScore } from '@/lib/supabase/creditScore'
 import { supabase } from '@/lib/supabase/client'
@@ -44,6 +47,7 @@ export function DashboardClient({ profile }: Props) {
     return null
   }
 
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const [monthlyIncome, setMonthlyIncome] = useState(0)
   const [trustScore, setTrustScore] = useState<number | null>(null)
   const [creditBand, setCreditBand] = useState('Building')
@@ -278,27 +282,150 @@ export function DashboardClient({ profile }: Props) {
       transition={{ duration: 0.5 }}
       className={styles.page}
     >
-      {/* Header section with stagnant solid green background and gold wavy divider */}
+      {/* Mobile Drawer Navigation System */}
+      <div 
+        className={`${styles.drawerBackdrop} ${drawerOpen ? styles.drawerOpen : ''}`} 
+        onClick={() => setDrawerOpen(false)} 
+      />
+      <div className={`${styles.drawerPanel} ${drawerOpen ? styles.drawerPanelOpen : ''}`}>
+        <div className={styles.drawerHeader}>
+          <span className={styles.drawerBrand}>Trustline</span>
+          <button 
+            className={styles.drawerCloseBtn} 
+            onClick={() => setDrawerOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className={styles.drawerContent}>
+          <div className={styles.drawerProfile}>
+            <h2 className={styles.drawerProfileName}>{profile.name}</h2>
+            <span className={styles.drawerProfileRole}>{getRoleLabel(profile.role)}</span>
+          </div>
+
+          <nav className={styles.drawerNavSection}>
+            <span className={styles.drawerSectionHeader}>Core Features</span>
+            <Link href="/dashboard" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Activity size={18} className={styles.drawerNavIcon} />
+              <span>Dashboard</span>
+            </Link>
+            <Link href="/cashflow" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Activity size={18} className={styles.drawerNavIcon} />
+              <span>Track Cashflow</span>
+            </Link>
+            <Link href="/directory" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <BookOpen size={18} className={styles.drawerNavIcon} />
+              <span>Public Profile</span>
+            </Link>
+            <Link href="/savings" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Users size={18} className={styles.drawerNavIcon} />
+              <span>Savings Groups</span>
+            </Link>
+            <Link href="/pay" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <CreditCard size={18} className={styles.drawerNavIcon} />
+              <span>Pay Bills</span>
+            </Link>
+
+            <span className={styles.drawerSectionHeader}>Financial Expansion</span>
+            <Link href="/loans" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Coins size={18} className={styles.drawerNavIcon} />
+              <span>Find Loans</span>
+            </Link>
+            <Link href="/insurance" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Shield size={18} className={styles.drawerNavIcon} />
+              <span>Micro-Insurance</span>
+            </Link>
+            <Link href="/group-commerce" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Store size={18} className={styles.drawerNavIcon} />
+              <span>Group Commerce</span>
+            </Link>
+            <Link href="/insights" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <TrendingUp size={18} className={styles.drawerNavIcon} />
+              <span>Business Insights</span>
+            </Link>
+            <Link href="/my-qr" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <QrCode size={18} className={styles.drawerNavIcon} />
+              <span>My QR Code</span>
+            </Link>
+            <Link href="/invoices" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <FileText size={18} className={styles.drawerNavIcon} />
+              <span>Invoices</span>
+            </Link>
+
+            <span className={styles.drawerSectionHeader}>Verification & Settings</span>
+            <Link href="/verify-identity" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Shield size={18} className={styles.drawerNavIcon} />
+              <span>Verify Identity (KYC)</span>
+            </Link>
+            <Link href="/settings/notifications" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Settings size={18} className={styles.drawerNavIcon} />
+              <span>Notification Settings</span>
+            </Link>
+            <Link href="/settings/data-access" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Settings size={18} className={styles.drawerNavIcon} />
+              <span>Data Consent Settings</span>
+            </Link>
+
+            <span className={styles.drawerSectionHeader}>Integrations</span>
+            <Link href="/developers" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <FileText size={18} className={styles.drawerNavIcon} />
+              <span>Developer API Portal</span>
+            </Link>
+            <Link href="/lenders" className={styles.drawerNavLink} onClick={() => setDrawerOpen(false)}>
+              <Users size={18} className={styles.drawerNavIcon} />
+              <span>Lenders Portal</span>
+            </Link>
+          </nav>
+        </div>
+
+        <div className={styles.drawerFooter}>
+          <button className={styles.drawerLogoutBtn} onClick={handleSignOut}>
+            <LogOut size={16} />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Header section with solid background and wavy divider */}
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div className={styles.headerLeft}>
-            <Link href="/" className={styles.backArrowLink} title="Back to main website">
-              <ArrowLeft size={20} />
-            </Link>
+            <button
+              className={styles.menuButton}
+              onClick={() => setDrawerOpen(true)}
+              title="Open menu"
+              aria-label="Open menu"
+              id="hamburger-menu-button"
+            >
+              <Menu size={24} />
+            </button>
             <div>
               <span className={styles.greeting}>{getGreeting()},</span>
               <h1 className={styles.userName}>{profile.name}</h1>
             </div>
           </div>
-          <button
-            className={styles.avatarButton}
-            onClick={handleSignOut}
-            title="Sign out"
-            aria-label="Sign out"
-            id="sign-out-button"
-          >
-            <LogOut size={16} className={styles.logoutIcon} />
-          </button>
+          <div className={styles.headerRightActions}>
+            <Link
+              href="/settings/notifications"
+              className={styles.settingsButton}
+              title="Settings"
+              aria-label="Settings"
+              id="header-settings-button"
+            >
+              <Settings size={20} />
+            </Link>
+            <button
+              className={styles.avatarButton}
+              onClick={handleSignOut}
+              title="Sign out"
+              aria-label="Sign out"
+              id="sign-out-button"
+            >
+              <LogOut size={16} className={styles.logoutIcon} />
+            </button>
+          </div>
         </div>
         <div className={styles.roleBadgeContainer}>
           <span className={styles.roleBadge}>

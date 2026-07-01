@@ -240,7 +240,7 @@ export function LandingPageClient() {
           <div className={styles.navLinksRight}>
             <Link href="/directory" className={styles.navLink}>Directory</Link>
             <Link href="/login" className={styles.navCta}>
-              Get started — it&apos;s free
+              Get Started
             </Link>
           </div>
         </div>
@@ -270,7 +270,7 @@ export function LandingPageClient() {
           </p>
           <div className={styles.heroCtas}>
             <Link href="/login" className={styles.heroPrimaryBtn}>
-              Get started — it&apos;s free
+              Get Started
             </Link>
             <Link href="/directory" className={styles.heroSecondaryBtn}>
               Explore directory <ArrowRight size={16} />
@@ -669,7 +669,7 @@ export function LandingPageClient() {
           </p>
           <div className={styles.finalCtaRow}>
             <Link href="/login" className={styles.finalPrimaryBtn}>
-              Get started — it&apos;s free
+              Get Started
             </Link>
             <button className={styles.finalOutlineBtn} onClick={() => {
               document.querySelector(`.${styles.installSection}`)?.scrollIntoView({ behavior: 'smooth' })

@@ -1568,6 +1568,7 @@
   .logo { border-right: none; padding-right: 0; }
   .logoFull { height: 56px; }
   .navLink { display: none; }
+  .navCta { padding: 8px 16px; font-size: 0.8rem; }
   .hero { padding-top: 80px; }
   .heroContent {
     padding: 60px 24px 100px;
