@@ -65,6 +65,11 @@ export function useAuth() {
 
   // Custom login using verify-trustline-login Edge Function
   const login = useCallback(async (trustlineCode: string, pin: string) => {
+    // Clear any stale local session to avoid "Auth session missing!" errors during invocation
+    try {
+      await supabase.auth.signOut({ scope: 'local' })
+    } catch (_) {}
+
     try {
       const { data, error } = await supabase.functions.invoke('verify-trustline-login', {
         body: { trustline_code: trustlineCode, pin }
@@ -116,7 +121,8 @@ export function useAuth() {
         }
 
         // Sign in using mock email and password to satisfy RLS policy constraints
-        const mockEmail = `user-${trustlineCode.toLowerCase()}@trustline365.com`
+        const cleanCode = trustlineCode.toLowerCase().replace(/[^a-z0-9]/g, '')
+        const mockEmail = `tl365.${cleanCode}@gmail.com`
         const mockPassword = `Pass_${pin}_${trustlineCode}`
         
         const { error: authErr } = await supabase.auth.signInWithPassword({
@@ -155,6 +161,11 @@ export function useAuth() {
     recovery_question: string
     recovery_answer: string
   }) => {
+    // Clear any stale local session to avoid "Auth session missing!" errors during invocation
+    try {
+      await supabase.auth.signOut({ scope: 'local' })
+    } catch (_) {}
+
     try {
       const { data, error } = await supabase.functions.invoke('register-user', {
         body: formData
@@ -196,7 +207,8 @@ export function useAuth() {
       
       // CLIENT-SIDE FALLBACK (e.g. if Edge Functions are not deployed yet)
       try {
-        const mockEmail = `user-${formData.trustline_code.toLowerCase()}@trustline365.com`
+        const cleanCode = formData.trustline_code.toLowerCase().replace(/[^a-z0-9]/g, '')
+        const mockEmail = `tl365.${cleanCode}@gmail.com`
         const mockPassword = `Pass_${formData.pin}_${formData.trustline_code}`
         
         let authUserId: string
