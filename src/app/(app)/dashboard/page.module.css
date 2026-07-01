@@ -453,13 +453,18 @@
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
 }
 
 .actionCard:hover {
   box-shadow: var(--shadow-lg);
   border-color: var(--color-primary-200);
+  transform: translateY(-4px);
+}
+
+.actionCard:active {
+  transform: scale(0.97);
 }
 
 .actionIcon {

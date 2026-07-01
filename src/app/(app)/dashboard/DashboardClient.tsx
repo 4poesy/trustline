@@ -33,6 +33,12 @@ interface Props {
 
 export function DashboardClient({ profile }: Props) {
   const router = useRouter()
+  
+  // Return null safe guard to prevent runtime errors if profile is empty
+  if (!profile || !profile.id) {
+    return null
+  }
+
   const [monthlyIncome, setMonthlyIncome] = useState(0)
   const [trustScore, setTrustScore] = useState<number | null>(null)
   const [creditBand, setCreditBand] = useState('Building')
@@ -397,8 +403,6 @@ export function DashboardClient({ profile }: Props) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              whileHover={{ y: -4 }} 
-              whileTap={{ scale: 0.97 }}
             >
               <Link href="/cashflow" className={`card ${styles.actionCard}`} id="cashflow-action-card">
                 <div className={`${styles.actionIcon} ${styles.actionIconCashflow}`}>
@@ -413,8 +417,6 @@ export function DashboardClient({ profile }: Props) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              whileHover={{ y: -4 }} 
-              whileTap={{ scale: 0.97 }}
             >
               <Link href="/directory" className={`card ${styles.actionCard}`} id="directory-action-card">
                 <div className={`${styles.actionIcon} ${styles.actionIconDirectory}`}>
@@ -429,8 +431,6 @@ export function DashboardClient({ profile }: Props) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 }}
-              whileHover={{ y: -4 }} 
-              whileTap={{ scale: 0.97 }}
             >
               <Link href="/savings" className={`card ${styles.actionCard}`} id="savings-action-card">
                 <div className={`${styles.actionIcon} ${styles.actionIconSavings}`}>
@@ -445,8 +445,6 @@ export function DashboardClient({ profile }: Props) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.4 }}
-              whileHover={{ y: -4 }} 
-              whileTap={{ scale: 0.97 }}
             >
               <Link href="/pay" className={`card ${styles.actionCard}`} id="pay-action-card">
                 <div className={`${styles.actionIcon} ${styles.actionIconBills}`}>
