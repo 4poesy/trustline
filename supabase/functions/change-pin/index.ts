@@ -14,7 +14,7 @@ async function getProfileIdFromHeader(req: Request): Promise<string | null> {
     return null
   }
   const token = authHeader.split(' ')[1]
-  const jwtSecret = Deno.env.get('SUPABASE_JWT_SECRET') ?? ''
+  const jwtSecret = Deno.env.get('JWT_SECRET') ?? Deno.env.get('SUPABASE_JWT_SECRET') ?? ''
   if (!jwtSecret) return null
 
   try {

@@ -143,7 +143,7 @@ serve(async (req) => {
       })
 
     // 4. Generate JWT signed with Supabase JWT Secret
-    const jwtSecret = Deno.env.get('SUPABASE_JWT_SECRET') ?? ''
+    const jwtSecret = Deno.env.get('JWT_SECRET') ?? Deno.env.get('SUPABASE_JWT_SECRET') ?? ''
     if (!jwtSecret) {
       return new Response(JSON.stringify({ error: 'JWT Secret is not configured on the server.' }), {
         status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
