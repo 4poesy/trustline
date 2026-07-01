@@ -4,13 +4,13 @@ import { OfflineBanner } from "@/modules/auth/components/OfflineBanner";
 import { PwaProvider } from "./PwaProvider";
 
 export const metadata: Metadata = {
-  title: "Trustline",
+  title: "Trustline365",
   description: "Building financial trust for Africa's informal economy.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Trustline",
+    title: "Trustline365",
   },
   formatDetection: {
     telephone: false,

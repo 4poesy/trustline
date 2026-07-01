@@ -70,10 +70,13 @@ export default function AirtimePaymentPage() {
     if (!recipientNumber) return 'Please enter a phone number.'
     
     // Simple Nigerian phone number validation
-    // Matches 080..., 090..., 070... (11 digits) or +234...
     const cleanNum = recipientNumber.replace(/\D/g, '')
-    if (cleanNum.length !== 11 && !recipientNumber.startsWith('+')) {
-      return 'Please enter a valid 11-digit phone number.'
+    const isValidNigeria = 
+      (cleanNum.length === 11 && cleanNum.startsWith('0')) ||
+      (cleanNum.length === 13 && cleanNum.startsWith('234')) ||
+      (recipientNumber.startsWith('+') && cleanNum.length === 13)
+    if (!isValidNigeria) {
+      return 'Please enter a valid 11-digit phone number (e.g. 08012345678 or 2349068133874).'
     }
 
     // 2. Amount check

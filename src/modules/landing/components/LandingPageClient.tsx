@@ -154,8 +154,8 @@ export function LandingPageClient() {
               <div className={styles.mockPlayAppInfo}>
                 <div className={styles.mockPlayIcon}>🛡️</div>
                 <div className={styles.mockPlayAppText}>
-                  <h4 className={styles.mockPlayTitle}>Trustline</h4>
-                  <p className={styles.mockPlayDev}>Trustline Team</p>
+                  <h4 className={styles.mockPlayTitle}>Trustline365</h4>
+                  <p className={styles.mockPlayDev}>Trustline365 Team</p>
                   <p className={styles.mockPlayRating}>4.8 ★ · 10K+ downloads</p>
                 </div>
               </div>
@@ -215,7 +215,7 @@ export function LandingPageClient() {
                 <h3>TRUSTLINE</h3>
               </div>
               <div className={styles.mockPwaPrompt}>
-                <h4>Install Trustline App?</h4>
+                <h4>Install Trustline365 App?</h4>
                 <p>Run full-screen, launch from desktop, and sync offline.</p>
                 <div className={styles.mockPwaBtns}>
                   <button className={styles.mockPwaCancel} onClick={() => setActiveTab('android')}>Cancel</button>

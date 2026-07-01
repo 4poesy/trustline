@@ -35,7 +35,7 @@ export default function AdminPage() {
     <div className={styles.page}>
       <header className={styles.header}><div className={styles.headerInner}>
         <Shield size={22}/>
-        <h1 className={styles.title}>Trustline Admin</h1><div style={{width:40}}/>
+        <h1 className={styles.title}>Trustline365 Admin</h1><div style={{width:40}}/>
       </div></header>
       <main className={styles.main}>
         <div className={styles.statsGrid}>

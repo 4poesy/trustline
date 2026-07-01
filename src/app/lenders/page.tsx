@@ -3,8 +3,8 @@ import Link from 'next/link'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
-  title: 'List Your Loan Products on Trustline | Reach Pre-Qualified Borrowers in Africa',
-  description: 'Trustline connects licensed lenders with pre-qualified borrowers who have verified financial behavior. List your loan products and access traders, vendors, and service providers across Nigeria.',
+  title: 'List Your Loan Products on Trustline365 | Reach Pre-Qualified Borrowers in Africa',
+  description: 'Trustline365 connects licensed lenders with pre-qualified borrowers who have verified financial behavior. List your loan products and access traders, vendors, and service providers across Nigeria.',
   keywords: 'list loan products Nigeria fintech, reach informal economy borrowers, microfinance borrower leads Africa, loan marketplace Nigeria',
 }
 
@@ -14,7 +14,7 @@ export default function LendersLandingPage() {
       <header className={styles.header}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.brand}>
-            <span className={styles.brandName}>Trustline</span>
+            <span className={styles.brandName}>Trustline365</span>
             <span className={styles.forLenders}>for Lenders</span>
           </Link>
           <Link href="/lenders/register" className={styles.headerCta}>Register</Link>
@@ -26,7 +26,7 @@ export default function LendersLandingPage() {
           <span className={styles.tagline}>Loan Marketplace</span>
           <h1 className={styles.title}>Reach pre-qualified borrowers with <em>verified</em> financial behavior</h1>
           <p className={styles.description}>
-            Trustline gives licensed lenders access to Africa's informal economy — traders, vendors, and service providers 
+            Trustline365 gives licensed lenders access to Africa's informal economy — traders, vendors, and service providers 
             with real income data, savings discipline scores, and community reputation. Not self-reported forms. 
             Verified behavior.
           </p>
@@ -103,7 +103,7 @@ export default function LendersLandingPage() {
       </section>
 
       <footer className={styles.footer}>
-        <p>© {new Date().getFullYear()} Trustline. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Trustline365. All rights reserved.</p>
       </footer>
     </div>
   )

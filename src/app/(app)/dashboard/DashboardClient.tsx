@@ -48,12 +48,17 @@ export function DashboardClient({ profile }: Props) {
   }
 
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const [monthlyIncome, setMonthlyIncome] = useState(0)
   const [trustScore, setTrustScore] = useState<number | null>(null)
   const [creditBand, setCreditBand] = useState('Building')
   const [loading, setLoading] = useState(true)
   const [walletBalance, setWalletBalance] = useState(0)
   const [currency, setCurrency] = useState('NGN')
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const fetchWallet = async () => {
@@ -289,7 +294,7 @@ export function DashboardClient({ profile }: Props) {
       />
       <div className={`${styles.drawerPanel} ${drawerOpen ? styles.drawerPanelOpen : ''}`}>
         <div className={styles.drawerHeader}>
-          <span className={styles.drawerBrand}>Trustline</span>
+          <span className={styles.drawerBrand}>Trustline365</span>
           <button 
             className={styles.drawerCloseBtn} 
             onClick={() => setDrawerOpen(false)}
@@ -706,7 +711,9 @@ export function DashboardClient({ profile }: Props) {
               </form>
 
               <div className={styles.todoList}>
-                {todoList.length === 0 ? (
+                {!mounted ? (
+                  <div className={styles.todoEmpty}>Loading tasks...</div>
+                ) : todoList.length === 0 ? (
                   <div className={styles.todoEmpty}>No tasks left for today!</div>
                 ) : (
                   todoList.map(todo => (
