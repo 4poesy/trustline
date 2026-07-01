@@ -71,16 +71,21 @@ export function useAuth() {
     } catch (_) {}
 
     try {
-      const { data, error } = await supabase.functions.invoke('verify-trustline-login', {
-        body: { trustline_code: trustlineCode, pin }
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://fecvmzybfzumyxcphpmp.supabase.co'
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+      const res = await fetch(`${supabaseUrl}/functions/v1/verify-trustline-login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseAnonKey
+        },
+        body: JSON.stringify({ trustline_code: trustlineCode, pin })
       })
 
-      if (error) {
-        throw new Error(error.message || 'Login failed.')
-      }
-
-      if (data?.error) {
-        throw new Error(data.error)
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || data.message || 'Login failed.')
       }
 
       if (data?.session_token) {
@@ -167,16 +172,21 @@ export function useAuth() {
     } catch (_) {}
 
     try {
-      const { data, error } = await supabase.functions.invoke('register-user', {
-        body: formData
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://fecvmzybfzumyxcphpmp.supabase.co'
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+      const res = await fetch(`${supabaseUrl}/functions/v1/register-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseAnonKey
+        },
+        body: JSON.stringify(formData)
       })
 
-      if (error) {
-        throw new Error(error.message || 'Registration failed.')
-      }
-
-      if (data?.error) {
-        throw new Error(data.error)
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || data.message || 'Registration failed.')
       }
 
       if (data?.session_token) {

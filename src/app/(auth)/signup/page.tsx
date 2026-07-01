@@ -84,12 +84,21 @@ export default function SignupPage() {
     setLoading(true)
     try {
       // 1. Generate code first using generate-trustline-code Edge Function
-      const { data, error: codeErr } = await supabase.functions.invoke('generate-trustline-code', {
-        body: { name, phone_last4: phoneLast4 || null }
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://fecvmzybfzumyxcphpmp.supabase.co'
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+      const res = await fetch(`${supabaseUrl}/functions/v1/generate-trustline-code`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseAnonKey
+        },
+        body: JSON.stringify({ name, phone_last4: phoneLast4 || null })
       })
 
-      if (codeErr || data?.error) {
-        throw new Error(codeErr?.message || data?.error || 'Failed to generate your unique code.')
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || data.message || 'Failed to generate your unique code.')
       }
 
       setGeneratedCode(data.trustline_code)
