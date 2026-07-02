@@ -27,7 +27,8 @@ import {
   FileText,
   Menu,
   X,
-  Settings
+  Settings,
+  Smartphone
 } from 'lucide-react'
 import { getCreditScore } from '@/lib/supabase/creditScore'
 import { supabase } from '@/lib/supabase/client'
@@ -628,6 +629,22 @@ export function DashboardClient({ profile }: Props) {
               </div>
               <h3 className={styles.actionTitle}>Daily Planner</h3>
               <p className={styles.actionDescription}>Manage business itineraries, tasks, and rhythm briefings</p>
+            </Link>
+
+            <Link href="/pos" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay4}`} id="pos-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconPos}`}>
+                <Smartphone size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>POS Operator Hub</h3>
+              <p className={styles.actionDescription}>Manage POS terminals, daily float logs, and fee insights</p>
+            </Link>
+
+            <Link href="/admin" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay1}`} id="admin-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconAdmin}`}>
+                <Shield size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Admin Portal</h3>
+              <p className={styles.actionDescription}>Manage lenders, feature flags, translation strings, and configuration settings</p>
             </Link>
           </div>
         </section>

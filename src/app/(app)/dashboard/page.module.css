@@ -532,6 +532,16 @@
   color: #9333EA;
 }
 
+.actionIconPos {
+  background-color: #ECFDF5;
+  color: #059669;
+}
+
+.actionIconAdmin {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
 .actionTitle {
   font-size: var(--font-size-sm);
   font-weight: 700;
