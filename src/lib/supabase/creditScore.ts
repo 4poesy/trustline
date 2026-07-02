@@ -60,13 +60,13 @@ export async function getCreditScore(profileId: string) {
     console.error('[CreditScoreAPI] Edge function call failed, using baseline fallback:', err)
     return {
       data: {
-        score: 65,
-        band: 'Good',
+        score: 0,
+        band: 'Building',
         breakdown: {
-          income_consistency: 18,
-          income_volume: 12,
-          savings_discipline: 20,
-          reputation: 15,
+          income_consistency: 0,
+          income_volume: 0,
+          savings_discipline: 0,
+          reputation: 0,
         },
       },
       error: err.message || err.toString(),

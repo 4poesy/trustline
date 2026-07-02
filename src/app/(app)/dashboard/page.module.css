@@ -527,6 +527,11 @@
   color: #EA580C;
 }
 
+.actionIconPlanner {
+  background-color: #FAF5FF;
+  color: #9333EA;
+}
+
 .actionTitle {
   font-size: var(--font-size-sm);
   font-weight: 700;

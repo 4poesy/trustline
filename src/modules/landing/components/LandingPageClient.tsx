@@ -244,6 +244,12 @@ export function LandingPageClient() {
             </Link>
           </div>
         </div>
+        <div className={styles.navBorderBottom}>
+          <svg className={styles.waveSvg} viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60 L1200,120 L0,120 Z" fill="var(--green-deep)"></path>
+            <path d="M0,60 C150,90 350,90 500,60 C650,30 850,30 1000,60 C1150,90 1250,90 1200,60" fill="none" stroke="var(--saffron)" strokeWidth="3"></path>
+          </svg>
+        </div>
       </nav>
 
       {/* ===== HERO SECTION — Split layout: text left, image right ===== */}

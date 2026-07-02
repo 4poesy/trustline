@@ -33,6 +33,7 @@ import { getCreditScore } from '@/lib/supabase/creditScore'
 import { supabase } from '@/lib/supabase/client'
 import { db } from '@/modules/cashflow/db/cashflow-db'
 import type { Profile } from '@/lib/supabase/types'
+import { FloatWidget } from '@/modules/pos/components/FloatWidget'
 import styles from './page.module.css'
 
 interface Props {
@@ -530,6 +531,12 @@ export function DashboardClient({ profile }: Props) {
           </div>
         </section>
 
+        {profile.pos_operator && (
+          <div style={{ marginTop: 'var(--space-4)', marginBottom: 'var(--space-4)' }}>
+            <FloatWidget />
+          </div>
+        )}
+
         {/* Module action cards - Grid layout */}
         <section className={styles.actionCards}>
           <h2 className={styles.sectionTitle}>Quick Actions</h2>
@@ -613,6 +620,14 @@ export function DashboardClient({ profile }: Props) {
               </div>
               <h3 className={styles.actionTitle}>Invoices</h3>
               <p className={styles.actionDescription}>Generate and send invoices to track customer payments</p>
+            </Link>
+
+            <Link href="/planner" className={`card ${styles.actionCard} ${styles.animateFadeIn} ${styles.delay3}`} id="planner-action-card">
+              <div className={`${styles.actionIcon} ${styles.actionIconPlanner}`}>
+                <CheckSquare size={24} />
+              </div>
+              <h3 className={styles.actionTitle}>Daily Planner</h3>
+              <p className={styles.actionDescription}>Manage business itineraries, tasks, and rhythm briefings</p>
             </Link>
           </div>
         </section>

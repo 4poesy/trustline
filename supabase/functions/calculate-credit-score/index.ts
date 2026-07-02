@@ -28,7 +28,7 @@ async function calculateAndSaveScore(supabaseClient: any, profile_id: string): P
 
   // 2. INCOME VOLUME (20 pts)
   const totalVolume = (incomeTx || []).reduce((sum: number, t: any) => sum + Number(t.amount), 0)
-  let incomeVolume = 5
+  let incomeVolume = 0
   if (totalVolume >= 500000) {
     incomeVolume = 20
   } else if (totalVolume >= 200000) {
@@ -80,7 +80,7 @@ async function calculateAndSaveScore(supabaseClient: any, profile_id: string): P
     })
   }
 
-  let savingsDiscipline = 25
+  let savingsDiscipline = 0
   if (totalExpected > 0) {
     savingsDiscipline = Math.min(25, (totalActual / totalExpected) * 25)
   }
@@ -148,7 +148,13 @@ Deno.serve(async (req) => {
   try {
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
     )
 
     let profile_id: string | null = null

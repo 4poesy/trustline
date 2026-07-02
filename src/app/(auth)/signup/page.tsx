@@ -27,6 +27,10 @@ export default function SignupPage() {
   const [location, setLocation] = useState('')
   const [phoneLast4, setPhoneLast4] = useState('')
   const [countryCode, setCountryCode] = useState('NG')
+  const [posOperator, setPosOperator] = useState(false)
+  const [posTerminalCount, setPosTerminalCount] = useState(1)
+  const [posBankProvider, setPosBankProvider] = useState('Moniepoint')
+  const [posLocationDescription, setPosLocationDescription] = useState('')
 
   // Step 2 State
   const [pin, setPin] = useState('')
@@ -134,6 +138,21 @@ export default function SignupPage() {
       if (result?.error) {
         const errorMsg = typeof result.error === 'string' ? result.error : (result.error.message || 'Registration failed.')
         throw new Error(errorMsg)
+      }
+
+      if (posOperator) {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          await supabase
+            .from('profiles')
+            .update({
+              pos_operator: true,
+              pos_terminal_count: posTerminalCount,
+              pos_bank_provider: posBankProvider,
+              pos_location_description: posLocationDescription || null
+            })
+            .eq('id', user.id)
+        }
       }
 
       router.push('/dashboard')
@@ -332,10 +351,86 @@ export default function SignupPage() {
                   value={phoneLast4}
                   onChange={(e) => setPhoneLast4(e.target.value.replace(/\D/g, ''))}
                 />
-                <span className={styles.fieldHelper}>
-                  Helps verify and recover your profile if you ever lose your code.
-                </span>
               </div>
+
+              {/* POS Operator Section */}
+              <div className="form-group" style={{ marginTop: 'var(--space-4)', borderTop: '1px solid var(--color-neutral-200)', paddingTop: 'var(--space-4)' }}>
+                <label className="form-label">Are you a POS Terminal Operator?</label>
+                <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-2)' }}>
+                  <button
+                    type="button"
+                    className={`btn ${posOperator ? 'btn-primary' : 'btn-secondary'}`}
+                    style={{ flex: 1, height: 44 }}
+                    onClick={() => setPosOperator(true)}
+                  >
+                    Yes, I run POS
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn ${!posOperator ? 'btn-primary' : 'btn-secondary'}`}
+                    style={{ flex: 1, height: 44 }}
+                    onClick={() => setPosOperator(false)}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+
+              {posOperator && (
+                <>
+                  <div className="form-group">
+                    <label className="form-label">Number of Terminals</label>
+                    <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                      {[1, 2, '3+'].map((num) => {
+                        const val = typeof num === 'number' ? num : 3
+                        const selected = posTerminalCount === val
+                        return (
+                          <button
+                            key={num}
+                            type="button"
+                            className={`btn ${selected ? 'btn-primary' : 'btn-secondary'}`}
+                            style={{ flex: 1, height: 40 }}
+                            onClick={() => setPosTerminalCount(val)}
+                          >
+                            {num}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="pos-bank">POS Terminal Provider/Bank</label>
+                    <select
+                      id="pos-bank"
+                      className="form-input"
+                      value={posBankProvider}
+                      onChange={(e) => setPosBankProvider(e.target.value)}
+                    >
+                      <option value="Moniepoint">Moniepoint</option>
+                      <option value="OPay">OPay</option>
+                      <option value="PalmPay">PalmPay</option>
+                      <option value="GTBank">GTBank</option>
+                      <option value="Access Bank">Access Bank</option>
+                      <option value="FirstBank">FirstBank</option>
+                      <option value="Kuda">Kuda</option>
+                      <option value="Other">Other Provider</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="pos-desc">Terminal Location Description</label>
+                    <input
+                      id="pos-desc"
+                      type="text"
+                      className="form-input"
+                      placeholder="e.g. Near main gate, opposite pharmacy"
+                      value={posLocationDescription}
+                      onChange={(e) => setPosLocationDescription(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
 
               <button type="submit" className="btn btn-primary btn-large">
                 Continue to PIN Setup <ArrowRight size={18} />

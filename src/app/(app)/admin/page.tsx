@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { supabase } from '@/lib/supabase/client'
-import { Shield, Building2, FileText, DollarSign, Settings } from 'lucide-react'
+import { Shield, Building2, FileText, DollarSign, Settings, Globe, Flag } from 'lucide-react'
 import styles from './page.module.css'
 
 export default function AdminPage() {
@@ -48,6 +48,8 @@ export default function AdminPage() {
         <div className={styles.linksRow}>
           <Link href="/admin/lenders" className={`card ${styles.linkCard}`}><Building2 size={24} className={styles.lIcon}/><span>Manage Lenders</span></Link>
           <Link href="/admin/marketplace-config" className={`card ${styles.linkCard}`}><Settings size={24} className={styles.lIcon}/><span>Marketplace Config</span></Link>
+          <Link href="/admin/flags" className={`card ${styles.linkCard}`}><Flag size={24} className={styles.lIcon}/><span>Feature Flags</span></Link>
+          <Link href="/admin/translations" className={`card ${styles.linkCard}`}><Globe size={24} className={styles.lIcon}/><span>Translations</span></Link>
         </div>
 
         <section className={`card ${styles.recentCard}`}>

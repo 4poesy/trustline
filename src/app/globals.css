@@ -231,3 +231,9 @@ input, select, textarea {
 .page-enter {
   animation: fadeIn var(--transition-base) ease-out;
 }
+
+/* Consistency: Ensure all dashboard and page headers use the dark forest green logo background */
+header[class*="header"] {
+  background-color: #0A2E1F !important;
+  background: #0A2E1F !important;
+}

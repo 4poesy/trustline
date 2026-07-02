@@ -16,6 +16,13 @@ export interface Profile {
   recovery_answer_hash?: string | null
   recovery_question?: string | null
   country_code?: string
+  pos_operator?: boolean
+  pos_terminal_count?: number
+  pos_bank_provider?: string | null
+  pos_location_description?: string | null
+  language_code?: string
+  currency_code?: string
+  timezone?: string
 }
 
 export interface WalletTransaction {

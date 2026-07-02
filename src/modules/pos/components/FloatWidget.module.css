@@ -1,0 +1,223 @@
+.widgetCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.loading {
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  color: var(--color-neutral-500);
+  gap: var(--space-2);
+}
+
+.widgetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleBlock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.iconWrapper {
+  font-size: var(--font-size-2xl);
+  line-height: 1;
+}
+
+.widgetTitle {
+  font-size: var(--font-size-base);
+  font-weight: 850;
+  color: var(--color-neutral-900);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.widgetSubtitle {
+  font-size: 9px;
+  font-weight: 750;
+  color: var(--color-neutral-500);
+  letter-spacing: 0.8px;
+}
+
+.hubLink {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary-600);
+  text-decoration: none;
+  font-weight: 750;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.totalsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.totalItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: var(--color-neutral-50);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-neutral-100);
+}
+
+.totalLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-neutral-500);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cashIcon { color: var(--color-success); }
+.bankIcon { color: #3b82f6; }
+
+.totalValue {
+  font-size: var(--font-size-lg);
+  font-weight: 850;
+  color: var(--color-neutral-900);
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-neutral-200);
+}
+
+.sumRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sumLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  font-weight: 600;
+}
+
+.sumValue {
+  font-size: var(--font-size-xl);
+  font-weight: 900;
+  color: var(--color-neutral-900);
+}
+
+/* Target details */
+.targetBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.targetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-xs);
+}
+
+.targetLabel {
+  color: var(--color-neutral-500);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.targetValues {
+  color: var(--color-neutral-800);
+  font-weight: 750;
+}
+
+.progressBarWrapper {
+  height: 8px;
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+.barSuccess { background-color: var(--color-success); }
+.barWarning { background-color: #D97706; }
+.barDanger { background-color: var(--color-error); }
+
+/* Alert Box */
+.alertBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-xs);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  line-height: 1.4;
+  font-weight: 550;
+}
+
+.alertDanger {
+  background-color: var(--color-error-light);
+  border: 1px solid rgba(212, 78, 78, 0.15);
+  color: #DC2626;
+}
+
+.alertWarning {
+  background-color: #FEF3C7;
+  border: 1px solid #FDE68A;
+  color: #B45309;
+}
+
+.alertSuccess {
+  background-color: var(--color-primary-50);
+  border: 1px solid var(--color-primary-200);
+  color: var(--color-primary-700);
+}
+
+.noTargetBlock {
+  text-align: center;
+  background-color: var(--color-neutral-50);
+  border: 1px dashed var(--color-neutral-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  line-height: 1.5;
+}
+
+.noTargetBlock p {
+  margin: 0 0 var(--space-2);
+}
+
+.setupTargetLink {
+  color: var(--color-primary-600);
+  font-weight: 750;
+  text-decoration: underline;
+}
+
+.widgetActions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.actionBtn {
+  flex: 1;
+  height: 44px;
+}

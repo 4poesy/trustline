@@ -1,0 +1,247 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  padding-bottom: var(--space-12);
+  position: relative;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #0A2E1F !important;
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.main {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  color: var(--color-neutral-500);
+  gap: var(--space-2);
+}
+
+/* Date block */
+.dateBlock {
+  margin-bottom: var(--space-2);
+}
+
+.briefingSubtitle {
+  font-size: 10px;
+  font-weight: 800;
+  color: #E8A020; /* Bright Saffron */
+  letter-spacing: 1.5px;
+}
+
+.briefingDate {
+  font-size: var(--font-size-2xl);
+  font-weight: 850;
+  color: var(--color-neutral-900);
+  margin: 4px 0 0;
+  letter-spacing: -0.5px;
+}
+
+/* Card Styles */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.cardTitle {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.cardSubtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  margin: 2px 0 0;
+}
+
+.cardContent {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-700);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Weather card specifics */
+.weatherCard {
+  border-left: 4px solid var(--color-primary-400);
+}
+
+.weatherIcon {
+  color: var(--color-primary-500);
+}
+
+/* Performance Card */
+.perfCard {
+  border-left: 4px solid var(--color-secondary-400);
+}
+
+.perfIcon {
+  color: var(--color-secondary-500);
+}
+
+/* Deadline Card */
+.deadlineCard {
+  border-left: 4px solid var(--color-error-light);
+  background-color: #FFFDFD;
+}
+
+.deadlineIcon {
+  color: var(--color-error);
+}
+
+.deadlineList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.deadlineItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-700);
+  border-bottom: 1px solid var(--color-neutral-100);
+  padding-bottom: 6px;
+}
+
+.deadlineItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.deadlineItem strong {
+  color: var(--color-neutral-900);
+  font-weight: 800;
+}
+
+/* Agenda Card */
+.tasksCard {
+  border-left: 4px solid #3b82f6;
+}
+
+.tasksIcon {
+  color: #3b82f6;
+}
+
+.agendaList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.agendaItem {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-800);
+  gap: var(--space-3);
+}
+
+.agendaDone {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.agendaBullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.agendaTitle {
+  flex: 1;
+}
+
+.agendaTime {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  font-weight: 700;
+}
+
+/* Quote Card */
+.quoteCard {
+  border-left: 4px solid var(--saffron);
+  background-color: #FFFDF6;
+}
+
+.quoteIcon {
+  color: var(--saffron);
+}
+
+.quoteText {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-700);
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}

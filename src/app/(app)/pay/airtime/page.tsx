@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { useBillPayments } from '@/modules/pay/hooks/useBillPayments'
@@ -36,9 +36,16 @@ export default function AirtimePaymentPage() {
   // Form States
   const [provider, setProvider] = useState('MTN')
   const [recipientType, setRecipientType] = useState<'self' | 'others'>('self')
+  const [selfPhoneNumber, setSelfPhoneNumber] = useState('')
   const [customRecipient, setCustomRecipient] = useState('')
   const [amountSelection, setAmountSelection] = useState<number | 'custom'>(200)
   const [customAmount, setCustomAmount] = useState('')
+
+  useEffect(() => {
+    if (profile?.phone_number) {
+      setSelfPhoneNumber(profile.phone_number)
+    }
+  }, [profile])
 
   // Overlay states
   const [showConfirm, setShowConfirm] = useState(false)
@@ -51,10 +58,10 @@ export default function AirtimePaymentPage() {
   // Get recipient phone number based on toggle
   const recipientNumber = useMemo(() => {
     if (recipientType === 'self') {
-      return profile?.phone_number || ''
+      return selfPhoneNumber
     }
     return customRecipient.trim()
-  }, [recipientType, profile, customRecipient])
+  }, [recipientType, selfPhoneNumber, customRecipient])
 
   // Get final amount
   const finalAmount = useMemo(() => {
@@ -195,10 +202,11 @@ export default function AirtimePaymentPage() {
 
             {recipientType === 'self' ? (
               <input
-                type="text"
+                type="tel"
                 className={styles.input}
-                value={profile.phone_number || ''}
-                disabled
+                placeholder="Enter your 11-digit phone number"
+                value={selfPhoneNumber}
+                onChange={(e) => setSelfPhoneNumber(e.target.value.replace(/\s+/g, ''))}
               />
             ) : (
               <input

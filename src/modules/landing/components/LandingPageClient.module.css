@@ -41,6 +41,15 @@
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
+.navBorderBottom {
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  pointer-events: none;
+}
+
 .navInner {
   width: 100%;
   max-width: 1400px;

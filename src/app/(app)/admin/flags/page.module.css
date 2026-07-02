@@ -1,0 +1,330 @@
+.page {
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  padding-bottom: var(--space-12);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-neutral-900) !important;
+  color: white;
+  padding: 0 var(--space-6);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.headerTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.shieldIcon {
+  color: var(--saffron);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.addBtn {
+  height: 38px;
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.main {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.statusAlert {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.alertSuccess {
+  background-color: var(--color-primary-50);
+  border: 1px solid var(--color-primary-200);
+  color: var(--color-primary-700);
+}
+
+.alertError {
+  background-color: var(--color-error-light);
+  border: 1px solid rgba(212, 78, 78, 0.15);
+  color: var(--color-error);
+}
+
+/* Add Form Section */
+.addSection {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.addForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-800);
+  cursor: pointer;
+}
+
+.formActions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* Loader */
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--color-neutral-500);
+  gap: var(--space-2);
+}
+
+.emptyState {
+  text-align: center;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12) var(--space-6);
+  font-size: var(--font-size-lg);
+  color: var(--color-neutral-500);
+}
+
+/* Feature Cards */
+.flagsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.featureCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.featureHeader {
+  border-bottom: 1px solid var(--color-neutral-100);
+  padding-bottom: var(--space-3);
+}
+
+.featureTitle {
+  font-size: var(--font-size-base);
+  font-weight: 850;
+  color: var(--color-neutral-900);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.overridesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.flagControlRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-neutral-50);
+  border: 1px solid var(--color-neutral-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.countryColumn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 130px;
+}
+
+.countryLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 750;
+  color: var(--color-neutral-700);
+}
+
+.betaBadge {
+  background-color: var(--color-primary-50);
+  border: 1px solid var(--color-primary-200);
+  color: var(--color-primary-700);
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.5px;
+}
+
+.controlsGrid {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.controlItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.controlLabel {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-neutral-400);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Switch styling */
+.toggleSwitch {
+  width: 44px;
+  height: 24px;
+  background-color: var(--color-neutral-300);
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background-color var(--transition-fast);
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.toggleOn {
+  background-color: var(--color-success);
+}
+
+.toggleKnob {
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  transition: transform var(--transition-fast);
+}
+
+.toggleOn .toggleKnob {
+  transform: translateX(20px);
+}
+
+.controlInput {
+  width: 50px;
+  height: 28px;
+  font-size: var(--font-size-xs);
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-neutral-300);
+  text-align: center;
+  font-weight: 700;
+}
+
+.controlSelect {
+  height: 28px;
+  font-size: var(--font-size-xs);
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-neutral-300);
+  font-weight: 700;
+}
+
+/* Missing Override Row */
+.missingOverrideRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  background-color: transparent;
+  border: 1px dashed var(--color-neutral-200);
+  border-radius: var(--radius-lg);
+}
+
+.overrideBtn {
+  height: 28px;
+  font-size: 9px;
+  padding: 0 var(--space-3);
+  font-weight: 800;
+}
