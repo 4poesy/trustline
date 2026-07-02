@@ -89,11 +89,11 @@ export function useAuth() {
         throw new Error(data.error || data.message || 'Login failed.')
       }
 
-      if (data?.session_token) {
-        // Set the custom JWT session on the supabase client
-        const { error: sessionErr } = await supabase.auth.setSession({
-          access_token: data.session_token,
-          refresh_token: ''
+      if (data?.email && data?.password) {
+        // Authenticate natively using Supabase GoTrue
+        const { error: sessionErr } = await supabase.auth.signInWithPassword({
+          email: data.email,
+          password: data.password
         })
 
         if (sessionErr) {
@@ -104,53 +104,10 @@ export function useAuth() {
         return { success: true }
       }
 
-      throw new Error('No session token returned.')
+      throw new Error('No user credentials returned.')
     } catch (err: any) {
-      console.warn('[useAuth] verify-trustline-login Edge Function failed, trying client-side fallback:', err.message)
-      
-      // CLIENT-SIDE FALLBACK (e.g. if Edge Functions are not deployed yet)
-      try {
-        const { data: existingProfile, error: profileErr } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('trustline_code', trustlineCode)
-          .maybeSingle()
-
-        if (profileErr) throw profileErr
-        if (!existingProfile) {
-          throw new Error('Trustline Code not found.')
-        }
-
-        // Verify PIN (allow raw pin match for local testing fallback)
-        if (existingProfile.pin_hash !== pin && !existingProfile.pin_hash.includes(pin)) {
-          throw new Error('Incorrect security PIN.')
-        }
-
-        // Sign in using mock email and password to satisfy RLS policy constraints
-        const cleanCode = trustlineCode.toLowerCase().replace(/[^a-z0-9]/g, '')
-        const mockEmail = `tl365.${cleanCode}@gmail.com`
-        const mockPassword = `Pass_${pin}_${trustlineCode}`
-        
-        const { error: authErr } = await supabase.auth.signInWithPassword({
-          email: mockEmail,
-          password: mockPassword
-        })
-
-        if (authErr) {
-          console.warn('[useAuth] Direct signInWithPassword failed, trying local state bypass:', authErr.message)
-          // Fallback bypass: If email login is blocked, sign in anonymously or bypass session to let them in
-          const { data: sessionData } = await supabase.auth.getSession()
-          if (!sessionData.session) {
-            await supabase.auth.signInAnonymously()
-          }
-        }
-
-        setProfile(existingProfile)
-        return { success: true }
-      } catch (fallbackErr: any) {
-        console.error('[useAuth] Login fallback failed:', fallbackErr)
-        return { error: fallbackErr.message || 'Login failed. Please double-check details.' }
-      }
+      console.error('[useAuth] Login failed:', err.message)
+      return { error: typeof err === 'string' ? err : (err.message || 'Login failed. Please try again.') }
     }
   }, [supabase])
 
@@ -191,11 +148,11 @@ export function useAuth() {
         throw new Error(data.error || data.message || 'Registration failed.')
       }
 
-      if (data?.session_token) {
-        // Set the custom JWT session on the supabase client
-        const { error: sessionErr } = await supabase.auth.setSession({
-          access_token: data.session_token,
-          refresh_token: ''
+      if (data?.email && data?.password) {
+        // Authenticate natively using Supabase GoTrue
+        const { error: sessionErr } = await supabase.auth.signInWithPassword({
+          email: data.email,
+          password: data.password
         })
 
         if (sessionErr) {
@@ -213,80 +170,10 @@ export function useAuth() {
         return { success: true }
       }
 
-      throw new Error('No session token returned.')
+      throw new Error('No user credentials returned.')
     } catch (err: any) {
-      console.warn('[useAuth] register-user Edge Function failed, trying client-side fallback:', err.message)
-      
-      // CLIENT-SIDE FALLBACK (e.g. if Edge Functions are not deployed yet)
-      try {
-        const cleanCode = formData.trustline_code.toLowerCase().replace(/[^a-z0-9]/g, '')
-        const mockEmail = `tl365.${cleanCode}@gmail.com`
-        const mockPassword = `Pass_${formData.pin}_${formData.trustline_code}`
-        
-        let authUserId: string
-        const { data: authData, error: authErr } = await supabase.auth.signUp({
-          email: mockEmail,
-          password: mockPassword
-        })
-
-        if (authErr) {
-          console.warn('[useAuth] Direct signUp failed, trying anonymous fallback bypass:', authErr.message)
-          const { data: anonData, error: anonErr } = await supabase.auth.signInAnonymously()
-          if (anonErr) throw new Error(`Fallback authentication failed: ${anonErr.message}`)
-          authUserId = anonData.user?.id || ''
-        } else {
-          authUserId = authData.user?.id || ''
-        }
-
-        if (!authUserId) throw new Error('Could not resolve an authenticated user ID.')
-
-        // Insert profile directly
-        const { data: newProfile, error: insertErr } = await supabase
-          .from('profiles')
-          .insert({
-            id: authUserId,
-            name: formData.name,
-            role: formData.role,
-            business_type: formData.business_type || '',
-            location: formData.location || '',
-            trustline_code: formData.trustline_code,
-            pin_hash: formData.pin, // Store PIN (in fallback mode we store/match directly)
-            phone_last4: formData.phone_last4 || null,
-            public_username: formData.public_username || null,
-            recovery_question: formData.recovery_question,
-            recovery_answer_hash: formData.recovery_answer.toLowerCase().trim()
-          })
-          .select()
-          .single()
-
-        if (insertErr) throw insertErr
-
-        // Auto-create directory listing & trust metrics during local testing
-        try {
-          await supabase.from('listings').insert({
-            profile_id: authUserId,
-            slug: formData.public_username || authUserId,
-            display_name: formData.name,
-            category: formData.business_type || 'General',
-            location: formData.location || 'Nigeria',
-            is_public: true
-          })
-          await supabase.from('trust_metrics').insert({
-            profile_id: authUserId,
-            income_consistency_score: 85,
-            savings_discipline_score: 90,
-            reputation_score: 95
-          })
-        } catch (listErr) {
-          console.warn('[useAuth] Directory listing auto-creation skipped during fallback:', listErr)
-        }
-
-        setProfile(newProfile)
-        return { success: true }
-      } catch (fallbackErr: any) {
-        console.error('[useAuth] Registration fallback failed:', fallbackErr)
-        return { error: fallbackErr.message || 'Registration failed. Please try again.' }
-      }
+      console.error('[useAuth] Registration failed:', err.message)
+      return { error: typeof err === 'string' ? err : (err.message || 'Registration failed. Please try again.') }
     }
   }, [supabase])
 

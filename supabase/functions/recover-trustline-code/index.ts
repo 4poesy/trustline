@@ -24,10 +24,12 @@ serve(async (req) => {
     const cleanPhoneLast4 = phone_last4 ? phone_last4.trim() : null
     const nameFragment = name.trim().toUpperCase().substring(0, 3)
 
-    // Connect to Supabase
+    // Connect to Supabase with Service Key (must bypass RLS)
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? ''
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { autoRefreshToken: false, persistSession: false }
+    })
 
     // Step 1: Check recovery lockouts
     // Find if there is a recent lockout active for this name fragment and last4

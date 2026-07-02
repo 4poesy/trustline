@@ -103,5 +103,7 @@
   --max-width-mobile: 480px;
   --max-width-content: 600px;
   --min-tap-target: 48px;
+  --saffron: #E8A020;
+  --saffron-pale: rgba(232, 160, 32, 0.12);
   --header-height: 56px;
 }

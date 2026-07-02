@@ -74,10 +74,12 @@ serve(async (req) => {
       })
     }
 
-    // Connect to Supabase
+    // Connect to Supabase with Service Key (must bypass RLS)
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? ''
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { autoRefreshToken: false, persistSession: false }
+    })
 
     // Fetch profile
     const { data: profile, error: profileErr } = await supabase

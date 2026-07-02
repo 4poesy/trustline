@@ -36,7 +36,9 @@ serve(async (req) => {
     // Initialize Supabase Client with Service Role Key to bypass RLS and perform checks
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? ''
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { autoRefreshToken: false, persistSession: false }
+    })
 
     // Characters for generating random part (excluding I, O, 0, 1)
     const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

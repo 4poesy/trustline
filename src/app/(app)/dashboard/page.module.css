@@ -7,12 +7,12 @@
 }
 
 .header {
-  background-color: var(--color-primary-600);
+  background-color: #0A2E1F;
   color: white;
   padding: var(--space-8) var(--space-5) 90px;
   position: relative;
   z-index: 2;
-  box-shadow: 0 4px 12px rgba(13, 124, 102, 0.1);
+  box-shadow: 0 4px 12px rgba(10, 46, 31, 0.15);
 }
 
 .headerTop {

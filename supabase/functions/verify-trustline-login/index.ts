@@ -24,10 +24,15 @@ serve(async (req) => {
 
     const uppercaseCode = trustline_code.trim().toUpperCase()
 
-    // Connect to Supabase
+    // Connect to Supabase with Service Key (must bypass RLS)
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? ''
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
 
     // Step 1: Check lock
     const { data: lock } = await supabase
@@ -137,51 +142,10 @@ serve(async (req) => {
 
     await logAttempt(true)
 
-    const jwtSecret = Deno.env.get('JWT_SECRET') ?? Deno.env.get('SUPABASE_JWT_SECRET') ?? ''
-    if (!jwtSecret) {
-      return new Response(JSON.stringify({ error: 'JWT Secret is not configured.' }), {
-        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      })
-    }
-
-    const keyBuf = new TextEncoder().encode(jwtSecret)
-    const cryptoKey = await crypto.subtle.importKey(
-      "raw",
-      keyBuf,
-      { name: "HMAC", hash: "SHA-256" },
-      false,
-      ["sign"]
-    )
-
-    const payload = {
-      aud: "authenticated",
-      role: "authenticated",
-      sub: profile.id,
-      email: "",
-      app_metadata: { provider: "custom" },
-      user_metadata: {},
-      exp: getNumericDate(30 * 24 * 60 * 60) // 30 days
-    }
-
-    const jwt = await create({ alg: "HS256", type: "JWT" }, payload, cryptoKey)
-
-    // Log session
-    const tokenData = new TextEncoder().encode(jwt)
-    const hashBuffer = await crypto.subtle.digest("SHA-256", tokenData)
-    const sessionTokenHash = Array.from(new Uint8Array(hashBuffer))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('')
-
-    const expiresAt = new Date()
-    expiresAt.setDate(expiresAt.getDate() + 30)
-
-    await supabase
-      .from('sessions')
-      .insert({
-        profile_id: profile.id,
-        session_token_hash: sessionTokenHash,
-        expires_at: expiresAt.toISOString()
-      })
+    // Generate mock credentials for native Supabase GoTrue Auth
+    const cleanCode = trustline_code.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const mockEmail = `tl365.${cleanCode}@gmail.com`
+    const mockPassword = `Pass_${pin}_${trustline_code}`
 
     // Remove hashed pins and recovery data from profile before returning
     const safeProfile = { ...profile }
@@ -191,7 +155,8 @@ serve(async (req) => {
     return new Response(JSON.stringify({
       success: true,
       profile_id: profile.id,
-      session_token: jwt,
+      email: mockEmail,
+      password: mockPassword,
       profile: safeProfile
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }

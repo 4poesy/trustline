@@ -69,10 +69,15 @@ serve(async (req) => {
       })
     }
 
-    // Connect to Supabase with Service Key
+    // Connect to Supabase with Service Key (must bypass RLS)
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? ''
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
 
     // Double-check code exists
     const { data: codeCheck } = await supabase
@@ -106,9 +111,28 @@ serve(async (req) => {
     const pinHash = bcrypt.hashSync(pin, salt)
     const recoveryAnswerHash = bcrypt.hashSync(recovery_answer.trim().toLowerCase(), salt)
 
-    const profileId = crypto.randomUUID()
+    // Generate mock email and password for native Supabase GoTrue Auth
+    const cleanCode = trustline_code.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const mockEmail = `tl365.${cleanCode}@gmail.com`
+    const mockPassword = `Pass_${pin}_${trustline_code}`
 
-    // 2. Insert profile
+    // 2. Create the user in auth.users using Admin API
+    const { data: userData, error: userError } = await supabase.auth.admin.createUser({
+      email: mockEmail,
+      password: mockPassword,
+      email_confirm: true
+    })
+
+    if (userError) {
+      console.error('Auth user creation error:', userError)
+      return new Response(JSON.stringify({ error: userError.message }), {
+        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      })
+    }
+
+    const profileId = userData.user.id
+
+    // 3. Insert profile
     const { error: profileError } = await supabase
       .from('profiles')
       .insert({
@@ -127,12 +151,14 @@ serve(async (req) => {
 
     if (profileError) {
       console.error('Profile insertion error:', profileError)
+      // Cleanup created auth user on database failure
+      await supabase.auth.admin.deleteUser(profileId)
       return new Response(JSON.stringify({ error: profileError.message }), {
         status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
 
-    // 3. Create account locks initial state
+    // 4. Create account locks initial state
     await supabase
       .from('account_locks')
       .insert({
@@ -142,62 +168,11 @@ serve(async (req) => {
         locked_until: null
       })
 
-    // 4. Generate JWT signed with Supabase JWT Secret
-    const jwtSecret = Deno.env.get('JWT_SECRET') ?? Deno.env.get('SUPABASE_JWT_SECRET') ?? ''
-    if (!jwtSecret) {
-      return new Response(JSON.stringify({ error: 'JWT Secret is not configured on the server.' }), {
-        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      })
-    }
-
-    const keyBuf = new TextEncoder().encode(jwtSecret)
-    const cryptoKey = await crypto.subtle.importKey(
-      "raw",
-      keyBuf,
-      { name: "HMAC", hash: "SHA-256" },
-      false,
-      ["sign"]
-    )
-
-    const payload = {
-      aud: "authenticated",
-      role: "authenticated",
-      sub: profileId,
-      email: "",
-      app_metadata: { provider: "custom" },
-      user_metadata: {},
-      exp: getNumericDate(30 * 24 * 60 * 60) // 30 days
-    }
-
-    const jwt = await create({ alg: "HS256", type: "JWT" }, payload, cryptoKey)
-
-    // Hash the JWT for sessions table
-    const tokenData = new TextEncoder().encode(jwt)
-    const hashBuffer = await crypto.subtle.digest("SHA-256", tokenData)
-    const sessionTokenHash = Array.from(new Uint8Array(hashBuffer))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('')
-
-    // 5. Insert session
-    const expiresAt = new Date()
-    expiresAt.setDate(expiresAt.getDate() + 30)
-
-    const { error: sessionError } = await supabase
-      .from('sessions')
-      .insert({
-        profile_id: profileId,
-        session_token_hash: sessionTokenHash,
-        expires_at: expiresAt.toISOString()
-      })
-
-    if (sessionError) {
-      console.warn('Session logging error:', sessionError)
-    }
-
     return new Response(JSON.stringify({
       success: true,
       profile_id: profileId,
-      session_token: jwt
+      email: mockEmail,
+      password: mockPassword
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })
