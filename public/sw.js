@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trustline-app-shell-v1';
+const CACHE_NAME = 'trustline-app-shell-v2';
 const STATIC_ASSETS = [
   '/',
   '/login',
@@ -92,12 +92,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Strategy C: App Shell Static Assets (Cache First)
+  // Strategy C: App Shell Static Assets (Network First, Cache Fallback)
   if (STATIC_ASSETS.includes(requestUrl.pathname)) {
     event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        return cachedResponse || fetch(event.request);
-      })
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.ok) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
     );
     return;
   }
